@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Ley de Senos y Cosenos · Temas Selectos de Matemáticas</title>
+<style>
+:root{
+  --mo:#6c3483;--mo2:#9b59b6;--mo3:#f3e8fc;
+  --az:#1a3a5c;--az2:#2563a8;--az3:#eaf2fb;
+  --ve:#27ae60;--ve3:#e8f5ee;
+  --ro:#c0392b;--ro3:#fdecea;
+  --am:#e67e22;--am3:#fef5e7;
+  --gr:#f4f6f9;--gr2:#e8ecf0;
+  --bl:#fff;--tx:#1a1a2e;
+  --sh:0 2px 12px rgba(0,0,0,.12)
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gr);color:var(--tx);font-size:15px;min-height:100vh}
+#bw{position:sticky;top:0;z-index:100;background:var(--mo);padding:8px 16px 6px;display:none}
+#bwl{color:#d7b4f5;font-size:11px;margin-bottom:3px}
+#bwt{background:rgba(255,255,255,.2);border-radius:8px;height:7px}
+#bwf{background:linear-gradient(90deg,var(--mo2),#d7b4f5);height:7px;border-radius:8px;transition:width .45s;width:0%}
+#bwn{color:#fff;font-size:12px;text-align:right;margin-top:3px}
+.sec{display:none;max-width:600px;margin:0 auto;padding:14px 13px 36px;animation:fi .4s ease}
+.sec.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--bl);border-radius:14px;padding:17px 15px;box-shadow:var(--sh);margin-bottom:13px}
+.cmo{background:var(--mo);color:#fff}
+.cmo2{background:var(--mo3);border-left:4px solid var(--mo2)}
+.caz{background:var(--az3);border-left:4px solid var(--az2)}
+.cve{background:var(--ve3);border-left:4px solid var(--ve)}
+.cam{background:var(--am3);border-left:4px solid var(--am)}
+.cgr{background:var(--gr2)}
+h3{font-size:16px;font-weight:700;margin-bottom:7px;color:var(--az)}
+h4{font-size:14px;font-weight:700;margin-bottom:5px}
+p{line-height:1.6;margin-bottom:7px}
+.tit{font-size:20px;font-weight:800;color:var(--mo);margin-bottom:3px}
+.tag{display:inline-block;background:var(--mo);color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.5px}
+.sep{height:1px;background:var(--gr2);margin:12px 0}
+.nc{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:50%;background:var(--mo);color:#fff;font-weight:800;font-size:13px;margin-right:7px;flex-shrink:0}
+.fi{display:flex;align-items:flex-start;margin-bottom:9px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--mo);color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;margin-bottom:10px}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 2px;font-size:.9em}
+.frac .num{border-bottom:2px solid currentColor;padding:1px 4px;text-align:center;min-width:14px}
+.frac .den{padding:1px 4px;text-align:center}
+.frm{background:var(--mo);color:#fff;border-radius:10px;padding:12px 14px;font-size:16px;font-weight:700;text-align:center;margin:9px 0;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;line-height:2.2}
+.frm .frac .num,.frm .frac .den{color:#fff}
+.frm .frac .num{border-color:#fff}
+.frm-az{background:var(--az2)}
+.proc-frm{background:var(--gr2);border-radius:8px;padding:7px 11px;margin:5px 0;font-size:14px;display:flex;align-items:center;flex-wrap:wrap;gap:3px;line-height:2}
+.proc-frm .frac .num{border-color:var(--tx)}
+input[type=text],textarea{width:100%;border:2px solid var(--gr2);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;background:var(--gr);transition:border .2s;-webkit-appearance:none}
+input:focus,textarea:focus{outline:none;border-color:var(--mo2);background:#fff}
+textarea{resize:vertical;min-height:90px}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:9px;transition:transform .15s;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.bp{background:var(--mo);color:#fff;box-shadow:0 4px 14px rgba(108,52,131,.3)}
+.bp:disabled{background:#c5a8d8;box-shadow:none;cursor:not-allowed;transform:none}
+.baz{background:var(--az2);color:#fff}
+.bve{background:var(--ve);color:#fff}
+.bsm{display:inline-block;width:auto;padding:8px 14px;font-size:13px}
+.fb{border-radius:10px;padding:11px 13px;margin-top:7px;font-size:14px;display:none;line-height:1.5}
+.fb.ok{display:block;background:var(--ve3);border-left:4px solid var(--ve);color:#1a5c33}
+.fb.er{display:block;background:var(--ro3);border-left:4px solid var(--ro);color:#922b21}
+.fb.in{display:block;background:var(--mo3);border-left:4px solid var(--mo2);color:#4a1f6a}
+.ob{display:block;width:100%;text-align:left;background:var(--bl);border:2px solid var(--gr2);border-radius:10px;padding:11px 13px;margin-bottom:7px;cursor:pointer;font-size:14px;font-family:inherit;transition:border .15s;line-height:1.4}
+.ob:hover{border-color:var(--mo2);background:var(--mo3)}
+.ob.eok{border-color:var(--ve);background:var(--ve3);color:#1a5c33;pointer-events:none}
+.ob.eml{border-color:var(--ro);background:var(--ro3);color:#922b21;pointer-events:none}
+.ob.dx{opacity:.5;pointer-events:none}
+/* SVG triangles */
+.svg-wrap{background:var(--gr2);border-radius:12px;padding:10px;margin:10px 0;text-align:center;overflow:hidden}
+/* Decision table */
+.dec-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+.dec-table th{background:var(--mo);color:#fff;padding:7px 8px;text-align:left}
+.dec-table td{border:1px solid #d7b4f5;padding:6px 8px;background:var(--mo3)}
+.dec-table tr:nth-child(even) td{background:#f9f3ff}
+/* Decision tree */
+.dtree{background:var(--az3);border:2px solid var(--az2);border-radius:12px;padding:14px;margin:8px 0;font-size:13px}
+.dtree-q{font-weight:700;color:var(--az);margin:6px 0 3px}
+.dtree-yes{color:#1a5c33;font-size:12px;padding-left:10px}
+.dtree-no{color:var(--ro);font-size:12px;padding-left:10px}
+/* Step indicators */
+.step-ind{display:flex;gap:6px;margin-bottom:10px}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.step-act{background:var(--mo);color:#fff}
+.step-ok{background:var(--ve);color:#fff}
+.step-pen{background:var(--gr2);color:#999}
+/* Quiz */
+.q-item{border-radius:12px;border:2px solid var(--gr2);margin-bottom:11px;overflow:hidden}
+.q-head{padding:9px 13px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.q-head-ok{background:var(--ve3);border-bottom:2px solid var(--ve)}
+.q-head-er{background:var(--ro3);border-bottom:2px solid var(--ro)}
+.q-body{padding:11px 13px}
+.q-tipo{font-size:10px;background:var(--mo);color:#fff;border-radius:5px;padding:2px 7px;font-weight:700}
+.chip-resp{display:inline-flex;align-items:center;gap:5px;border-radius:18px;padding:4px 12px;font-size:13px;font-weight:700;margin-top:6px;margin-right:5px}
+.chip-ok{background:var(--ve3);color:#1a5c33;border:2px solid var(--ve)}
+.chip-er{background:var(--ro3);color:var(--ro);border:2px solid var(--ro)}
+.chip-esp{background:var(--gr2);color:var(--tx);border:2px solid var(--gr2)}
+.proc-box{background:var(--gr);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:13px;line-height:1.9}
+.proc-box h4{font-size:12px;color:var(--mo);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.ans-ok{color:var(--ve);font-weight:800}
+/* Registro docente */
+.prof-strip{background:var(--az);color:#fff;border-radius:12px;padding:14px 16px;margin-top:10px}
+.prof-strip .mini-title{font-size:10px;letter-spacing:2px;opacity:.65;margin-bottom:5px}
+.prof-q-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.pq{display:inline-flex;align-items:center;justify-content:center;width:32px;height:26px;border-radius:7px;font-size:11px;font-weight:700}
+.pq-ok{background:var(--ve);color:#fff}
+.pq-er{background:var(--ro);color:#fff}
+/* Cuaderno */
+.cua-card{background:var(--bl);border-radius:14px;padding:17px 15px;box-shadow:var(--sh);margin-bottom:13px;border:2px dashed var(--mo2)}
+.cua-formula{background:linear-gradient(135deg,var(--mo3),#fff);border:2px solid var(--mo2);border-radius:12px;padding:14px;margin-bottom:10px}
+.cua-formula h4{color:var(--mo);font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.cua-prob{background:var(--az3);border-left:4px solid var(--az2);border-radius:0 10px 10px 0;padding:12px 14px;margin:8px 0;font-size:14px;line-height:1.7}
+.cua-respbox{background:var(--gr2);border-radius:8px;padding:8px 12px;margin-top:6px;font-size:13px;color:#888;font-style:italic}
+.cua-titulo{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.cua-badge{background:var(--mo);color:#fff;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700}
+/* Panel profesor */
+#pin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:8000;align-items:center;justify-content:center}
+#pin-modal.show{display:flex}
+#pin-box{background:#fff;border-radius:16px;padding:26px 22px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+#pin-inp{border:2px solid var(--gr2);border-radius:10px;padding:10px;font-size:24px;text-align:center;letter-spacing:10px;width:100%;margin:10px 0;font-family:inherit;-webkit-appearance:none}
+#pin-inp:focus{outline:none;border-color:var(--az2)}
+#prof-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,30,.94);z-index:9000;overflow-y:auto}
+#prof-panel{max-width:640px;margin:20px auto;padding:14px}
+.pcrd{background:#fff;border-radius:14px;padding:15px 14px;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.prof-head{background:linear-gradient(135deg,var(--az),var(--az2));color:#fff;border-radius:14px;padding:18px;margin-bottom:12px;text-align:center}
+#btn-xp{position:fixed;top:14px;right:14px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);color:#fff;font-size:20px;cursor:pointer;border-radius:50%;width:40px;height:40px;z-index:9001;font-family:inherit;display:none;line-height:1}
+#sym{cursor:default;user-select:none;-webkit-user-select:none}
+.copy-area{background:var(--gr);border-radius:10px;padding:11px;font-size:12px;font-family:'Courier New',monospace;white-space:pre-wrap;word-break:break-word;border:1px solid var(--gr2);max-height:180px;overflow-y:auto;line-height:1.5;display:none;margin-top:8px}
+/* Keyword hints */
+.kw-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kw-chip{background:var(--az);color:#fff;border-radius:16px;padding:3px 10px;font-size:12px;font-weight:700}
+/* Progress mini for guided examples */
+.mini-prog{display:flex;gap:5px;margin-bottom:12px}
+.mp-dot{width:10px;height:10px;border-radius:50%}
+.mp-done{background:var(--ve)}
+.mp-act{background:var(--mo)}
+.mp-pend{background:var(--gr2)}
+/* marca resultado */
+.marc-card{color:#fff;border-radius:14px;padding:18px 16px;text-align:center;margin-bottom:13px}
+/* ── ANDAMIAJE ── */
+/* Hoja de referencia rápida */
+.ref-rapida{background:linear-gradient(135deg,#1a3a5c,#2563a8);color:#fff;border-radius:12px;padding:13px 15px;margin-bottom:12px}
+.ref-rapida h4{color:#d7e8ff;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ref-bloque{background:rgba(255,255,255,.12);border-radius:8px;padding:9px 10px;font-size:12px;line-height:1.8}
+.ref-bloque strong{color:#d7e8ff;display:block;margin-bottom:3px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.ref-formula{font-family:'Courier New',monospace;font-size:12px;background:rgba(255,255,255,.15);border-radius:5px;padding:3px 6px;display:inline-block;margin:2px 0}
+.ref-toggle{background:none;border:1px solid rgba(255,255,255,.3);color:#d7e8ff;border-radius:7px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin-bottom:8px;float:right}
+/* Botón pista por pregunta */
+.hint-btn{background:none;border:1.5px dashed var(--am);color:#7d4e00;border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit;margin-top:8px;display:flex;align-items:center;gap:5px}
+.hint-btn:disabled{opacity:.4;cursor:not-allowed}
+.hint-box{display:none;background:var(--am3);border:1.5px solid var(--am);border-radius:10px;padding:11px 13px;margin-top:7px;font-size:13px;color:#5a3700;line-height:1.7}
+.hint-box .hf{font-family:'Courier New',monospace;background:rgba(0,0,0,.06);border-radius:5px;padding:3px 7px;font-size:12px;display:inline-block;margin:3px 0}
+.hint-used{border-color:#c5a8d8!important;color:#9b59b6!important}
+/* Completar expresión (Q4, Q5) */
+.fill-wrap{background:var(--gr2);border-radius:10px;padding:10px 13px;margin-bottom:8px;font-size:14px;line-height:2}
+.fill-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--mo);text-align:center;font-weight:700;color:var(--mo);padding:0 6px}
+/* Pistas usadas chip en tira docente */
+.pista-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(230,126,34,.25);color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;margin-top:5px}
+</style>
+</head>
+<body>
+
+<!-- BARRA DE PROGRESO -->
+<div id="bw">
+  <div id="bwl">Temas Selectos de Matemáticas · Ley de Senos y Cosenos</div>
+  <div id="bwt"><div id="bwf"></div></div>
+  <div id="bwn">Paso <span id="bwc">0</span> de 8</div>
+</div>
+
+<!-- PIN MODAL -->
+<div id="pin-modal">
+  <div id="pin-box">
+    <div style="font-size:32px">🔑</div>
+    <h3 style="color:var(--az);margin:8px 0 4px">Acceso docente</h3>
+    <p style="font-size:13px;color:#666">Código del grupo</p>
+    <input type="password" id="pin-inp" maxlength="6" placeholder="••••" oninput="chkPin(this.value)" autocomplete="off">
+    <div id="pin-fb" style="font-size:13px;color:var(--ro);min-height:16px;margin-top:3px"></div>
+    <button class="btn" style="background:var(--gr2);color:var(--tx);padding:10px;margin-top:7px" onclick="cerrarPin()">Cancelar</button>
+  </div>
+</div>
+
+<!-- PANEL PROFESOR -->
+<div id="prof-overlay">
+  <button id="btn-xp" onclick="cerrarProf()">✕</button>
+  <div id="prof-panel">
+    <div class="prof-head">
+      <div style="font-size:36px">👨‍🏫</div>
+      <h2 style="margin:7px 0 3px">Panel del Profesor</h2>
+      <div style="font-size:13px;opacity:.85">Temas Selectos de Matemáticas · Ley de Senos y Cosenos</div>
+    </div>
+    <div class="pcrd">
+      <h3>Acciones</h3>
+      <div style="display:grid;gap:9px;grid-template-columns:1fr 1fr;margin-top:9px">
+        <button class="btn baz" style="margin:0;font-size:14px" onclick="profSimular()">🧑‍🎓 Simular recorrido</button>
+        <button class="btn bp" style="margin:0;font-size:14px" onclick="profVerRef()">📐 Fórmulas y banco</button>
+      </div>
+      <div id="prof-sim-wrap" style="display:none;margin-top:11px">
+        <p style="font-size:13px;color:#555;margin-bottom:6px">Nombre con el que entrarás:</p>
+        <input type="text" id="prof-sim-nom" placeholder="DOCENTE / INVITADO" autocomplete="off">
+        <button class="btn bve" style="margin-top:7px;font-size:14px" onclick="profEntrar()">Entrar como alumno →</button>
+      </div>
+    </div>
+    <div class="pcrd" id="prof-ref-card" style="display:none">
+      <h3>📐 Fórmulas clave — Ley de Senos y Cosenos</h3>
+      <div style="font-size:13px;color:#555;line-height:2.1">
+        <strong>Ley de Senos:</strong><br>
+        a/sen(A) = b/sen(B) = c/sen(C)<br><br>
+        <strong>Ley de Cosenos:</strong><br>
+        c² = a² + b² − 2ab·cos(C)<br><br>
+        <strong>Guía de uso:</strong><br>
+        ALA / AAL → Ley de Senos<br>
+        LLA (ángulo opuesto) → Ley de Senos<br>
+        LAL → Ley de Cosenos<br>
+        LLL → Ley de Cosenos
+      </div>
+      <div style="background:var(--gr);border-radius:8px;padding:9px;font-size:12px;color:#555;margin-top:8px">
+        <strong>Código verificador:</strong> LS-[X]/6-INT[Y]<br>
+        X = correctas en quiz · Y = número de intento
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ S0: LOGIN ════════ -->
+<div id="s0" class="sec on">
+  <div style="text-align:center;padding:22px 0 10px">
+    <div id="sym" style="font-size:50px;color:var(--mo)" onclick="tapSym()">△</div>
+    <div style="font-size:20px;font-weight:800;color:var(--mo);margin-top:7px">Temas Selectos de Matemáticas</div>
+    <div style="font-size:13px;color:#666;margin-top:3px">Ley de Senos y Cosenos · Actividad de Descubrimiento</div>
+  </div>
+  <div class="card">
+    <h3>¿Cómo te llamas?</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:9px">Escribe tu nombre completo comenzando por <strong>apellidos</strong>:</p>
+    <input type="text" id="inp-nombre" placeholder="Ej: GARCÍA LÓPEZ JUAN PABLO" autocomplete="off" autocorrect="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')iniciar()">
+    <div id="fb-login" style="font-size:13px;color:var(--ro);margin-top:5px;min-height:15px"></div>
+    <button class="btn bp" onclick="iniciar()">Comenzar actividad →</button>
+  </div>
+  <div class="card cam" style="font-size:13px">
+    <strong>ℹ️</strong> Puedes repetir la actividad. Cada intento genera un quiz con valores distintos.
+  </div>
+</div>
+
+<!-- ════════ S1: BIENVENIDA ════════ -->
+<div id="s1" class="sec">
+  <div class="chip">👤 <span id="chip-txt"></span></div>
+  <div class="card cmo">
+    <span style="font-size:26px;display:block;margin-bottom:5px">👨‍🏫</span>
+    <h3 style="color:#fff">Mensaje del Prof. Cruz</h3>
+    <div style="height:1px;background:rgba(255,255,255,.2);margin:8px 0"></div>
+    <p id="msg-bienvenida" style="font-size:14px;line-height:1.7"></p>
+  </div>
+  <div class="card">
+    <h3>¿Qué harás hoy?</h3>
+    <div class="fi"><span class="nc">1</span><p>Descubrirás por qué las razones trigonométricas del triángulo rectángulo <strong>no sirven</strong> para triángulos oblicuos.</p></div>
+    <div class="fi"><span class="nc">2</span><p>Aprenderás las <strong>Leyes de Senos y Cosenos</strong>: cuándo usarlas y por qué.</p></div>
+    <div class="fi"><span class="nc">3</span><p>Resolverás 2 ejemplos guiados y un <strong>quiz de 6 preguntas</strong> (sin retroalimentación hasta el final).</p></div>
+    <div class="fi"><span class="nc">4</span><p>Recibirás tus resultados y <strong>material para copiar en tu cuaderno</strong>.</p></div>
+  </div>
+  <button class="btn bp" onclick="ir('s2',1)">Empezar →</button>
+</div>
+
+<!-- ════════ S2: DETONADOR ════════ -->
+<div id="s2" class="sec">
+  <div class="tag">BLOQUE 1 · DETONADOR</div>
+  <div class="tit">El lago en el bosque</div>
+  <div class="card">
+    <h3>🌲 Un problema real</h3>
+    <p>Un topógrafo necesita medir la distancia entre los puntos <strong>A</strong> y <strong>B</strong> en el Bosque de Chapultepec. En el camino hay un <strong>lago</strong>: no puede medir en línea recta. Solo puede colocarse en el punto <strong>C</strong> en la orilla y medir desde ahí.</p>
+    <div class="svg-wrap">
+      <svg width="100%" viewBox="0 0 280 180" style="max-width:280px;display:block;margin:0 auto">
+        <!-- lago -->
+        <ellipse cx="140" cy="112" rx="52" ry="30" fill="#aed6f1" opacity=".7"/>
+        <text x="140" y="117" font-size="11" fill="#2471a3" text-anchor="middle" font-family="Segoe UI,Arial">lago</text>
+        <!-- triángulo -->
+        <line x1="50" y1="155" x2="230" y2="155" stroke="#6c3483" stroke-width="2.5" stroke-dasharray="6,4"/>
+        <line x1="50" y1="155" x2="140" y2="28" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="230" y1="155" x2="140" y2="28" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- vértices -->
+        <circle cx="50" cy="155" r="5" fill="#6c3483"/>
+        <circle cx="230" cy="155" r="5" fill="#6c3483"/>
+        <circle cx="140" cy="28" r="5" fill="#e67e22"/>
+        <!-- etiquetas vértice — fuera del triángulo -->
+        <text x="30" y="168" font-size="14" font-weight="bold" fill="#6c3483" font-family="Segoe UI,Arial">A</text>
+        <text x="234" y="168" font-size="14" font-weight="bold" fill="#6c3483" font-family="Segoe UI,Arial">B</text>
+        <text x="132" y="20" font-size="14" font-weight="bold" fill="#e67e22" font-family="Segoe UI,Arial">C</text>
+        <!-- lados con rect background — offset perpendicular alejado del lago -->
+        <rect x="54" y="78" width="28" height="17" rx="3" fill="#fff" opacity=".9"/>
+        <text x="68" y="91" font-size="12" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Segoe UI,Arial">b</text>
+        <rect x="188" y="78" width="28" height="17" rx="3" fill="#fff" opacity=".9"/>
+        <text x="202" y="91" font-size="12" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Segoe UI,Arial">a</text>
+        <!-- c=? abajo del lago, con fondo -->
+        <rect x="108" y="160" width="46" height="17" rx="3" fill="#fff" opacity=".9"/>
+        <text x="131" y="173" font-size="12" font-weight="bold" fill="#c0392b" text-anchor="middle" font-family="Segoe UI,Arial">c = ?</text>
+        <!-- ángulos dentro del triángulo -->
+        <rect x="56" y="138" width="26" height="15" rx="3" fill="#fff" opacity=".85"/>
+        <text x="69" y="150" font-size="10" fill="#1a3a5c" text-anchor="middle" font-family="Segoe UI,Arial">α</text>
+        <rect x="196" y="138" width="26" height="15" rx="3" fill="#fff" opacity=".85"/>
+        <text x="209" y="150" font-size="10" fill="#1a3a5c" text-anchor="middle" font-family="Segoe UI,Arial">β</text>
+        <!-- no right angle note -->
+        <rect x="62" y="163" width="118" height="15" rx="3" fill="#fdecea" opacity=".9"/>
+        <text x="121" y="175" font-size="10" fill="#c0392b" text-anchor="middle" font-style="italic" font-family="Segoe UI,Arial">⚠ sin ángulo recto</text>
+      </svg>
+    </div>
+    <p style="font-size:13px;color:#555">El topógrafo midió los dos lados desde C y los ángulos en A y B. Conoce: lado <strong>b</strong>, lado <strong>a</strong>, ángulo <strong>α</strong>. Quiere saber <strong>c</strong>.</p>
+  </div>
+  <div class="card">
+    <h4>🤔 Pregunta de activación</h4>
+    <p style="font-size:13px;color:#555;margin-bottom:10px">¿Podrías usar seno, coseno o tangente como en triángulos rectángulos? Selecciona la mejor respuesta:</p>
+    <button class="ob" id="det-a" onclick="rDet(this,'A')">A) Sí, porque siempre hay un ángulo de 90° oculto.</button>
+    <button class="ob" id="det-b" onclick="rDet(this,'B')">B) No, porque sen/cos/tan solo funcionan en triángulos rectángulos.</button>
+    <button class="ob" id="det-c" onclick="rDet(this,'C')">C) Sí, puedo usar seno en cualquier triángulo sin problema.</button>
+    <div id="fb-det" class="fb"></div>
+  </div>
+  <button class="btn bp" id="btn-det2" disabled onclick="ir('s3',2)">Conocer las leyes →</button>
+</div>
+
+<!-- ════════ S3: TEORÍA MÍNIMA ════════ -->
+<div id="s3" class="sec">
+  <div class="tag">BLOQUE 2 · TEORÍA</div>
+  <div class="tit">Dos herramientas nuevas</div>
+
+  <!-- Tarjeta A: Ley de Senos -->
+  <div class="card cmo2">
+    <h3>📏 Ley de Senos</h3>
+    <div class="svg-wrap">
+      <svg width="100%" viewBox="0 0 220 148" style="max-width:220px;display:block;margin:0 auto">
+        <polygon points="20,125 200,125 110,22" fill="rgba(108,52,131,.06)" stroke="#6c3483" stroke-width="2"/>
+        <circle cx="20" cy="125" r="4" fill="#6c3483"/><circle cx="200" cy="125" r="4" fill="#6c3483"/><circle cx="110" cy="22" r="4" fill="#6c3483"/>
+        <text x="8" y="142" font-size="13" font-weight="bold" fill="#6c3483" font-family="Segoe UI,Arial">A</text>
+        <text x="202" y="142" font-size="13" font-weight="bold" fill="#6c3483" font-family="Segoe UI,Arial">B</text>
+        <text x="103" y="14" font-size="13" font-weight="bold" fill="#6c3483" font-family="Segoe UI,Arial">C</text>
+        <!-- lados con rect background -->
+        <rect x="134" y="64" width="24" height="16" rx="3" fill="#fff" opacity=".9"/>
+        <text x="146" y="76" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="Segoe UI,Arial">a</text>
+        <rect x="60" y="64" width="24" height="16" rx="3" fill="#fff" opacity=".9"/>
+        <text x="72" y="76" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="Segoe UI,Arial">b</text>
+        <rect x="98" y="128" width="24" height="16" rx="3" fill="#fff" opacity=".9"/>
+        <text x="110" y="140" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="Segoe UI,Arial">c</text>
+        <!-- ángulos -->
+        <rect x="28" y="108" width="24" height="14" rx="3" fill="#fff" opacity=".85"/>
+        <text x="40" y="119" font-size="10" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">A</text>
+        <rect x="168" y="108" width="24" height="14" rx="3" fill="#fff" opacity=".85"/>
+        <text x="180" y="119" font-size="10" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+        <rect x="98" y="30" width="24" height="14" rx="3" fill="#fff" opacity=".85"/>
+        <text x="110" y="41" font-size="10" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+      </svg>
+    </div>
+    <div class="frm" style="font-size:15px;gap:8px">
+      <span class="frac"><span class="num">a</span><span class="den">sen A</span></span>
+      <span>=</span>
+      <span class="frac"><span class="num">b</span><span class="den">sen B</span></span>
+      <span>=</span>
+      <span class="frac"><span class="num">c</span><span class="den">sen C</span></span>
+    </div>
+    <p style="font-size:13px;margin-top:5px"><strong>Cuándo usarla:</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px">
+      <div style="background:#fff;border-radius:8px;padding:8px;font-size:12px;border-left:3px solid var(--ve)">
+        <strong>Caso ALA / AAL</strong><br>
+        <span style="color:var(--ve)">2 ángulos + 1 lado</span>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:8px;font-size:12px;border-left:3px solid var(--am)">
+        <strong>Caso LLA</strong><br>
+        <span style="color:var(--am)">2 lados + ángulo opuesto</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tarjeta B: Ley de Cosenos -->
+  <div class="card caz">
+    <h3>📐 Ley de Cosenos</h3>
+    <div class="frm frm-az" style="font-size:15px">
+      c² = a² + b² − 2ab · cos(C)
+    </div>
+    <p style="font-size:12px;color:#555;margin-top:5px;margin-bottom:8px">También: a² = b² + c² − 2bc·cos(A) &nbsp;·&nbsp; b² = a² + c² − 2ac·cos(B)</p>
+    <p style="font-size:13px"><strong>Cuándo usarla:</strong></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px">
+      <div style="background:#fff;border-radius:8px;padding:8px;font-size:12px;border-left:3px solid var(--az2)">
+        <strong>Caso LAL</strong><br>
+        <span style="color:var(--az2)">2 lados + ángulo entre ellos</span>
+      </div>
+      <div style="background:#fff;border-radius:8px;padding:8px;font-size:12px;border-left:3px solid var(--ro)">
+        <strong>Caso LLL</strong><br>
+        <span style="color:var(--ro)">3 lados conocidos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tarjeta C: Guía de decisión -->
+  <div class="card">
+    <h4 style="cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="tp('dtree-wrap')">
+      🌳 Árbol de decisión — ¿qué ley usar?
+      <span style="font-size:18px;color:var(--mo)">＋</span>
+    </h4>
+    <div id="dtree-wrap" class="dtree" style="display:none">
+      <div class="dtree-q">1. ¿Tiene ángulo recto (90°)?</div>
+      <div class="dtree-yes">✓ Sí → usa sen / cos / tan (triángulo rectángulo)</div>
+      <div class="dtree-no">✗ No → sigue ↓</div>
+      <div class="dtree-q" style="margin-top:8px">2. ¿Conoces un ángulo y su lado opuesto?</div>
+      <div class="dtree-yes">✓ Sí → <strong>Ley de Senos</strong></div>
+      <div class="dtree-no">✗ No → sigue ↓</div>
+      <div class="dtree-q" style="margin-top:8px">3. ¿Conoces el ángulo entre los dos lados conocidos?</div>
+      <div class="dtree-yes">✓ Sí → <strong>Ley de Cosenos</strong> (caso LAL)</div>
+      <div class="dtree-no">✗ No → Si conoces 3 lados → <strong>Ley de Cosenos</strong> (caso LLL)</div>
+    </div>
+
+    <!-- Tabla resumen -->
+    <table class="dec-table" style="margin-top:10px">
+      <thead><tr><th>Datos conocidos</th><th>Ley a usar</th></tr></thead>
+      <tbody>
+        <tr><td>2 ángulos + 1 lado (ALA / AAL)</td><td><strong>Ley de Senos</strong></td></tr>
+        <tr><td>2 lados + ángulo opuesto (LLA)</td><td><strong>Ley de Senos</strong></td></tr>
+        <tr><td>2 lados + ángulo entre ellos (LAL)</td><td><strong>Ley de Cosenos</strong></td></tr>
+        <tr><td>3 lados (LLL)</td><td><strong>Ley de Cosenos</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn bp" onclick="ir('s4',3)">Ver ejemplos guiados →</button>
+</div>
+
+<!-- ════════ S4: EJEMPLOS GUIADOS ════════ -->
+<div id="s4" class="sec">
+  <div class="tag">BLOQUE 3 · EJEMPLOS GUIADOS</div>
+  <div class="tit">Paso a paso</div>
+
+  <!-- Ejemplo 1: Ley de Senos -->
+  <div class="card cmo2" style="margin-bottom:15px">
+    <h3>Ejemplo 1 — Ley de Senos 🚇</h3>
+    <p style="font-size:13px" id="ej1-ctx"></p>
+    <div class="svg-wrap" id="ej1-svg"></div>
+
+    <!-- Paso 1 -->
+    <div id="ej1-p1">
+      <div class="mini-prog">
+        <div class="mp-dot mp-act"></div><div class="mp-dot mp-pend"></div><div class="mp-dot mp-pend"></div>
+      </div>
+      <h4>Paso 1 — ¿Qué datos tengo?</h4>
+      <button class="ob" onclick="rEj(1,1,'A','er',this)">A) Dos lados y el ángulo entre ellos (LAL)</button>
+      <button class="ob" onclick="rEj(1,1,'B','ok',this)">B) Dos ángulos y el lado opuesto a uno de ellos (ALA)</button>
+      <button class="ob" onclick="rEj(1,1,'C','er',this)">C) Tres lados (LLL)</button>
+      <div id="fb-ej1-1" class="fb"></div>
+    </div>
+    <!-- Paso 2 -->
+    <div id="ej1-p2" style="display:none;margin-top:10px">
+      <div class="mini-prog">
+        <div class="mp-dot mp-done"></div><div class="mp-dot mp-act"></div><div class="mp-dot mp-pend"></div>
+      </div>
+      <h4>Paso 2 — ¿Qué ley aplico?</h4>
+      <button class="ob" onclick="rEj(1,2,'A','ok',this)">A) Ley de Senos</button>
+      <button class="ob" onclick="rEj(1,2,'B','er',this)">B) Ley de Cosenos</button>
+      <button class="ob" onclick="rEj(1,2,'C','er',this)">C) Seno / coseno de triángulo rectángulo</button>
+      <div id="fb-ej1-2" class="fb"></div>
+    </div>
+    <!-- Paso 3 -->
+    <div id="ej1-p3" style="display:none;margin-top:10px">
+      <div class="mini-prog">
+        <div class="mp-dot mp-done"></div><div class="mp-dot mp-done"></div><div class="mp-dot mp-act"></div>
+      </div>
+      <h4>Paso 3 — Expresión para despejar b</h4>
+      <div id="ej1-opts3"></div>
+      <div id="fb-ej1-3" class="fb"></div>
+    </div>
+    <!-- Resultado -->
+    <div id="ej1-result" style="display:none;margin-top:10px">
+      <div class="fb ok" style="display:block">✅ ¡Ejemplo completado! <span id="ej1-ans"></span></div>
+    </div>
+  </div>
+
+  <!-- Ejemplo 2: Ley de Cosenos -->
+  <div class="card caz">
+    <h3>Ejemplo 2 — Ley de Cosenos 🗺️</h3>
+    <p style="font-size:13px" id="ej2-ctx"></p>
+    <div class="svg-wrap" id="ej2-svg"></div>
+
+    <!-- Paso 1 -->
+    <div id="ej2-p1">
+      <div class="mini-prog">
+        <div class="mp-dot mp-act"></div><div class="mp-dot mp-pend"></div><div class="mp-dot mp-pend"></div>
+      </div>
+      <h4>Paso 1 — ¿Qué datos tengo?</h4>
+      <button class="ob" onclick="rEj(2,1,'A','ok',this)">A) Dos lados y el ángulo entre ellos (LAL)</button>
+      <button class="ob" onclick="rEj(2,1,'B','er',this)">B) Dos ángulos y un lado (ALA)</button>
+      <button class="ob" onclick="rEj(2,1,'C','er',this)">C) Un lado y el ángulo opuesto (LLA)</button>
+      <div id="fb-ej2-1" class="fb"></div>
+    </div>
+    <!-- Paso 2 -->
+    <div id="ej2-p2" style="display:none;margin-top:10px">
+      <div class="mini-prog">
+        <div class="mp-dot mp-done"></div><div class="mp-dot mp-act"></div><div class="mp-dot mp-pend"></div>
+      </div>
+      <h4>Paso 2 — ¿Qué ley aplico?</h4>
+      <button class="ob" onclick="rEj(2,2,'A','er',this)">A) Ley de Senos</button>
+      <button class="ob" onclick="rEj(2,2,'B','ok',this)">B) Ley de Cosenos</button>
+      <button class="ob" onclick="rEj(2,2,'C','er',this)">C) Teorema de Pitágoras</button>
+      <div id="fb-ej2-2" class="fb"></div>
+    </div>
+    <!-- Paso 3 -->
+    <div id="ej2-p3" style="display:none;margin-top:10px">
+      <div class="mini-prog">
+        <div class="mp-dot mp-done"></div><div class="mp-dot mp-done"></div><div class="mp-dot mp-act"></div>
+      </div>
+      <h4>Paso 3 — Expresión correcta para encontrar c</h4>
+      <div id="ej2-opts3"></div>
+      <div id="fb-ej2-3" class="fb"></div>
+    </div>
+    <!-- Resultado -->
+    <div id="ej2-result" style="display:none;margin-top:10px">
+      <div class="fb ok" style="display:block">✅ ¡Ejemplo completado! <span id="ej2-ans"></span></div>
+    </div>
+  </div>
+
+  <button class="btn bp" id="btn-quiz" disabled onclick="ir('s5',4)">Ir al quiz →</button>
+</div>
+
+<!-- ════════ S5: QUIZ (6 preguntas) ════════ -->
+<div id="s5" class="sec">
+  <div class="tag">BLOQUE 4 · QUIZ</div>
+  <div class="tit">6 preguntas — sin retroalimentación</div>
+  <div class="card cam" style="font-size:13px;margin-bottom:10px">
+    <strong>⚠️</strong> Responde las 6 preguntas. <strong>No sabrás si son correctas hasta el final.</strong> Analiza bien cada triángulo antes de elegir.
+  </div>
+
+  <!-- CAPA 1: Hoja de referencia rápida colapsable -->
+  <div class="ref-rapida">
+    <button class="ref-toggle" onclick="tp('ref-body')">📖 Ver / ocultar</button>
+    <h4>📋 Referencia rápida — úsala mientras respondes</h4>
+    <div id="ref-body">
+      <div class="ref-grid">
+        <div class="ref-bloque">
+          <strong>Ley de Senos</strong>
+          <span class="ref-formula">a/sen(A) = b/sen(B) = c/sen(C)</span>
+          <div style="margin-top:5px;font-size:11px">
+            ✓ ALA — 2 ángulos + lado opuesto<br>
+            ✓ AAL — 2 ángulos + cualquier lado<br>
+            ✓ LLA — 2 lados + ángulo opuesto
+          </div>
+        </div>
+        <div class="ref-bloque">
+          <strong>Ley de Cosenos</strong>
+          <span class="ref-formula">c²=a²+b²−2ab·cos(C)</span>
+          <div style="margin-top:5px;font-size:11px">
+            ✓ LAL — 2 lados + ángulo entre ellos<br>
+            ✓ LLL — 3 lados conocidos<br>
+            <span style="opacity:.7">⚠ Sin par (lado, ángulo opuesto)</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:#b0c8f0;margin-top:8px;text-align:center">
+        Pregúntate: ¿tengo un ángulo con su lado opuesto? → Senos &nbsp;·&nbsp; ¿ángulo entre 2 lados? → Cosenos
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div style="font-size:13px;color:#555">Respondidas: <strong id="quiz-cnt">0</strong> / 6</div>
+    <div style="font-size:12px;color:#888">Pistas: <strong id="pistas-cnt">0</strong> usadas</div>
+  </div>
+  <div id="quiz-container"></div>
+  <button class="btn bp" id="btn-reflex" disabled onclick="ir('s6',6)">Ver reflexión →</button>
+</div>
+
+<!-- ════════ S6: REFLEXIÓN ════════ -->
+<div id="s6" class="sec">
+  <div class="tag">BLOQUE 5 · REFLEXIÓN</div>
+  <div class="tit">Con tus propias palabras</div>
+  <div class="card">
+    <h3>✍️ Justifica tu razonamiento</h3>
+    <div class="card caz" id="reflex-ctx" style="font-size:14px;line-height:1.7"></div>
+    <p style="font-size:13px;margin-top:8px">Explica <strong>con tus propias palabras</strong> por qué NO puedes usar la otra ley en ese caso. Incluye los valores concretos de tu triángulo.</p>
+    <div class="kw-chips" style="margin-bottom:8px">
+      <span style="font-size:12px;color:#555;margin-top:4px">Palabras clave que deben aparecer:</span>
+      <span class="kw-chip" id="kw1"></span>
+      <span class="kw-chip" id="kw2"></span>
+      <span class="kw-chip" id="kw3"></span>
+    </div>
+    <textarea id="txt-reflex" placeholder="Escribe aquí tu explicación..." oninput="chkReflex()"></textarea>
+    <div id="cnt-reflex" style="font-size:12px;color:#888;margin-top:4px;text-align:right">0 / 70</div>
+    <div id="fb-reflex" class="fb"></div>
+    <button class="btn bp" id="btn-res" disabled onclick="ir('s7',7)">Ver resultados →</button>
+  </div>
+</div>
+
+<!-- ════════ S7: RESULTADOS ════════ -->
+<div id="s7" class="sec">
+  <div class="tag" style="margin-bottom:10px">🏁 RESULTADOS</div>
+
+  <!-- Marcador -->
+  <div class="marc-card" id="marc-card">
+    <div id="marc-ico" style="font-size:44px;margin-bottom:5px"></div>
+    <div id="marc-pts" style="font-size:30px;font-weight:800;margin-bottom:3px"></div>
+    <div id="marc-sub" style="font-size:14px;line-height:1.5;opacity:.9"></div>
+  </div>
+
+  <div class="tag" style="margin-bottom:7px">📖 TUS RESULTADOS DETALLADOS</div>
+  <div id="detalle"></div>
+
+  <!-- Reflexión -->
+  <div class="card cmo2"><h4>✍️ Tu reflexión</h4><p id="res-reflex" style="font-size:13px;font-style:italic;color:#555;margin-top:5px"></p></div>
+
+  <!-- Tira docente -->
+  <div class="tag" style="margin-top:8px;margin-bottom:7px;background:var(--az)">👨‍🏫 REGISTRO DOCENTE — muestra esta pantalla al Prof. Cruz</div>
+  <div class="prof-strip" id="prof-strip"></div>
+
+  <!-- Copiar -->
+  <button class="btn bve" id="btn-copiar" style="margin-top:10px" onclick="copiarRes()">📋 Copiar resumen para Classroom</button>
+  <div id="fb-copia" style="font-size:13px;color:var(--ve);margin-top:5px;text-align:center;min-height:16px"></div>
+  <div class="copy-area" id="copy-area"></div>
+
+  <div class="card cam" style="margin-top:10px;font-size:13px">
+    <strong>Siguiente paso:</strong> Muestra esta pantalla al Prof. Cruz para registrar tu calificación.
+  </div>
+  <div id="wrap-reintento" style="display:none;margin-top:4px">
+    <button class="btn bp" onclick="reiniciar()">🔄 Reintentar con quiz nuevo</button>
+  </div>
+
+  <!-- SECCIÓN CUADERNO -->
+  <div style="margin-top:20px">
+    <div class="tag" style="background:var(--az2);font-size:12px;margin-bottom:10px">📓 PARA TU CUADERNO — copia esto para el examen</div>
+    <div class="card cmo" style="padding:14px 15px">
+      <span style="font-size:20px;display:block;margin-bottom:5px">✏️</span>
+      <p style="font-size:14px;line-height:1.6;margin:0">El Prof. Cruz te pide que copies las fórmulas, el árbol de decisión y resuelvas los dos problemas de aplicación en tu cuaderno.</p>
+    </div>
+
+    <!-- Fórmulas -->
+    <div class="cua-card">
+      <div class="cua-titulo">
+        <span style="font-size:22px">📐</span>
+        <h3 style="margin:0">Fórmulas — Ley de Senos y Cosenos</h3>
+        <span class="cua-badge">COPIAR</span>
+      </div>
+
+      <div class="cua-formula">
+        <h4>LEY DE SENOS</h4>
+        <p style="font-size:13px;margin-bottom:8px">En cualquier triángulo ABC con lados a, b, c opuestos a los ángulos A, B, C:</p>
+        <div class="frm" style="font-size:14px;gap:10px">
+          <span class="frac"><span class="num">a</span><span class="den">sen A</span></span>
+          <span>=</span>
+          <span class="frac"><span class="num">b</span><span class="den">sen B</span></span>
+          <span>=</span>
+          <span class="frac"><span class="num">c</span><span class="den">sen C</span></span>
+        </div>
+        <p style="font-size:12px;color:#555;margin-top:6px">Úsala cuando: conoces <strong>ALA, AAL o LLA</strong> (ángulo con su lado opuesto).</p>
+      </div>
+
+      <div class="cua-formula">
+        <h4>LEY DE COSENOS</h4>
+        <div class="frm frm-az" style="font-size:14px">c² = a² + b² − 2ab · cos(C)</div>
+        <p style="font-size:12px;color:#555;margin-top:6px">Úsala cuando: conoces <strong>LAL</strong> (ángulo entre dos lados) o <strong>LLL</strong> (tres lados).</p>
+      </div>
+
+      <!-- Árbol de decisión cuaderno -->
+      <div class="cua-formula" style="background:var(--az3);border-color:var(--az2)">
+        <h4 style="color:var(--az)">ÁRBOL DE DECISIÓN</h4>
+        <div style="font-size:13px;line-height:2;color:var(--tx)">
+          ¿Ángulo recto? → <strong>sen / cos / tan</strong><br>
+          ¿Ángulo con su lado opuesto? → <strong>Ley de Senos</strong><br>
+          ¿Ángulo entre dos lados / 3 lados? → <strong>Ley de Cosenos</strong>
+        </div>
+      </div>
+
+      <table class="dec-table">
+        <thead><tr><th>Caso</th><th>Datos</th><th>Ley</th></tr></thead>
+        <tbody>
+          <tr><td>ALA / AAL</td><td>2 ángulos + 1 lado</td><td><strong>Senos</strong></td></tr>
+          <tr><td>LLA</td><td>2 lados + ángulo opuesto</td><td><strong>Senos</strong></td></tr>
+          <tr><td>LAL</td><td>2 lados + ángulo entre ellos</td><td><strong>Cosenos</strong></td></tr>
+          <tr><td>LLL</td><td>3 lados</td><td><strong>Cosenos</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Problemas cuaderno -->
+    <div class="cua-card">
+      <div class="cua-titulo">
+        <span style="font-size:22px">🖊️</span>
+        <h3 style="margin:0">Problemas de aplicación</h3>
+        <span class="cua-badge">RESOLVER</span>
+      </div>
+      <p style="font-size:13px;color:#555;margin-bottom:12px">Resuelve cada problema mostrando: datos identificados → ley elegida → sustitución → resultado.</p>
+
+      <div class="cua-prob" id="cua-p1"></div>
+      <div class="cua-respbox">Identifica caso (ALA/LAL/etc.) → escribe la ley → despeja la incógnita → calcula</div>
+
+      <div class="cua-prob" style="border-left-color:var(--mo2);background:var(--mo3)" id="cua-p2"></div>
+      <div class="cua-respbox">Identifica caso → escribe la ley → despeja la incógnita → calcula</div>
+
+      <div class="card cam" style="margin-top:12px;font-size:13px">
+        <strong>⚠️ Instrucción del Prof. Cruz:</strong> Muestra el cuaderno con estos ejercicios resueltos en la próxima clase. Serán parte de tu evaluación continua.
+      </div>
+    </div>
+  </div><!-- /cuaderno -->
+</div><!-- /s7 -->
+
+<!-- ════════ SCRIPT ════════ -->
+<script>
+'use strict';
+
+let nombre = '', intento = 1;
+let V = {};
+let QZ = []; // 6 preguntas del quiz
+let QR = new Array(6).fill(null); // respuestas del alumno
+let quizCnt = 0;
+let ej1Done = false, ej2Done = false;
+let ej1Steps = [false, false, false];
+let ej2Steps = [false, false, false];
+
+const rnd  = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const pick = arr   => arr[Math.floor(Math.random()*arr.length)];
+const frac = (n,d) => `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
+const deg  = v     => `${v}°`;
+
+// ── LOGIN ──────────────────────────────────────────────────────────
+function iniciar(){
+  nombre = document.getElementById('inp-nombre').value.trim().toUpperCase();
+  const fb = document.getElementById('fb-login');
+  if(nombre.length < 4){ fb.textContent='Escribe tu nombre completo.'; return; }
+  fb.textContent = '';
+
+  // Valores para ejemplos guiados
+  // Ej1: ALA — ángulos A, B y lado a → buscar b
+  V.e1A = pick([35,40,45,50,55,60,65]); // ángulo A
+  V.e1B = pick([40,45,50,55,60,65,70]); // ángulo B
+  while(V.e1A + V.e1B >= 175) V.e1B = pick([35,40,45,50,55]);
+  V.e1a = rnd(150,400)*2; // lado a en metros (múltiplos de 10)
+  V.e1b = Math.round(V.e1a * Math.sin(V.e1B*Math.PI/180) / Math.sin(V.e1A*Math.PI/180));
+
+  // Ej2: LAL — lados a, b y ángulo C → buscar c
+  V.e2a = rnd(3,12);
+  V.e2b = rnd(3,12);
+  V.e2C = pick([95,100,105,110,115,120]); // ángulo obtuso para que sea interesante
+  const cosC = Math.cos(V.e2C*Math.PI/180);
+  V.e2c = Math.sqrt(V.e2a**2 + V.e2b**2 - 2*V.e2a*V.e2b*cosC);
+  V.e2c = Math.round(V.e2c*100)/100;
+
+  // Generar quiz
+  QZ = genQuiz();
+
+  document.getElementById('chip-txt').textContent = nombre;
+  document.getElementById('msg-bienvenida').innerHTML =
+    `Hola, <strong>${nombre.split(' ')[0]}</strong>. Hasta ahora has resuelto triángulos <em>rectángulos</em>. `+
+    `Hoy aprenderás dos herramientas que funcionan para <strong>cualquier triángulo</strong>: la Ley de Senos y la Ley de Cosenos.<br><br>`+
+    `Cuando termines, pasa conmigo para registrar tu calificación. Si algo no quedó claro, lo revisamos juntos.<br><br>`+
+    `<em>— Prof. Adrián Cruz</em>`;
+
+  document.getElementById('bw').style.display = 'block';
+  ir('s1', 0);
+}
+
+// ── NAVEGACIÓN ──────────────────────────────────────────────────────
+function ir(id, paso){
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(paso !== undefined){
+    document.getElementById('bwf').style.width = (paso/8*100)+'%';
+    document.getElementById('bwc').textContent = paso;
+  }
+  if(id==='s4') cargEjemplos();
+  if(id==='s5') cargQuiz();
+  if(id==='s6') cargReflex();
+  if(id==='s7') mostrarRes();
+}
+function tp(id){ const e=document.getElementById(id); e.style.display=e.style.display==='none'?'block':'none'; }
+
+// ── DETONADOR ────────────────────────────────────────────────────────
+function rDet(btn, op){
+  document.querySelectorAll('#s2 .ob').forEach(b=>b.classList.add('dx'));
+  const fb = document.getElementById('fb-det');
+  if(op==='B'){
+    btn.classList.add('eok');
+    fb.className='fb ok';
+    fb.textContent='✓ Exacto. sen(A), cos(A) y tan(A) son razones definidas a partir del ángulo recto — no aplican directamente en triángulos oblicuos. Necesitamos nuevas leyes.';
+    document.getElementById('btn-det2').disabled = false;
+  } else {
+    btn.classList.add('eml');
+    fb.className='fb er';
+    fb.textContent='Incorrecto. Las razones sen/cos/tan requieren un ángulo de 90°. En este triángulo no existe — necesitamos otro enfoque.';
+    document.querySelectorAll('#s2 .ob').forEach(b=>b.classList.remove('dx'));
+    btn.style.pointerEvents='none';
+  }
+}
+
+// ── EJEMPLOS GUIADOS ─────────────────────────────────────────────────
+function cargEjemplos(){
+  const {e1A,e1B,e1a,e1b,e2a,e2b,e2C,e2c} = V;
+
+  // Contextos
+  document.getElementById('ej1-ctx').innerHTML =
+    `Dos estaciones del Metro, <em>Balderas</em> y <em>Centro Médico</em>, forman un triángulo con un punto de inspección. `+
+    `Se sabe que <strong>a = ${e1a} m</strong>, <strong>∠A = ${deg(e1A)}</strong> y <strong>∠B = ${deg(e1B)}</strong>. `+
+    `Encuentra el lado <strong>b</strong>.`;
+
+  document.getElementById('ej2-ctx').innerHTML =
+    `Dos colonias en un mapa de CDMX están a <strong>a = ${e2a} km</strong> y <strong>b = ${e2b} km</strong> de un punto central. `+
+    `El ángulo entre las dos líneas es <strong>∠C = ${deg(e2C)}</strong>. `+
+    `Encuentra la distancia <strong>c</strong> entre las colonias.`;
+
+  // SVG Ejemplo 1 (ALA)
+  document.getElementById('ej1-svg').innerHTML = mkSVG(
+    [{lab:'A',x:25,y:120,col:'#6c3483'},{lab:'B',x:210,y:120,col:'#6c3483'},{lab:'C',x:120,y:22,col:'#e67e22'}],
+    [['A','B',''],[('A','C',`b=?`)],[('B','C',`a=${e1a}m`)]],
+    [{vx:'A',ang:`${e1A}°`,col:'#2563a8'},{vx:'B',ang:`${e1B}°`,col:'#2563a8'}],
+    e1a, '?', e1B
+  );
+
+  // SVG Ejemplo 2 (LAL)
+  document.getElementById('ej2-svg').innerHTML = mkSVG2(e2a, e2b, e2C);
+
+  // Opciones paso 3 ejemplo 1 — expresión para b
+  const correctaE1 = `b = a · sen(B) / sen(A) = ${e1a} · sen(${deg(e1B)}) / sen(${deg(e1A)})`;
+  const wrongE1a   = `b = a · sen(A) / sen(B)`;
+  const wrongE1b   = `b = √(a² + b²)`;
+  const optsE1 = mezclar([
+    {txt: `b = ${frac(`a · sen(B)`,`sen(A)`)} = ${frac(`${e1a} · sen(${deg(e1B)})`,`sen(${deg(e1A)})`)}`, ok:true},
+    {txt: `b = ${frac(`a · sen(A)`,`sen(B)`)}`, ok:false},
+    {txt: `b = √(a² − c²)`, ok:false},
+  ]);
+  document.getElementById('ej1-opts3').innerHTML = optsE1.map((o,i)=>
+    `<button class="ob" onclick="rEj3(1,'${o.ok?'ok':'er'}',this)">${o.txt}</button>`
+  ).join('');
+
+  // Opciones paso 3 ejemplo 2 — expresión para c²
+  const optsE2 = mezclar([
+    {txt: `c² = ${e2a}² + ${e2b}² − 2·${e2a}·${e2b}·cos(${deg(e2C)})`, ok:true},
+    {txt: `c² = ${e2a}² + ${e2b}² + 2·${e2a}·${e2b}·cos(${deg(e2C)})`, ok:false},
+    {txt: `c = ${frac(`${e2a}`,`sen(${deg(e2C)})`)}`, ok:false},
+  ]);
+  document.getElementById('ej2-opts3').innerHTML = optsE2.map((o,i)=>
+    `<button class="ob" onclick="rEj3(2,'${o.ok?'ok':'er'}',this)">${o.txt}</button>`
+  ).join('');
+}
+
+function rEj(ej, paso, op, res, btn){
+  const prefix = `ej${ej}-p${paso}`;
+  const btns = document.querySelectorAll(`#${prefix} .ob`);
+  btns.forEach(b=>b.classList.add('dx'));
+  const fb = document.getElementById(`fb-ej${ej}-${paso}`);
+  const clicked = btn;
+
+  if(res==='ok'){
+    clicked.classList.add('eok');
+    fb.className='fb ok';
+    const msgs1 = ['✓ Correcto. Tienes 2 ángulos y el lado opuesto a A — caso ALA.','✓ Correcto. Con ALA se aplica la Ley de Senos.'];
+    const msgs2 = ['✓ Correcto. Dos lados (a,b) y el ángulo entre ellos C — caso LAL.','✓ Correcto. Con LAL se aplica la Ley de Cosenos.'];
+    const msgs = ej===1 ? msgs1 : msgs2;
+    fb.textContent = msgs[paso-1];
+    setTimeout(()=>{
+      document.getElementById(`ej${ej}-p${paso+1}`).style.display='block';
+    }, 600);
+  } else {
+    clicked.classList.add('eml');
+    fb.className='fb er';
+    fb.textContent = 'Revisa los datos del triángulo e identifica qué información tienes.';
+    btns.forEach(b=>b.classList.remove('dx'));
+    clicked.style.pointerEvents='none';
+  }
+}
+
+function rEj3(ej, res, btn){
+  const prefix = `ej${ej}-p3`;
+  const btns = document.querySelectorAll(`#${prefix} .ob`);
+  btns.forEach(b=>b.classList.add('dx'));
+  const fb = document.getElementById(`fb-ej${ej}-3`);
+  const clicked = btn;
+
+  if(res==='ok'){
+    clicked.classList.add('eok');
+    fb.className='fb ok';
+    fb.textContent = ej===1
+      ? `✓ ¡Correcto! Aplicando: b ≈ ${V.e1b} m`
+      : `✓ ¡Correcto! Calculando: c ≈ ${V.e2c} km`;
+    document.getElementById(`ej${ej}-result`).style.display='block';
+    document.getElementById(`ej${ej}-ans`).textContent = ej===1
+      ? `b ≈ ${V.e1b} m`
+      : `c ≈ ${V.e2c} km`;
+    if(ej===1){ ej1Done=true; } else { ej2Done=true; }
+    if(ej1Done && ej2Done) document.getElementById('btn-quiz').disabled=false;
+  } else {
+    clicked.classList.add('eml');
+    fb.className='fb er';
+    fb.textContent = ej===1
+      ? 'Revisa: la Ley de Senos despeja b = a·sen(B)/sen(A). El denominador usa el ángulo opuesto al lado que buscas.'
+      : 'Revisa la fórmula: c² = a² + b² − 2ab·cos(C). Hay un signo menos, no más.';
+    btns.forEach(b=>b.classList.remove('dx'));
+    clicked.style.pointerEvents='none';
+  }
+}
+
+// SVG helpers
+// Renders a label with white rect background at midpoint of a side, offset perpendicular to it
+function lblSide(x1,y1,x2,y2,offset,txt,col,bg){
+  const mx=(x1+x2)/2, my=(y1+y2)/2;
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+  const nx=-dy/len, ny=dx/len;
+  const lx=mx+nx*offset, ly=my+ny*offset;
+  const w=txt.length*6.5+10, h=17;
+  return `<rect x="${(lx-w/2).toFixed(1)}" y="${(ly-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="3" fill="${bg||'#fff'}" opacity=".92"/>
+<text x="${lx.toFixed(1)}" y="${(ly+5.5).toFixed(1)}" font-size="11" font-weight="bold" fill="${col}" text-anchor="middle" font-family="Segoe UI,Arial">${txt}</text>`;
+}
+function lblVtx(vx,vy,txt,col,ox,oy){
+  const lx=vx+ox, ly=vy+oy;
+  const w=txt.length*6.5+8, h=17;
+  return `<rect x="${(lx-w/2).toFixed(1)}" y="${(ly-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="3" fill="#fff" opacity=".9"/>
+<text x="${lx.toFixed(1)}" y="${(ly+5.5).toFixed(1)}" font-size="10" font-weight="bold" fill="${col}" text-anchor="middle" font-family="Segoe UI,Arial">${txt}</text>`;
+}
+
+function mkSVG(verts, sides, angles, aVal, bVal, angB){
+  // Ej1 SVG — ALA: A bottom-left, B bottom-right, C top-center
+  const ax=30,ay=128, bx=210,by=128, cx=120,cy=20;
+  return `<svg width="100%" viewBox="0 0 240 158" style="max-width:260px;display:block;margin:0 auto">
+    <polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="rgba(108,52,131,.06)" stroke="#6c3483" stroke-width="2"/>
+    <circle cx="${ax}" cy="${ay}" r="4" fill="#6c3483"/>
+    <circle cx="${bx}" cy="${by}" r="4" fill="#6c3483"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#e67e22"/>
+    <text x="${ax-4}" y="${ay+16}" font-size="13" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">A</text>
+    <text x="${bx+4}" y="${by+16}" font-size="13" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+    <text x="${cx}" y="${cy-9}" font-size="13" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+    ${lblSide(bx,by,cx,cy, 22, 'a ✓', '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,cx,cy, -22, 'b = ?', '#c0392b','#fff0ee')}
+    ${lblSide(ax,ay,bx,by, 16, 'c', '#888','#f4f6f9')}
+    ${lblVtx(ax,ay,'∠A ✓','#2563a8', 26,-16)}
+    ${lblVtx(bx,by,'∠B ✓','#2563a8',-26,-16)}
+  </svg>`;
+}
+
+function mkSVG2(a, b, C){
+  // Ej2 SVG — LAL: A bottom-left, B bottom-right, C top (slightly left for visual variety)
+  const ax=28,ay=128, bx=215,by=128, cx=98,cy=20;
+  return `<svg width="100%" viewBox="0 0 244 158" style="max-width:260px;display:block;margin:0 auto">
+    <polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="rgba(37,99,168,.06)" stroke="#2563a8" stroke-width="2"/>
+    <circle cx="${ax}" cy="${ay}" r="4" fill="#2563a8"/>
+    <circle cx="${bx}" cy="${by}" r="4" fill="#2563a8"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#6c3483"/>
+    <text x="${ax-4}" y="${ay+16}" font-size="13" font-weight="bold" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">A</text>
+    <text x="${bx+4}" y="${by+16}" font-size="13" font-weight="bold" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+    <text x="${cx}" y="${cy-9}" font-size="13" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+    ${lblSide(bx,by,cx,cy, 24, `a=${a}km ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,cx,cy, -24, `b=${b}km ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,bx,by, 16, 'c = ?', '#c0392b','#fff0ee')}
+    ${lblVtx(cx,cy,`∠C=${C}° ✓`,'#2563a8', 34, 20)}
+  </svg>`;
+}
+
+// Quiz SVGs — same technique, compact viewBox
+function svgALA(A,B,a){
+  const ax=22,ay=112, bx=198,by=112, cx=110,cy=18;
+  return `<svg width="100%" viewBox="0 0 220 140" style="max-width:230px;display:block;margin:0 auto">
+    <polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="rgba(108,52,131,.06)" stroke="#6c3483" stroke-width="1.8"/>
+    <circle cx="${ax}" cy="${ay}" r="4" fill="#6c3483"/>
+    <circle cx="${bx}" cy="${by}" r="4" fill="#6c3483"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#6c3483"/>
+    <text x="${ax-4}" y="${ay+14}" font-size="12" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">A</text>
+    <text x="${bx+4}" y="${by+14}" font-size="12" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+    <text x="${cx}" y="${cy-8}" font-size="12" font-weight="bold" fill="#6c3483" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+    ${lblSide(bx,by,cx,cy, 20, `a=${a} ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,cx,cy,-20, 'b=?', '#c0392b','#fff0ee')}
+    ${lblSide(ax,ay,bx,by, 14, 'c', '#888','#f4f6f9')}
+    ${lblVtx(ax,ay,`${A}° ✓`,'#2563a8', 24,-15)}
+    ${lblVtx(bx,by,`${B}° ✓`,'#2563a8',-24,-15)}
+  </svg>`;
+}
+function svgLAL(a,b,C){
+  const ax=22,ay=112, bx=195,by=112, cx=90,cy=18;
+  return `<svg width="100%" viewBox="0 0 220 140" style="max-width:230px;display:block;margin:0 auto">
+    <polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="rgba(37,99,168,.06)" stroke="#2563a8" stroke-width="1.8"/>
+    <circle cx="${ax}" cy="${ay}" r="4" fill="#2563a8"/>
+    <circle cx="${bx}" cy="${by}" r="4" fill="#2563a8"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#2563a8"/>
+    <text x="${ax-4}" y="${ay+14}" font-size="12" font-weight="bold" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">A</text>
+    <text x="${bx+4}" y="${by+14}" font-size="12" font-weight="bold" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+    <text x="${cx}" y="${cy-8}" font-size="12" font-weight="bold" fill="#2563a8" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+    ${lblSide(bx,by,cx,cy, 22, `a=${a} ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,cx,cy,-22, `b=${b} ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,bx,by, 14, 'c=?', '#c0392b','#fff0ee')}
+    ${lblVtx(cx,cy,`${C}° ✓`,'#2563a8', 30, 18)}
+  </svg>`;
+}
+function svgLLL(a,b,c){
+  const ax=22,ay=112, bx=198,by=112, cx=110,cy=18;
+  return `<svg width="100%" viewBox="0 0 220 140" style="max-width:230px;display:block;margin:0 auto">
+    <polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="rgba(39,174,96,.06)" stroke="#27ae60" stroke-width="1.8"/>
+    <circle cx="${ax}" cy="${ay}" r="4" fill="#27ae60"/>
+    <circle cx="${bx}" cy="${by}" r="4" fill="#27ae60"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#27ae60"/>
+    <text x="${ax-4}" y="${ay+14}" font-size="12" font-weight="bold" fill="#27ae60" text-anchor="middle" font-family="Segoe UI,Arial">A=?</text>
+    <text x="${bx+4}" y="${by+14}" font-size="12" font-weight="bold" fill="#27ae60" text-anchor="middle" font-family="Segoe UI,Arial">B</text>
+    <text x="${cx}" y="${cy-8}" font-size="12" font-weight="bold" fill="#27ae60" text-anchor="middle" font-family="Segoe UI,Arial">C</text>
+    ${lblSide(bx,by,cx,cy, 20, `a=${a} ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,cx,cy,-20, `b=${b} ✓`, '#27ae60','#e8f8ee')}
+    ${lblSide(ax,ay,bx,by, 14, `c=${c} ✓`, '#27ae60','#e8f8ee')}
+  </svg>`;
+}
+
+function mezclar(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ── GENERADOR DE QUIZ ─────────────────────────────────────────────────
+function genQuiz(){
+  const qs = [];
+
+  // Q1 — Identificar ley: caso ALA → Senos
+  {
+    const A=pick([40,45,50,55,60]), B=pick([35,40,50,55,60]), a=rnd(5,20);
+    const opts = mezclar([
+      {txt:'Ley de Senos',ok:true},
+      {txt:'Ley de Cosenos',ok:false},
+      {txt:'sen/cos/tan (rectángulo)',ok:false},
+    ]);
+    qs.push({
+      tipo:'Identificar ley', caso:'ALA',
+      enunc:`Triángulo con ∠A = ${A}°, ∠B = ${B}°, lado a = ${a}. <strong>¿Qué ley debes usar para encontrar b?</strong>`,
+      svg: svgALA(A,B,a),
+      opts, correct:'Ley de Senos',
+      exp:`Caso ALA: tienes 2 ángulos (A y B) y el lado opuesto a A. Puedes usar la Ley de Senos porque tienes el par (a, A).`
+    });
+  }
+
+  // Q2 — Identificar ley: caso LAL → Cosenos
+  {
+    const a=rnd(4,12), b=rnd(4,12), C=pick([60,70,80,90,100,110]);
+    const opts = mezclar([
+      {txt:'Ley de Senos',ok:false},
+      {txt:'Ley de Cosenos',ok:true},
+      {txt:'Teorema de Pitágoras',ok:false},
+    ]);
+    qs.push({
+      tipo:'Identificar ley', caso:'LAL',
+      enunc:`Triángulo con a = ${a}, b = ${b}, ∠C = ${C}°. <strong>¿Qué ley usas para encontrar c?</strong>`,
+      svg: svgLAL(a,b,C),
+      opts, correct:'Ley de Cosenos',
+      exp:`Caso LAL: tienes dos lados (a,b) y el ángulo C entre ellos. No tienes un par (lado, ángulo opuesto), así que Ley de Senos no aplica — usa Ley de Cosenos.`
+    });
+  }
+
+  // Q3 — Identificar ley: caso LLL → Cosenos
+  {
+    const a=rnd(5,14), b=rnd(5,14), c=rnd(5,14);
+    const opts = mezclar([
+      {txt:'Ley de Senos',ok:false},
+      {txt:'Ley de Cosenos',ok:true},
+      {txt:'Necesito más datos',ok:false},
+    ]);
+    qs.push({
+      tipo:'Identificar ley', caso:'LLL',
+      enunc:`Triángulo con a = ${a}, b = ${b}, c = ${c}. <strong>¿Qué ley usas para encontrar el ∠A?</strong>`,
+      svg: svgLLL(a,b,c),
+      opts, correct:'Ley de Cosenos',
+      exp:`Caso LLL: conoces los tres lados. Para encontrar un ángulo se despeja la Ley de Cosenos: cos(A) = (b²+c²−a²)/(2bc).`
+    });
+  }
+
+  // Q4 — Expresión correcta Ley de Senos — con hueco para completar
+  {
+    const A=pick([40,45,50,55]), B=pick([50,55,60,65]), a=rnd(8,18);
+    // Opciones principales (para resultados)
+    const rawOpts = [
+      {txt: `b = a·sen(B)/sen(A)`, ok:true},
+      {txt: `b = a·sen(A)/sen(B)`, ok:false},
+      {txt: `b = a·sen(A)·sen(B)`, ok:false},
+    ];
+    // Shuffle para asignar índices fijos antes de mezclar
+    const shuffled = mezclar([...rawOpts]);
+    // fillOpts: qué va en el hueco (seno del denominador)
+    const fillOpts = mezclar([
+      {display:`sen(${B}°)/sen(${A}°)`, ok:true, mainIdx: shuffled.findIndex(o=>o.ok===true)},
+      {display:`sen(${A}°)/sen(${B}°)`, ok:false, mainIdx: shuffled.findIndex(o=>o.txt.includes('A)/sen(B)'))},
+      {display:`sen(${A}°)·sen(${B}°)`, ok:false, mainIdx: shuffled.findIndex(o=>o.txt.includes('sen(A)·'))},
+    ]);
+    // guardamos datos para la reflexión
+    V.refQ = {a, A, B, tipo:'senos'};
+    qs.push({
+      tipo:'Completar expresión · Senos', caso:'ALA',
+      enunc:`∠A = ${A}°, ∠B = ${B}°, a = ${a}. <strong>¿Qué va en el hueco para que la expresión sea correcta?</strong>`,
+      svg: svgALA(A,B,a),
+      opts: shuffled,
+      fillTemplate: `b = ${a} · {?}`,
+      fillOpts,
+      correct:`b = ${a}·sen(${B}°)/sen(${A}°)`,
+      exp:`De a/sen(A)=b/sen(B) despejamos b = a·sen(B)/sen(A). El numerador lleva sen del ángulo <em>opuesto a b</em> (que es B), y el denominador sen del ángulo <em>opuesto a a</em> (que es A).`
+    });
+  }
+
+  // Q5 — Expresión correcta Ley de Cosenos — con hueco para completar
+  {
+    const a=rnd(4,11), b=rnd(4,11), C=pick([80,90,100,110,120]);
+    const rawOpts = [
+      {txt: `c² = ${a}² + ${b}² − 2·${a}·${b}·cos(${C}°)`, ok:true},
+      {txt: `c² = ${a}² + ${b}² + 2·${a}·${b}·cos(${C}°)`, ok:false},
+      {txt: `c = ${a}/sen(${C}°)`, ok:false},
+    ];
+    const shuffled = mezclar([...rawOpts]);
+    // Hueco: el signo central (−2ab·cos vs +2ab·cos vs otro)
+    const fillOpts = mezclar([
+      {display:`− 2·${a}·${b}·cos(${C}°)`, ok:true, mainIdx: shuffled.findIndex(o=>o.ok===true)},
+      {display:`+ 2·${a}·${b}·cos(${C}°)`, ok:false, mainIdx: shuffled.findIndex(o=>o.txt.includes('+'))},
+      {display:`${a}/sen(${C}°)`, ok:false, mainIdx: shuffled.findIndex(o=>o.txt.includes('sen'))},
+    ]);
+    qs.push({
+      tipo:'Completar expresión · Cosenos', caso:'LAL',
+      enunc:`a = ${a}, b = ${b}, ∠C = ${C}°. <strong>¿Qué va en el hueco para completar la Ley de Cosenos?</strong>`,
+      svg: svgLAL(a,b,C),
+      opts: shuffled,
+      fillTemplate: `c² = ${a}² + ${b}² {?}`,
+      fillOpts,
+      correct:`c² = ${a}²+${b}²−2·${a}·${b}·cos(${C}°)`,
+      exp:`Ley de Cosenos: c²=a²+b²−2ab·cos(C). El tercer término va con signo <em>menos</em>. El ángulo C es el que está <em>entre</em> los lados a y b.`
+    });
+  }
+
+  // Q6 — Caso mixto: descartar ley incorrecta
+  {
+    const a=rnd(5,15), b=rnd(5,15), C=pick([55,65,75,85]);
+    const opts = mezclar([
+      {txt:'Ley de Cosenos (caso LAL) ✓',ok:true},
+      {txt:'Ley de Senos — no hay par (lado, ángulo opuesto)',ok:false},
+      {txt:'Teorema de Pitágoras — no hay ángulo recto',ok:false},
+    ]);
+    qs.push({
+      tipo:'Descartar ley', caso:'LAL',
+      enunc:`a = ${a}, b = ${b}, ∠C = ${C}°. <strong>¿Cuál opción es correcta?</strong>`,
+      svg: svgLAL(a,b,C),
+      opts, correct:'Ley de Cosenos (caso LAL) ✓',
+      exp:`No hay ángulo recto → no Pitágoras. No tenemos un par (lado, ángulo opuesto) para usar Ley de Senos. El único caso es LAL → Ley de Cosenos.`
+    });
+  }
+
+  return qs;
+}
+
+
+// ── CARGAR QUIZ ────────────────────────────────────────────────────────
+let pistasUsadas = 0;
+
+function cargQuiz(){
+  quizCnt = 0;
+  pistasUsadas = 0;
+  QR = new Array(6).fill(null);
+  document.getElementById('quiz-cnt').textContent = '0';
+  document.getElementById('pistas-cnt').textContent = '0';
+  document.getElementById('btn-reflex').disabled = true;
+
+  let html = '';
+  QZ.forEach((q,i)=>{
+    // CAPA 3: Q4 y Q5 usan opción de completar expresión con hueco
+    const esExpr = (i===3||i===4);
+    const optsHtml = esExpr
+      ? buildFillOpts(q, i)
+      : q.opts.map((o,j)=>`<button class="ob" onclick="respQ(${i},${j},this)">${o.txt}</button>`).join('');
+
+    // CAPA 2: pista específica por pregunta
+    const hintHtml = buildHint(q, i);
+
+    html += `<div class="card" id="qcard-${i}" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+        <span class="tag" style="margin:0">P${i+1} · ${q.tipo}</span>
+        <span style="font-size:11px;background:var(--gr2);border-radius:5px;padding:2px 7px">${q.caso}</span>
+      </div>
+      <p style="font-size:13px;margin-bottom:8px">${q.enunc}</p>
+      <div class="svg-wrap">${q.svg}</div>
+      ${esExpr ? `<div style="font-size:12px;color:var(--mo);margin-bottom:5px;font-weight:700">💡 Elige la opción que completa correctamente la expresión:</div>` : ''}
+      <div id="qopts-${i}">${optsHtml}</div>
+      ${hintHtml}
+      <div id="qconf-${i}" style="display:none;font-size:12px;color:var(--ve);margin-top:7px;padding:6px 10px;background:var(--ve3);border-radius:8px">✓ Respuesta guardada</div>
+    </div>`;
+  });
+  document.getElementById('quiz-container').innerHTML = html;
+}
+
+// Construye las opciones para Q4/Q5 con la expresión parcialmente rellena
+function buildFillOpts(q, qi){
+  // q.fillTemplate: string con {?} donde va el hueco
+  // q.fillOpts: [{display, ok}]
+  if(!q.fillTemplate) return q.opts.map((o,j)=>
+    `<button class="ob" onclick="respQ(${qi},${j},this)">${o.txt}</button>`).join('');
+
+  const tpl = q.fillTemplate;
+  let html = `<div class="fill-wrap">
+    ${tpl.replace('{?}','<span class="fill-blank" id="fill-val-${qi}">___</span>')}
+  </div>`;
+  html += q.fillOpts.map((o,j)=>
+    `<button class="ob" onclick="respFill(${qi},${j},this,'${o.ok?'ok':'er'}')">${o.display}</button>`
+  ).join('');
+  return html;
+}
+
+// Construye el bloque de pista para cada pregunta
+function buildHint(q, qi){
+  const hints = {
+    0: { // ALA → Senos
+      formula: 'a/sen(A) = b/sen(B) = c/sen(C)',
+      guia: '¿Tienes algún par donde conozcas el lado <em>y</em> el ángulo opuesto a ese lado?'
+    },
+    1: { // LAL → Cosenos
+      formula: 'c² = a² + b² − 2ab·cos(C)',
+      guia: '¿El ángulo que conoces está <em>entre</em> los dos lados conocidos, o es opuesto a uno?'
+    },
+    2: { // LLL → Cosenos
+      formula: 'cos(A) = (b²+c²−a²) / (2bc)',
+      guia: 'Si conoces los tres lados, ¿qué ley tiene una versión que te permite despejar un ángulo?'
+    },
+    3: { // Expresión Senos
+      formula: 'b/sen(B) = a/sen(A)  →  b = a·sen(B)/sen(A)',
+      guia: 'En la fracción, el numerador es el <em>lado que buscas</em> multiplicado por el seno de su ángulo opuesto.'
+    },
+    4: { // Expresión Cosenos
+      formula: 'c² = a² + b² − 2ab·cos(C)',
+      guia: 'El signo entre los cuadrados y el doble producto es <em>menos</em>. ¿Qué variable es el ángulo entre los dos lados?'
+    },
+    5: { // Mixto LAL
+      formula: 'c² = a² + b² − 2ab·cos(C)',
+      guia: 'Para usar Ley de Senos necesitas un par (lado, ángulo opuesto). ¿Lo tienes aquí?'
+    }
+  };
+  const h = hints[qi] || hints[0];
+  return `<button class="hint-btn" id="hbtn-${qi}" onclick="verPista(${qi})">
+    ⚑ Ver pista <span style="opacity:.6;font-size:10px">(un solo uso)</span>
+  </button>
+  <div class="hint-box" id="hbox-${qi}">
+    <div style="font-weight:700;margin-bottom:6px;color:#7d4e00">📌 Fórmula relevante:</div>
+    <span class="hf">${h.formula}</span>
+    <div style="margin-top:8px;font-weight:700;color:#7d4e00">🤔 Pregúntate:</div>
+    <div style="margin-top:3px">${h.guia}</div>
+  </div>`;
+}
+
+function verPista(qi){
+  const btn = document.getElementById(`hbtn-${qi}`);
+  const box = document.getElementById(`hbox-${qi}`);
+  if(btn.disabled) return;
+  btn.disabled = true;
+  btn.classList.add('hint-used');
+  btn.innerHTML = '⚑ Pista mostrada';
+  box.style.display = 'block';
+  QZ[qi].pistoUsada = true;
+  pistasUsadas++;
+  document.getElementById('pistas-cnt').textContent = pistasUsadas;
+}
+
+function respQ(qi, oi, btn){
+  if(QR[qi] !== null) return;
+  QR[qi] = oi;
+  QZ[qi].selIdx = oi;
+  const btns = document.querySelectorAll(`#qopts-${qi} .ob`);
+  btns.forEach(b=>b.classList.add('dx'));
+  if(btn) btn.classList.remove('dx'); // mantener visible la elegida
+  document.getElementById(`qconf-${qi}`).style.display='block';
+  // deshabilitar pista si no se usó
+  const hbtn = document.getElementById(`hbtn-${qi}`);
+  if(hbtn && !hbtn.disabled){ hbtn.disabled=true; hbtn.style.opacity='.3'; }
+  quizCnt++;
+  document.getElementById('quiz-cnt').textContent = quizCnt;
+  if(quizCnt >= 6) document.getElementById('btn-reflex').disabled = false;
+}
+
+function respFill(qi, oi, btn, res){
+  if(QR[qi] !== null) return;
+  // Mapear índice de fillOpts al índice de opts principal
+  const mainIdx = QZ[qi].fillOpts[oi].mainIdx;
+  QR[qi] = mainIdx;
+  QZ[qi].selIdx = mainIdx;
+  // Mostrar el valor elegido en el hueco
+  const fillVal = document.getElementById(`fill-val-${qi}`);
+  if(fillVal) fillVal.textContent = QZ[qi].fillOpts[oi].display;
+  const btns = document.querySelectorAll(`#qopts-${qi} .ob`);
+  btns.forEach(b=>b.classList.add('dx'));
+  if(btn) btn.classList.remove('dx');
+  document.getElementById(`qconf-${qi}`).style.display='block';
+  const hbtn = document.getElementById(`hbtn-${qi}`);
+  if(hbtn && !hbtn.disabled){ hbtn.disabled=true; hbtn.style.opacity='.3'; }
+  quizCnt++;
+  document.getElementById('quiz-cnt').textContent = quizCnt;
+  if(quizCnt >= 6) document.getElementById('btn-reflex').disabled = false;
+}
+
+// ── REFLEXIÓN ────────────────────────────────────────────────────────
+function cargReflex(){
+  // Usamos los datos del Q4 (senos) para la reflexión: por qué NO se puede usar Ley de Cosenos
+  // O datos del Q2 para por qué NO Senos — usamos Q4 (caso LAL del ej2)
+  const q4 = QZ[3]; // índice 3 = cuarta pregunta (expresión senos, caso ALA)
+  // Pregunta: en ese triángulo ALA, ¿por qué NO puedes usar Ley de Cosenos?
+  // Recuperamos valores del Q4
+  const enuncQ4 = q4.enunc.replace(/<strong>.*?<\/strong>/g,'').replace(/<[^>]+>/g,'');
+  document.getElementById('reflex-ctx').innerHTML =
+    `<strong>Tu triángulo del ejercicio 4:</strong> ${q4.enunc.replace(/<strong>.*?<\/strong>/g,m=>m)}<br><br>`+
+    `<span style="color:var(--ro);font-weight:700">Pregunta:</span> Con esos datos (${q4.caso}), explica con tus propias palabras <strong>por qué NO podías usar la Ley de Cosenos</strong> ahí. ¿Qué te faltaba para poder usarla?`;
+
+  // Palabras clave
+  const kws = ['ángulo opuesto','lado conocido','LAL o LLL'];
+  document.getElementById('kw1').textContent = kws[0];
+  document.getElementById('kw2').textContent = kws[1];
+  document.getElementById('kw3').textContent = kws[2];
+}
+
+function chkReflex(){
+  const t = document.getElementById('txt-reflex').value, n = t.trim().length;
+  document.getElementById('cnt-reflex').textContent = `${n} / 70`;
+  if(n >= 70){
+    document.getElementById('fb-reflex').className='fb in';
+    document.getElementById('fb-reflex').textContent='Respuesta registrada.';
+    document.getElementById('btn-res').disabled = false;
+  } else {
+    document.getElementById('fb-reflex').className='';
+    document.getElementById('btn-res').disabled = true;
+  }
+}
+
+// ── RESULTADOS ───────────────────────────────────────────────────────
+function mostrarRes(){
+  let correctas = 0;
+  const marcas = [];
+  let html = '';
+
+  QZ.forEach((q, i)=>{
+    const selIdx = QR[i];
+    const selOpt = q.opts[selIdx];
+    const ok = selOpt && selOpt.ok;
+    if(ok) correctas++;
+    marcas.push(ok);
+
+    html += `<div class="q-item">
+      <div class="q-head ${ok?'q-head-ok':'q-head-er'}">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:18px;font-weight:800">${ok?'✅':'❌'} P${i+1}</span>
+          <span class="q-tipo">${q.tipo}</span>
+        </div>
+        <span style="font-weight:700">${ok?'Correcto':'Incorrecto'}</span>
+      </div>
+      <div class="q-body">
+        <p style="font-size:13px;line-height:1.65;margin-bottom:8px">${q.enunc}</p>
+        <div>
+          <span class="chip-resp ${ok?'chip-ok':'chip-er'}">Tu respuesta: <strong>${selOpt?selOpt.txt.replace(/<[^>]+>/g,''):'—'}</strong></span>
+          <span class="chip-resp chip-esp">Esperado: <strong>${q.correct}</strong></span>
+        </div>
+        <div class="proc-box"><h4>¿Por qué?</h4><p>${q.exp}</p></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('detalle').innerHTML = html;
+  document.getElementById('res-reflex').textContent = document.getElementById('txt-reflex').value.trim();
+
+  const meta = correctas >= 4;
+  const mc = document.getElementById('marc-card');
+  mc.style.background = meta ? '#1e6b3e' : 'var(--mo)';
+  document.getElementById('marc-ico').textContent = meta ? '🏆' : '📊';
+  document.getElementById('marc-pts').textContent = `${correctas} / 6`;
+  document.getElementById('marc-sub').innerHTML = meta
+    ? '✓ ¡Muy bien! Dominas la selección de ley. Muestra esta pantalla al Prof. Cruz.'
+    : `Faltan ${4-correctas} más para la meta (4/6). Puedes reintentar con un quiz nuevo.`;
+  document.getElementById('wrap-reintento').style.display = meta ? 'none' : 'block';
+
+  // Tira docente
+  const fe = new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  const ho = new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  const chips = marcas.map((ok,i)=>{
+    const p = QZ[i].pistoUsada ? '💡' : '';
+    return `<div class="pq ${ok?'pq-ok':'pq-er'}" title="${p?'Usó pista':''}">P${i+1}${ok?'✓':'✗'}${p}</div>`;
+  }).join('');
+  const cod = `LS-${correctas}/6-INT${intento}`;
+  document.getElementById('prof-strip').innerHTML=`
+    <div class="mini-title">── REGISTRO DOCENTE ──</div>
+    <div style="font-size:15px;font-weight:700">${nombre}</div>
+    <div style="font-size:13px;opacity:.8">${fe} ${ho} · Intento ${intento}</div>
+    <div style="font-size:20px;font-weight:800;margin:5px 0">${correctas}/6 &nbsp;${meta?'✓ META':'✗ sin meta'}</div>
+    <div class="prof-q-row">${chips}</div>
+    <div class="pista-chip">💡 Pistas usadas: ${pistasUsadas}/6</div>
+    <div style="font-size:12px;opacity:.65;margin-top:7px;font-family:'Courier New',monospace">${cod}</div>`;
+
+  // Texto para copiar
+  const marcasTxt = marcas.map((ok,i)=>`P${i+1}${ok?'✓':'✗'}`).join(' ');
+  const detTxt = QZ.map((q,i)=>{
+    const sel = q.opts[QR[i]];
+    return `\nP${i+1} [${q.tipo}] Tu resp: ${sel?sel.txt.replace(/<[^>]+>/g,''):'—'} | ${marcas[i]?'✓':'✗'}`;
+  }).join('');
+  const txt = `════════════════════════════\nSENOS Y COSENOS · TEMAS SELECTOS DE MATEMÁTICAS\n════════════════════════════\nAlumno : ${nombre}\nFecha  : ${fe} ${ho}\nIntento: ${intento}\nPistas usadas: ${pistasUsadas}/6\n════════════════════════════\n${correctas}/6 ${meta?'✓ META':'✗ sin meta'} | ${marcasTxt}\n${detTxt}\n\nReflexión:\n${document.getElementById('txt-reflex').value.trim()}\n════════════════════════════\n${cod}\n════════════════════════════`;
+  document.getElementById('copy-area').textContent = txt;
+  window._rt = txt;
+
+  // Generar cuaderno
+  genCuaderno();
+}
+
+// ── CUADERNO ─────────────────────────────────────────────────────────
+function genCuaderno(){
+  // Problema 1 — Ley de Senos (ALA), contexto CDMX
+  const c1A = pick([38,42,47,52,58]), c1B = pick([40,45,50,55,62]);
+  const c1a = rnd(8,20);
+  const ctxSenos = [
+    `Un inspector del Metro midió desde la estación <em>Pino Suárez</em> (punto C). El ángulo en A = ${c1A}°, en B = ${c1B}°, y el lado a = ${c1a} km. Encuentra el lado b.`,
+    `Dos parques en la colonia <em>Roma Norte</em> forman un triángulo con un punto de la ciclovía. ∠A = ${c1A}°, ∠B = ${c1B}°, lado a = ${c1a} m. ¿Cuánto mide b?`,
+  ];
+  document.getElementById('cua-p1').innerHTML =
+    `<strong>Problema 1 — Ley de Senos (caso ALA)</strong><br>${pick(ctxSenos)}`;
+
+  // Problema 2 — Ley de Cosenos (LAL), contexto CDMX
+  const c2a = rnd(4,12), c2b = rnd(4,12), c2C = pick([95,100,110,115,120]);
+  const ctxCosenos = [
+    `Desde la <em>Torre Latinoamericana</em>, dos avenidas forman el ángulo ∠C = ${c2C}°. Las longitudes son a = ${c2a} km y b = ${c2b} km. Calcula la distancia c entre los extremos.`,
+    `Un dron recorrió a = ${c2a} km y b = ${c2b} km con un giro de ∠C = ${c2C}° en <em>Xochimilco</em>. ¿Qué distancia en línea recta hay entre el inicio y el final?`,
+  ];
+  document.getElementById('cua-p2').innerHTML =
+    `<strong>Problema 2 — Ley de Cosenos (caso LAL)</strong><br>${pick(ctxCosenos)}`;
+}
+
+// ── COPIAR ───────────────────────────────────────────────────────────
+function copiarRes(){
+  const t = window._rt || '';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(t).then(()=>{
+      document.getElementById('fb-copia').textContent='✓ Copiado — pégalo en la tarea de Classroom';
+      document.getElementById('btn-copiar').textContent='✓ Copiado';
+    });
+  } else {
+    const ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); document.getElementById('fb-copia').textContent='✓ Copiado'; }
+    catch(e){ document.getElementById('copy-area').style.display='block'; document.getElementById('fb-copia').textContent='Copia el texto de abajo manualmente.'; }
+    document.body.removeChild(ta);
+  }
+}
+
+// ── REINICIAR ─────────────────────────────────────────────────────────
+function reiniciar(){
+  intento++;
+  QZ = genQuiz();
+  QR = new Array(6).fill(null);
+  quizCnt = 0;
+  pistasUsadas = 0;
+  ej1Done = false; ej2Done = false;
+  document.getElementById('btn-quiz').disabled = true;
+  // reset ej steps
+  ['ej1-p2','ej1-p3','ej1-result','ej2-p2','ej2-p3','ej2-result'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='none';
+  });
+  document.querySelectorAll('#s4 .ob').forEach(b=>{
+    b.classList.remove('eok','eml','dx');
+    b.style.pointerEvents='';
+  });
+  document.querySelectorAll('#s4 .fb').forEach(b=>b.className='fb');
+  // reset reflexión
+  document.getElementById('txt-reflex').value='';
+  document.getElementById('cnt-reflex').textContent='0 / 70';
+  document.getElementById('fb-reflex').className='fb';
+  document.getElementById('btn-res').disabled=true;
+  // Recalcular valores
+  V.e1A = pick([35,40,45,50,55,60,65]);
+  V.e1B = pick([40,45,50,55,60,65,70]);
+  while(V.e1A + V.e1B >= 175) V.e1B = pick([35,40,45,50,55]);
+  V.e1a = rnd(150,400)*2;
+  V.e1b = Math.round(V.e1a * Math.sin(V.e1B*Math.PI/180) / Math.sin(V.e1A*Math.PI/180));
+  V.e2a = rnd(3,12); V.e2b = rnd(3,12);
+  V.e2C = pick([95,100,105,110,115,120]);
+  const cosC = Math.cos(V.e2C*Math.PI/180);
+  V.e2c = Math.round(Math.sqrt(V.e2a**2 + V.e2b**2 - 2*V.e2a*V.e2b*cosC)*100)/100;
+  ir('s5',4);
+}
+
+// ── ACCESO DOCENTE (5 toques △ en 3 s) ───────────────────────────────
+let _t=0, _tt=0;
+function tapSym(){
+  const now=Date.now();
+  if(now-_tt>3000) _t=0;
+  _tt=now; _t++;
+  if(_t>=5){ _t=0; abrirPin(); }
+}
+function abrirPin(){
+  document.getElementById('pin-modal').classList.add('show');
+  document.getElementById('pin-inp').value='';
+  document.getElementById('pin-fb').textContent='';
+  setTimeout(()=>document.getElementById('pin-inp').focus(), 100);
+}
+function cerrarPin(){ document.getElementById('pin-modal').classList.remove('show'); }
+function chkPin(v){
+  if(v==='890'){ cerrarPin(); abrirProf(); }
+  else if(v.length>=3) document.getElementById('pin-fb').textContent='Código incorrecto.';
+  else document.getElementById('pin-fb').textContent='';
+}
+function abrirProf(){
+  document.getElementById('prof-overlay').style.display='block';
+  document.getElementById('btn-xp').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function cerrarProf(){
+  document.getElementById('prof-overlay').style.display='none';
+  document.getElementById('btn-xp').style.display='none';
+  document.body.style.overflow='';
+}
+function profSimular(){
+  document.getElementById('prof-sim-wrap').style.display='block';
+}
+function profEntrar(){
+  const nm=document.getElementById('prof-sim-nom').value.trim().toUpperCase()||'DOCENTE';
+  cerrarProf();
+  document.getElementById('inp-nombre').value=nm;
+  iniciar();
+}
+function profVerRef(){
+  const c=document.getElementById('prof-ref-card');
+  c.style.display=c.style.display==='none'?'block':'none';
+}
+</script>
+</body>
+</html>
