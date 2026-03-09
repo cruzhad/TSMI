@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Herramientas del Geómetra · TSM I</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1923;
+  --bg2:#162030;
+  --card:#1e2d3d;
+  --card2:#253545;
+  --borde:#2e4055;
+  --tex:#e8f0f8;
+  --tex2:#9ab0c4;
+  --az:#3b9eff;
+  --az2:#1a6fcc;
+  --am:#f5c542;
+  --am2:#e8b020;
+  --ver:#2ecc71;
+  --ver2:#1a8a48;
+  --roj:#e74c3c;
+  --roj2:#a53228;
+  --lil:#a78bfa;
+  --nar:#f97316;
+  --bl:#ffffff;
+  --som:0 4px 20px rgba(0,0,0,.4);
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--tex);min-height:100vh;overflow-x:hidden;font-size:15px;}
+
+/* ══ PORTADA ══ */
+#portada{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(160deg,#0a1520 0%,#0f1923 50%,#0a1228 100%);position:relative;overflow:hidden;}
+#portada::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(59,158,255,.08) 0%,transparent 70%);pointer-events:none;}
+#portada::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.06) 0%,transparent 70%);pointer-events:none;}
+.port-icono{font-size:3.5rem;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(59,158,255,.3));}
+.port-tag{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--az);margin-bottom:10px;}
+.port-tit{font-size:2rem;font-weight:900;text-align:center;line-height:1.15;color:var(--bl);}
+.port-tit span{color:var(--az);}
+.port-sub{font-size:.92rem;color:var(--tex2);text-align:center;margin-top:8px;line-height:1.6;}
+.port-linea{width:50px;height:3px;background:var(--az);border-radius:2px;margin:22px auto;}
+.port-desc{max-width:320px;text-align:center;font-size:.88rem;color:var(--tex2);line-height:1.75;margin-bottom:28px;}
+.login-box{background:var(--card);border:1px solid var(--borde);border-radius:var(--r);padding:22px;width:100%;max-width:340px;}
+.login-box label{display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--az);margin-bottom:8px;}
+.inp-nom{width:100%;padding:12px 14px;background:var(--bg2);border:1.5px solid var(--borde);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.95rem;color:var(--tex);outline:none;transition:border-color .2s;}
+.inp-nom::placeholder{color:var(--tex2);opacity:.5;}
+.inp-nom:focus{border-color:var(--az);}
+.btn-entrar{display:block;width:100%;margin-top:12px;padding:13px;background:var(--az);color:#fff;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.5px;}
+.btn-entrar:hover{background:var(--az2);}
+.btn-entrar:active{transform:scale(.98);}
+.port-pie{margin-top:30px;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(154,176,196,.2);cursor:pointer;}
+
+/* ══ TOPBAR ══ */
+#topbar{display:none;background:var(--bg);border-bottom:1px solid var(--borde);padding:10px 16px;position:sticky;top:0;z-index:100;align-items:center;justify-content:space-between;gap:10px;}
+.top-nom{font-size:.72rem;font-weight:700;color:var(--az);max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px;}
+.top-prog{display:flex;gap:5px;align-items:center;flex-shrink:0;}
+.top-dot{width:8px;height:8px;border-radius:50%;background:var(--borde);transition:all .3s;}
+.top-dot.ok{background:var(--ver);}
+.top-dot.act{background:var(--az);}
+
+/* ══ CONTENIDO ══ */
+#contenido{display:none;}
+
+/* ══ NIVEL ══ */
+.nivel{background:var(--card);border-bottom:3px solid var(--borde);animation:aparece .4s ease;}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.nivel-cabeza{padding:16px 16px 0;display:flex;align-items:flex-start;gap:12px;}
+.nivel-num-badge{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;flex-shrink:0;margin-top:2px;}
+.nivel-meta{}
+.nivel-herr-sub{font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tex2);margin-bottom:3px;}
+.nivel-titulo{font-size:1.1rem;font-weight:800;color:var(--bl);line-height:1.2;}
+.llave-pill{display:inline-flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--borde);border-radius:20px;padding:3px 10px;margin-top:7px;font-size:.65rem;font-weight:600;color:var(--tex2);}
+.llave-pill b{color:var(--tex);}
+
+/* ══ PANEL DOBLE ══ */
+.panel-doble{display:grid;grid-template-columns:1fr 1fr;margin-top:12px;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde);}
+.panel-izq{padding:10px 8px;border-right:1px solid var(--borde);background:rgba(255,255,255,.025);}
+.panel-der{padding:10px 8px;}
+.panel-lbl{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tex2);margin-bottom:6px;text-align:center;}
+.panel-izq svg,.panel-der svg{width:100%;height:auto;display:block;}
+
+/* ══ DESC ══ */
+.nivel-desc{padding:12px 16px;font-size:.88rem;line-height:1.8;color:var(--tex);border-bottom:1px solid var(--borde);}
+.nivel-desc strong{color:var(--bl);font-weight:700;}
+.nivel-desc em{color:var(--roj);font-style:normal;font-weight:600;}
+
+/* ══ DATOS ══ */
+.datos-tec{padding:10px 16px 12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.dato{background:var(--bg2);border-radius:8px;padding:7px 9px;border-left:3px solid var(--az);}
+.dato-lbl{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tex2);margin-bottom:2px;}
+.dato-val{font-size:.82rem;color:var(--tex);font-weight:600;line-height:1.35;}
+
+/* ══ BTN SIG ══ */
+.btn-sig{display:block;width:calc(100% - 32px);margin:0 16px 14px;padding:12px;background:var(--bg2);color:var(--az);border:1.5px solid var(--az);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s;text-align:center;letter-spacing:.3px;}
+.btn-sig:hover{background:rgba(59,158,255,.1);}
+
+/* ══ SEPARADOR ══ */
+.sep-nivel{height:3px;background:linear-gradient(90deg,var(--bg),var(--borde),var(--bg));}
+
+/* ══ MATCHING ══ */
+#matching{display:none;background:var(--bg2);animation:aparece .4s ease;}
+.match-head{background:linear-gradient(135deg,#0a1228,#162030);padding:20px 16px;border-bottom:2px solid var(--az);}
+.match-head h2{font-size:1.2rem;font-weight:800;color:var(--bl);margin-bottom:5px;}
+.match-head p{font-size:.83rem;color:var(--tex2);line-height:1.6;}
+.match-instruc{padding:10px 16px;font-size:.82rem;color:var(--tex2);background:var(--card);border-bottom:1px solid var(--borde);line-height:1.6;}
+.match-instruc b{color:var(--am);}
+.match-arena{padding:12px 12px 10px;}
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.col-lbl{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tex2);margin-bottom:7px;}
+
+/* situaciones */
+.sit-card{background:var(--card);border:2px solid var(--borde);border-radius:10px;padding:8px 7px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;margin-bottom:7px;}
+.sit-card:hover{border-color:var(--az);background:var(--card2);}
+.sit-card.sel{border-color:var(--am)!important;background:rgba(245,197,66,.07);}
+.sit-card.correcto{border-color:var(--ver)!important;background:rgba(46,204,113,.07);}
+.sit-card.incorrecto{border-color:var(--roj)!important;background:rgba(231,76,60,.07);}
+.sit-num{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tex2);margin-bottom:5px;}
+.sit-svg{width:100%;height:72px;display:block;}
+.sit-txt{font-size:.72rem;line-height:1.4;color:var(--tex);margin-top:5px;text-align:center;}
+
+/* herramientas */
+.herr-list{display:flex;flex-direction:column;gap:7px;}
+.herr-btn{background:var(--card);border:1.5px solid var(--borde);border-radius:8px;padding:10px 10px;cursor:pointer;transition:background .15s,border-color .15s;text-align:left;width:100%;font-family:'Outfit',sans-serif;color:var(--tex);user-select:none;}
+.herr-btn:hover{background:var(--card2);border-color:var(--az);}
+.herr-btn.sel{background:rgba(245,197,66,.08);border-color:var(--am);}
+.herr-btn.correcto{background:rgba(46,204,113,.1);border-color:var(--ver);color:var(--ver);}
+.herr-btn.incorrecto{background:rgba(231,76,60,.1);border-color:var(--roj);color:var(--roj);}
+.herr-nivel-lbl{font-size:.52rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tex2);display:block;margin-bottom:2px;}
+.herr-nom{font-size:.78rem;font-weight:700;}
+
+.match-puntaje{display:none;margin:0;padding:16px;background:var(--card);border:1.5px solid var(--borde);border-radius:10px;text-align:center;}
+.match-puntaje h3{font-size:2rem;font-weight:900;color:var(--am);margin-bottom:4px;}
+.match-puntaje p{font-size:.85rem;color:var(--tex2);}
+.btn-verificar{display:block;width:100%;padding:13px;background:var(--am);color:#000;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:800;cursor:pointer;transition:background .2s;margin-top:10px;letter-spacing:.3px;}
+.btn-verificar:hover{background:var(--am2);}
+
+/* ══ CIERRE ══ */
+#cierre{display:none;background:var(--bg);animation:aparece .4s ease;padding:0 0 50px;}
+.cierre-head{background:linear-gradient(135deg,#0a1228,var(--card));padding:24px 16px;text-align:center;border-bottom:2px solid var(--ver);}
+.cierre-head h2{font-size:1.4rem;font-weight:800;color:var(--bl);margin-bottom:6px;}
+.cierre-head p{font-size:.85rem;color:var(--tex2);line-height:1.6;}
+.res-box{margin:14px;background:var(--card);border:1px solid var(--borde);border-radius:10px;padding:14px;font-size:.85rem;line-height:1.9;color:var(--tex);}
+.res-box b{color:var(--tex2);font-weight:700;}
+.cap-nota{margin:12px 14px;background:rgba(245,197,66,.08);border-left:3px solid var(--am);border-radius:0 8px 8px 0;padding:10px 13px;font-size:.83rem;line-height:1.7;color:var(--tex);}
+.tabla-res{margin:12px 14px;border-radius:10px;overflow:hidden;border:1px solid var(--borde);}
+.tabla-res table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.tabla-res th{background:var(--bg2);color:var(--az);font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:9px 10px;text-align:left;}
+.tabla-res td{padding:8px 10px;border-bottom:1px solid var(--borde);color:var(--tex);background:var(--card);}
+.tabla-res tr:last-child td{border-bottom:none;}
+
+/* ══ MODAL DOC ══ */
+#modal-doc{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;overflow-y:auto;}
+.mdoc-inner{background:var(--card);max-width:400px;margin:40px auto;border-radius:14px;padding:22px;border:1px solid var(--borde);}
+.mdoc-tit{font-size:1rem;font-weight:800;color:var(--bl);margin-bottom:12px;}
+.inp-doc{width:100%;padding:11px 13px;background:var(--bg2);border:1.5px solid var(--borde);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--tex);outline:none;margin-bottom:8px;}
+.btn-doc{display:block;width:100%;padding:11px;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;margin-bottom:6px;}
+.btn-doc-pri{background:var(--az);color:#fff;}
+.btn-doc-sec{background:var(--borde);color:var(--tex);}
+.doc-res{font-size:.75rem;background:var(--bg2);border-radius:8px;padding:10px;min-height:40px;white-space:pre-wrap;font-family:monospace;color:var(--tex);border:1px solid var(--borde);}
+.pie-doc{position:fixed;bottom:8px;right:12px;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:rgba(154,176,196,.15);cursor:pointer;z-index:200;}
+
+@media(max-width:360px){
+  .panel-doble{grid-template-columns:1fr;}
+  .panel-izq{border-right:none;border-bottom:1px solid var(--borde);}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ PORTADA ══ -->
+<div id="portada">
+  <div class="port-icono">📐</div>
+  <div class="port-tag">Temas Selectos de Matemáticas I · S04</div>
+  <div class="port-tit">Herramientas<br>del <span>Geómetra</span></div>
+  <div class="port-sub">Cinco instrumentos para medir lo que no puedes tocar</div>
+  <div class="port-linea"></div>
+  <div class="port-desc">Cada herramienta abre puertas que la anterior no puede. Explora las cinco y demuestra que sabes cuándo usar cada una.</div>
+  <div class="login-box">
+    <label>Tu nombre completo</label>
+    <input class="inp-nom" id="inp-nom" type="text" placeholder="Apellidos y nombre" autocomplete="off" onkeydown="if(event.key==='Enter')entrar()">
+    <button class="btn-entrar" onclick="entrar()">Comenzar →</button>
+  </div>
+  <div class="port-pie" onclick="modoDoc()">v2.0 · TSM I</div>
+</div>
+
+<!-- ══ TOPBAR ══ -->
+<div id="topbar">
+  <div class="top-nom" id="top-nom"></div>
+  <div class="top-prog" id="top-prog"></div>
+</div>
+
+<!-- ══ NIVELES ══ -->
+<div id="contenido"></div>
+
+<!-- ══ MATCHING ══ -->
+<div id="matching">
+  <div class="match-head">
+    <h2>⚡ El desafío</h2>
+    <p>Cinco situaciones. Cinco herramientas.<br>Conecta cada problema con su instrumento.</p>
+  </div>
+  <div class="match-instruc">
+    Toca una <b>situación</b> (izquierda) → se ilumina en dorado → toca la <b>herramienta</b> (derecha). Repite las cinco y verifica.
+  </div>
+  <div class="match-arena">
+    <div class="match-cols">
+      <div><div class="col-lbl">Situaciones</div><div id="sits-col"></div></div>
+      <div><div class="col-lbl">Herramientas</div><div class="herr-list" id="herr-col"></div></div>
+    </div>
+    <button class="btn-verificar" id="btn-verif" onclick="verificarMatching()">Verificar conexiones ✓</button>
+    <div class="match-puntaje" id="match-puntaje" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+<!-- ══ CIERRE ══ -->
+<div id="cierre">
+  <div class="cierre-head">
+    <h2>✅ Actividad completada</h2>
+    <p>Toma captura de esta pantalla y súbela a Classroom.</p>
+  </div>
+  <div class="res-box" id="res-alumno"></div>
+  <div class="cap-nota">📸 Asegúrate de que tu nombre y el resultado del desafío sean visibles en la captura.</div>
+  <div class="tabla-res"><table>
+    <thead><tr><th>#</th><th>Herramienta</th><th>Cuándo usarla</th></tr></thead>
+    <tbody id="res-tabla"></tbody>
+  </table></div>
+</div>
+
+<!-- ══ MODAL DOCENTE ══ -->
+<div id="modal-doc">
+  <div class="mdoc-inner">
+    <div class="mdoc-tit">🔒 Modo Docente</div>
+    <input class="inp-doc" id="doc-code" type="password" placeholder="Código">
+    <button class="btn-doc btn-doc-pri" onclick="entrarDoc()">Entrar</button>
+    <button class="btn-doc btn-doc-sec" onclick="cerrarDoc()">Cancelar</button>
+    <div id="doc-panel" style="display:none;margin-top:12px;">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tex2);margin-bottom:6px;">VERIFICAR POR NOMBRE</div>
+      <input class="inp-doc" id="doc-busq" type="text" placeholder="Nombre del alumno" oninput="docBuscar()">
+      <div class="doc-res" id="doc-res"></div>
+    </div>
+  </div>
+</div>
+
+<div class="pie-doc" onclick="modoDoc()">v2.0</div>
+
+<script>
+// ══ PRNG + HASH ══
+function sr(s){const x=Math.sin(s*127.1+311.7)*43758.5453123;return x-Math.floor(x);}
+function hashStr(str){
+  let h=0;const s=str.toUpperCase().replace(/\s+/g,' ').trim();
+  for(let i=0;i<s.length;i++){h=(Math.imul(31,h)+s.charCodeAt(i))|0;}
+  return Math.abs(h);
+}
+
+// ══ ESTADO ══
+let NOM='',SEED=0,pasoActual=0;
+let matchSel=null,matchConex={},matchVerif=false,matchScore=0;
+
+// ══════════════════════════════════════════════════════
+// DATOS DE NIVELES
+// ══════════════════════════════════════════════════════
+const NIVELES=[
+// ─── NIVEL 1: SEMEJANZA ───────────────────────────────
+{
+  num:1,
+  col:'#3b9eff',colBg:'rgba(59,158,255,.12)',
+  herramienta:'Semejanza de Triángulos',
+  llave:'Solo lados proporcionales',
+  cuando:'Cuando tienes <strong>dos triángulos de la misma forma</strong> pero diferente tamaño. Uno es el objeto real y el otro es su copia a escala (su sombra, reflejo o mapa).',
+  porQue:'Si dos triángulos tienen los mismos ángulos, sus lados son proporcionales con la misma razón. Puedes medir el pequeño y calcular el grande sin tocarlo.',
+  limitacion:'<em>Límite:</em> necesitas que los ángulos sean iguales. No funciona si el terreno está inclinado.',
+  ejemplos:['Altura de árbol por su sombra','Altura de edificio con un palo calibrado','Ancho de un río desde la orilla'],
+  svgEsq:`<svg viewBox="0 0 200 155" xmlns="http://www.w3.org/2000/svg">
+  <!-- Triángulo pequeño: vértice recto en (18,130), cateto vertical hasta (18,82), hipotenusa hasta (52,130) -->
+  <polygon points="18,130 18,82 52,130" fill="rgba(59,158,255,.15)" stroke="#3b9eff" stroke-width="2"/>
+  <!-- ángulo recto pequeño: cuadro en la esquina (18,130), crece hacia DENTRO del triángulo -->
+  <polyline points="18,120 28,120 28,130" fill="none" stroke="#3b9eff" stroke-width="1.5"/>
+  <!-- ángulo α pequeño: vértice en (52,130), arco entre lado horizontal (hacia izq) y hipotenusa (hacia arriba-izq) -->
+  <path d="M36,130 A16,16 0 0,0 40,116" fill="none" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="30" y="122" font-size="8" fill="#f5c542" font-weight="bold">α</text>
+  <!-- etiquetas -->
+  <text x="2" y="108" font-size="9" fill="#3b9eff" font-weight="bold">a</text>
+  <text x="28" y="143" font-size="9" fill="#3b9eff" font-weight="bold">b</text>
+  <!-- divisor vertical -->
+  <line x1="100" y1="25" x2="100" y2="145" stroke="#2e4055" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- Triángulo grande: vértice recto en (108,130), cateto vertical hasta (108,38), hipotenusa hasta (172,130) -->
+  <polygon points="108,130 108,38 172,130" fill="rgba(46,204,113,.12)" stroke="#2ecc71" stroke-width="2"/>
+  <!-- ángulo recto grande: cuadro en la esquina (108,130), crece hacia DENTRO del triángulo -->
+  <polyline points="108,117 121,117 121,130" fill="none" stroke="#2ecc71" stroke-width="1.5"/>
+  <!-- ángulo α grande: vértice en (172,130), arco entre lado horizontal (hacia izq) y hipotenusa (hacia arriba-izq) -->
+  <path d="M148,130 A24,24 0 0,0 154,110" fill="none" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="143" y="122" font-size="8" fill="#f5c542" font-weight="bold">α</text>
+  <!-- etiquetas -->
+  <text x="88" y="87" font-size="9" fill="#2ecc71" font-weight="bold">c</text>
+  <text x="134" y="143" font-size="9" fill="#2ecc71" font-weight="bold">d</text>
+  <!-- proporción en UNA SOLA LÍNEA -->
+  <text x="108" y="16" font-size="9" fill="#9ab0c4" font-weight="bold">a/b  =  c/d</text>
+</svg>`,
+  svgCtx:`<svg viewBox="0 0 200 148" xmlns="http://www.w3.org/2000/svg">
+  <!-- suelo -->
+  <line x1="4" y1="122" x2="196" y2="122" stroke="#5c8040" stroke-width="2"/>
+  <rect x="0" y="122" width="200" height="26" fill="#1a3010" opacity=".5"/>
+  <!-- sol — a la DERECHA, sombras caen hacia la izquierda -->
+  <circle cx="175" cy="22" r="12" fill="#f5c542"/>
+  <line x1="175" y1="8" x2="175" y2="2" stroke="#f5c542" stroke-width="1.5"/>
+  <line x1="187" y1="22" x2="193" y2="22" stroke="#f5c542" stroke-width="1.5"/>
+  <line x1="183" y1="12" x2="189" y2="7" stroke="#f5c542" stroke-width="1.5"/>
+  <line x1="183" y1="32" x2="189" y2="37" stroke="#f5c542" stroke-width="1.5"/>
+  <!-- persona (x=100) -->
+  <line x1="100" y1="92" x2="100" y2="122" stroke="#e8f0f8" stroke-width="2.5"/>
+  <circle cx="100" cy="87" r="6" fill="#e8f0f8"/>
+  <!-- sombra persona — hacia la izquierda -->
+  <line x1="100" y1="122" x2="74" y2="122" stroke="#3b9eff" stroke-width="2.5" stroke-dasharray="4,2"/>
+  <text x="77" y="135" font-size="7" fill="#3b9eff">s₁</text>
+  <text x="86" y="82" font-size="7" fill="#e8f0f8">1.7m</text>
+  <!-- árbol (x=136) -->
+  <line x1="136" y1="60" x2="136" y2="122" stroke="#5c8040" stroke-width="3"/>
+  <ellipse cx="136" cy="50" rx="18" ry="14" fill="#2ecc71" opacity=".85"/>
+  <ellipse cx="128" cy="44" rx="12" ry="10" fill="#52dc90" opacity=".65"/>
+  <!-- sombra árbol — hacia la izquierda -->
+  <line x1="136" y1="122" x2="88" y2="122" stroke="#2ecc71" stroke-width="2.5" stroke-dasharray="4,2"/>
+  <text x="98" y="135" font-size="7" fill="#2ecc71">s₂</text>
+  <!-- altura árbol desconocida -->
+  <text x="140" y="92" font-size="8" fill="#e74c3c" font-weight="bold">h=?</text>
+  <!-- rayos del sol -->
+  <line x1="170" y1="32" x2="100" y2="122" stroke="#f5c542" stroke-width=".8" stroke-dasharray="5,3" opacity=".4"/>
+  <line x1="170" y1="32" x2="136" y2="122" stroke="#f5c542" stroke-width=".8" stroke-dasharray="5,3" opacity=".4"/>
+  <text x="4" y="142" font-size="7" fill="#9ab0c4" font-style="italic">h/s₂ = 1.7/s₁</text>
+</svg>`
+},
+// ─── NIVEL 2: PITÁGORAS ───────────────────────────────
+{
+  num:2,
+  col:'#2ecc71',colBg:'rgba(46,204,113,.12)',
+  herramienta:'Teorema de Pitágoras',
+  llave:'Dos lados + ángulo de 90°',
+  cuando:'Cuando el triángulo tiene exactamente <strong>un ángulo recto (90°)</strong>. Conoces dos de los tres lados y necesitas el tercero.',
+  porQue:'El ángulo recto crea una relación perfecta: <strong>a² + b² = c²</strong>. La hipotenusa c es siempre el lado opuesto al ángulo recto.',
+  limitacion:'<em>Límite:</em> solo funciona con triángulos rectángulos. Sin ángulo de 90°, la fórmula da resultados incorrectos.',
+  ejemplos:['Escalera apoyada en pared vertical','Diagonal de un cuarto rectangular','Cable entre dos puntos a diferente altura'],
+  svgEsq:`<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="28,135 28,28 158,135" fill="rgba(46,204,113,.13)" stroke="#2ecc71" stroke-width="2"/>
+  <!-- ángulo recto -->
+  <rect x="28" y="115" width="20" height="20" fill="none" stroke="#2ecc71" stroke-width="1.8"/>
+  <!-- ángulo β — arco desde lado horizontal hasta hipotenusa, cierra sobre ambos -->
+  <path d="M52,135 A24,24 0 0,0 28,111" fill="none" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="42" y="129" font-size="8" fill="#f5c542" font-weight="bold">β</text>
+  <!-- ángulo α — vértice en (28,28), entre cateto vertical (hacia abajo) e hipotenusa (hacia abajo-derecha) -->
+  <path d="M28,52 A24,24 0 0,1 50,38" fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="34" y="54" font-size="8" fill="#a78bfa" font-weight="bold">α</text>
+  <!-- etiquetas lados -->
+  <text x="6" y="86" font-size="12" fill="#2ecc71" font-weight="bold">a</text>
+  <text x="85" y="150" font-size="12" fill="#2ecc71" font-weight="bold">b</text>
+  <text x="104" y="78" font-size="12" fill="#e74c3c" font-weight="bold">c</text>
+  <!-- fórmula -->
+  <rect x="118" y="10" width="76" height="22" rx="5" fill="rgba(46,204,113,.1)" stroke="rgba(46,204,113,.3)" stroke-width="1"/>
+  <text x="122" y="25" font-size="9" fill="#2ecc71" font-weight="bold">a² + b² = c²</text>
+</svg>`,
+  svgCtx:`<svg viewBox="0 0 200 148" xmlns="http://www.w3.org/2000/svg">
+  <!-- pared -->
+  <rect x="22" y="15" width="12" height="112" fill="#253545" stroke="#3b9eff" stroke-width="1.5"/>
+  <!-- suelo -->
+  <line x1="6" y1="126" x2="194" y2="126" stroke="#3b9eff" stroke-width="1.5"/>
+  <!-- ángulo recto -->
+  <rect x="31" y="115" width="10" height="10" fill="none" stroke="#2ecc71" stroke-width="1.5"/>
+  <!-- escalera -->
+  <line x1="28" y1="38" x2="128" y2="126" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+  <!-- peldaños -->
+  <line x1="46" y1="56" x2="54" y2="48" stroke="#e8a060" stroke-width="1.8"/>
+  <line x1="64" y1="74" x2="72" y2="66" stroke="#e8a060" stroke-width="1.8"/>
+  <line x1="82" y1="94" x2="90" y2="86" stroke="#e8a060" stroke-width="1.8"/>
+  <line x1="100" y1="112" x2="108" y2="104" stroke="#e8a060" stroke-width="1.8"/>
+  <!-- medidas -->
+  <text x="2" y="86" font-size="8" fill="#e74c3c" font-weight="bold">a=?</text>
+  <text x="62" y="140" font-size="8" fill="#2ecc71" font-weight="bold">b</text>
+  <text x="84" y="78" font-size="9" fill="#f97316" font-weight="bold">c</text>
+</svg>`
+},
+// ─── NIVEL 3: SOH-CAH-TOA ─────────────────────────────
+{
+  num:3,
+  col:'#a78bfa',colBg:'rgba(167,139,250,.12)',
+  herramienta:'SOH-CAH-TOA',
+  llave:'Lados + ángulos + 90°',
+  cuando:'Triángulo rectángulo donde <strong>el ángulo importa</strong>. Conoces un lado y un ángulo agudo, y necesitas otro lado.',
+  porQue:'Sen, cos y tan son constantes para cada ángulo. Actúan como tablas de conversión entre ángulos y lados.',
+  limitacion:'<em>Límite:</em> sigue necesitando el ángulo de 90°. Sin ángulo recto, usa Ley de Senos o Cosenos.',
+  ejemplos:['Faro midiendo distancia a un barco','Ángulo de elevación de una montaña','Rampa con ángulo de inclinación dado'],
+  svgEsq:`<svg viewBox="0 0 200 175" xmlns="http://www.w3.org/2000/svg">
+  <!-- Triángulo — ángulo recto abajo-izquierda (22,135), θ abajo-derecha (162,135), vértice arriba (22,28) -->
+  <polygon points="22,135 22,28 162,135" fill="rgba(167,139,250,.13)" stroke="#a78bfa" stroke-width="2"/>
+  <!-- ángulo recto: cuadro en esquina (22,135) hacia DENTRO -->
+  <polyline points="22,122 35,122 35,135" fill="none" stroke="#a78bfa" stroke-width="1.8"/>
+  <!-- ángulo θ: vértice en (162,135). Lado izquierdo = horizontal hacia A(22,135). Lado derecho = hipotenusa hacia (22,28).
+       El arco debe quedar DENTRO del triángulo, entre esos dos lados -->
+  <path d="M136,135 A26,26 0 0,0 144,112" fill="none" stroke="#f5c542" stroke-width="1.8"/>
+  <text x="138" y="127" font-size="9" fill="#f5c542" font-weight="bold">θ</text>
+  <!-- etiquetas lados -->
+  <text x="2" y="86" font-size="9" fill="#a78bfa" font-weight="bold">opuesto</text>
+  <text x="74" y="150" font-size="9" fill="#a78bfa" font-weight="bold">adyacente</text>
+  <text x="96" y="76" font-size="9" fill="#e74c3c" font-weight="bold">hipotenusa</text>
+  <!-- recuadro fórmulas — DEBAJO del triángulo, zona libre -->
+  <rect x="2" y="148" width="196" height="24" rx="5" fill="rgba(167,139,250,.12)" stroke="rgba(167,139,250,.35)" stroke-width="1.2"/>
+  <!-- sen -->
+  <text x="6" y="162" font-size="7.5" fill="#a78bfa" font-weight="bold">sen θ =</text>
+  <text x="46" y="157" font-size="6.5" fill="#e8f0f8">op</text>
+  <line x1="44" y1="159" x2="58" y2="159" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="44" y="168" font-size="6.5" fill="#e8f0f8">hip</text>
+  <!-- cos -->
+  <text x="66" y="162" font-size="7.5" fill="#a78bfa" font-weight="bold">cos θ =</text>
+  <text x="106" y="157" font-size="6.5" fill="#e8f0f8">ad</text>
+  <line x1="104" y1="159" x2="118" y2="159" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="104" y="168" font-size="6.5" fill="#e8f0f8">hip</text>
+  <!-- tan -->
+  <text x="126" y="162" font-size="7.5" fill="#a78bfa" font-weight="bold">tan θ =</text>
+  <text x="166" y="157" font-size="6.5" fill="#e8f0f8">op</text>
+  <line x1="164" y1="159" x2="178" y2="159" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="164" y="168" font-size="6.5" fill="#e8f0f8">ad</text>
+</svg>`,
+  svgCtx:`<svg viewBox="0 0 200 148" xmlns="http://www.w3.org/2000/svg">
+  <!-- mar -->
+  <rect x="0" y="94" width="200" height="54" fill="#0a1e30" opacity=".7"/>
+  <line x1="0" y1="94" x2="200" y2="94" stroke="#3b9eff" stroke-width="1.5"/>
+  <!-- faro -->
+  <rect x="14" y="30" width="14" height="68" fill="#253545" stroke="#3b9eff" stroke-width="1.5"/>
+  <polygon points="10,30 42,30 34,14 18,14" fill="#3b9eff" opacity=".8"/>
+  <circle cx="26" cy="12" r="5" fill="#f5c542" opacity=".9"/>
+  <!-- ángulo recto entre pared del faro y suelo -->
+  <rect x="25" y="85" width="10" height="10" fill="none" stroke="#2ecc71" stroke-width="1.2"/>
+  <!-- rayo de luz hacia el barco -->
+  <line x1="28" y1="22" x2="155" y2="94" stroke="#f5c542" stroke-width="1.5" stroke-dasharray="5,3" opacity=".7"/>
+  <!-- ángulo θ INTERIOR: en el vértice (28,22) del faro.
+       Los dos lados que forman el ángulo son:
+       1) La pared del faro (vertical hacia abajo: de 28,22 a 28,94)
+       2) El rayo de luz (hacia el barco: de 28,22 a 155,94)
+       El arco arranca del lado vertical y cierra sobre el rayo, DENTRO del triángulo -->
+  <path d="M28,46 A24,24 0 0,1 50,32" fill="none" stroke="#f5c542" stroke-width="1.8"/>
+  <text x="33" y="44" font-size="8" fill="#f5c542" font-weight="bold">θ</text>
+  <!-- barco -->
+  <ellipse cx="158" cy="99" rx="18" ry="5" fill="#253545" stroke="#9ab0c4" stroke-width="1"/>
+  <polygon points="150,99 158,78 166,99" fill="#3b9eff" opacity=".7"/>
+  <!-- medidas -->
+  <text x="2" y="62" font-size="7.5" fill="#a78bfa">altura</text>
+  <text x="2" y="71" font-size="7.5" fill="#a78bfa" font-weight="bold">conocida</text>
+  <text x="88" y="108" font-size="8" fill="#e74c3c" font-weight="bold">d = ?</text>
+</svg>`
+},
+// ─── NIVEL 4: LEY DE SENOS ────────────────────────────
+{
+  num:4,
+  col:'#f97316',colBg:'rgba(249,115,22,.12)',
+  herramienta:'Ley de Senos',
+  llave:'Se conoce lado y ángulo de enfrente',
+  cuando:'Triángulo <strong>sin ángulo recto</strong>. Conoces un lado y el ángulo que está exactamente frente a ese lado.',
+  porQue:'En todo triángulo: <strong>lado ÷ sen(ángulo opuesto) = constante</strong>. Con una pareja conocida calculas las demás.',
+  limitacion:'<em>Límite:</em> necesitas al menos una pareja completa (lado + su ángulo opuesto).',
+  ejemplos:['Satélite y dos estaciones terrestres','Medir ancho de un lago desde la orilla','Triángulo oblicuo de navegación'],
+  svgEsq:`<svg viewBox="0 0 200 158" xmlns="http://www.w3.org/2000/svg">
+  <!-- Triángulo oblicuo sin ángulo recto -->
+  <polygon points="20,138 105,18 182,138" fill="rgba(249,115,22,.12)" stroke="#f97316" stroke-width="2"/>
+  <!-- vértices -->
+  <circle cx="20" cy="138" r="4" fill="#f97316"/>
+  <circle cx="105" cy="18" r="4" fill="#f97316"/>
+  <circle cx="182" cy="138" r="4" fill="#f97316"/>
+  <text x="4" y="138" font-size="10" fill="#f97316" font-weight="bold">A</text>
+  <text x="103" y="13" font-size="10" fill="#f97316" font-weight="bold">B</text>
+  <text x="185" y="138" font-size="10" fill="#f97316" font-weight="bold">C</text>
+  <!-- ángulo α en A(20,138): entre AC horizontal-derecha y AB diagonal arriba-derecha — este ya era correcto -->
+  <path d="M44,138 A24,24 0 0,0 33,115" fill="none" stroke="#f5c542" stroke-width="1.8"/>
+  <text x="38" y="131" font-size="9" fill="#f5c542" font-weight="bold">α</text>
+  <!-- ángulo β en B(105,18): entre BA (hacia abajo-izq) y BC (hacia abajo-derecha)
+       Punto sobre BA: dirección de B(105,18) a A(20,138) → norm ≈ (-0.57,-0.82) → B+20*norm=(93,34)
+       Punto sobre BC: dirección de B(105,18) a C(182,138) → norm ≈ (0.48,-0.88)... espera, C está abajo → (0.48,0.88) → B+20*norm=(115,36) -->
+  <path d="M93,34 A20,20 0 0,1 117,36" fill="none" stroke="#f5c542" stroke-width="1.8"/>
+  <text x="100" y="44" font-size="9" fill="#f5c542" font-weight="bold">β</text>
+  <!-- ángulo γ en C(182,138): entre CB (hacia arriba-izq) y CA (hacia izquierda)
+       Punto sobre CA: C+20 hacia izquierda = (162,138)
+       Punto sobre CB: dirección de C(182,138) a B(105,18) → norm ≈ (-0.48,-0.88) → C+20*norm=(172,121) -->
+  <path d="M162,138 A20,20 0 0,0 172,120" fill="none" stroke="#f5c542" stroke-width="1.8"/>
+  <text x="158" y="130" font-size="9" fill="#f5c542" font-weight="bold">γ</text>
+  <!-- lados — etiquetas alejadas de líneas -->
+  <text x="50" y="96" font-size="10" fill="#f97316" font-weight="bold">c</text>
+  <text x="150" y="96" font-size="10" fill="#9ab0c4">b</text>
+  <text x="94" y="152" font-size="10" fill="#9ab0c4">a</text>
+  <!-- fórmula con fracciones verticales, en zona despejada arriba-derecha -->
+  <rect x="120" y="4" width="76" height="44" rx="5" fill="rgba(249,115,22,.1)" stroke="rgba(249,115,22,.35)" stroke-width="1.2"/>
+  <text x="124" y="16" font-size="7" fill="#f97316" font-weight="bold">a</text>
+  <line x1="122" y1="19" x2="134" y2="19" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="122" y="28" font-size="7" fill="#e8f0f8">sen α</text>
+  <text x="136" y="22" font-size="9" fill="#9ab0c4">=</text>
+  <text x="148" y="16" font-size="7" fill="#f97316" font-weight="bold">b</text>
+  <line x1="146" y1="19" x2="158" y2="19" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="146" y="28" font-size="7" fill="#e8f0f8">sen β</text>
+  <text x="160" y="22" font-size="9" fill="#9ab0c4">=</text>
+  <text x="172" y="16" font-size="7" fill="#f97316" font-weight="bold">c</text>
+  <line x1="170" y1="19" x2="182" y2="19" stroke="#9ab0c4" stroke-width="1"/>
+  <text x="170" y="28" font-size="7" fill="#e8f0f8">sen γ</text>
+  <text x="124" y="42" font-size="6.5" fill="#9ab0c4" font-style="italic">conoces un par → calculas los demás</text>
+</svg>`,
+  svgCtx:`<svg viewBox="0 0 200 148" xmlns="http://www.w3.org/2000/svg">
+  <!-- espacio -->
+  <rect x="0" y="0" width="200" height="52" fill="#060e1a"/>
+  <!-- satélite -->
+  <rect x="88" y="8" width="16" height="10" fill="#253545" stroke="#3b9eff" stroke-width="1"/>
+  <line x1="76" y1="13" x2="88" y2="13" stroke="#9ab0c4" stroke-width="1.5"/>
+  <line x1="104" y1="13" x2="116" y2="13" stroke="#9ab0c4" stroke-width="1.5"/>
+  <rect x="68" y="10" width="10" height="6" fill="#1a6fcc" stroke="#3b9eff" stroke-width=".8"/>
+  <rect x="114" y="10" width="10" height="6" fill="#1a6fcc" stroke="#3b9eff" stroke-width=".8"/>
+  <!-- señales -->
+  <line x1="94" y1="18" x2="38" y2="108" stroke="#f5c542" stroke-width="1.3" stroke-dasharray="4,3" opacity=".8"/>
+  <line x1="102" y1="18" x2="154" y2="108" stroke="#f5c542" stroke-width="1.3" stroke-dasharray="4,3" opacity=".8"/>
+  <!-- suelo -->
+  <line x1="0" y1="114" x2="200" y2="114" stroke="#5c8040" stroke-width="2"/>
+  <rect x="0" y="114" width="200" height="34" fill="#1a3010" opacity=".4"/>
+  <!-- estación A -->
+  <rect x="22" y="96" width="20" height="20" fill="#253545" stroke="#3b9eff" stroke-width="1"/>
+  <polygon points="22,96 42,96 32,82" fill="#3b9eff" opacity=".8"/>
+  <!-- estación B -->
+  <rect x="140" y="96" width="20" height="20" fill="#253545" stroke="#3b9eff" stroke-width="1"/>
+  <polygon points="140,96 160,96 150,82" fill="#3b9eff" opacity=".8"/>
+  <!-- ángulos INTERIORES: el triángulo está formado por estación A(32,114), satélite(96,13), estación B(150,114) -->
+  <!-- ángulo α en A(32,114): entre base horizontal (hacia B, derecha) y línea al satélite (hacia arriba-derecha)
+       Punto sobre base: (50,114). Punto sobre línea al sat: dirección (96-32,13-114)=(64,-101) norm → (32,114)+14*norm ≈ (40,100) -->
+  <path d="M50,114 A18,18 0 0,0 42,98" fill="none" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="44" y="110" font-size="7.5" fill="#f5c542" font-weight="bold">α</text>
+  <!-- ángulo β en B(150,114): entre línea al satélite (hacia arriba-izq) y base horizontal (hacia A, izquierda)
+       Punto sobre línea al sat: dirección (96-150,13-114)=(-54,-101) norm → B+14*norm ≈ (143,100)
+       Punto sobre base: (132,114) -->
+  <path d="M142,100 A18,18 0 0,0 132,114" fill="none" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="135" y="110" font-size="7.5" fill="#f5c542" font-weight="bold">β</text>
+  <!-- distancia entre estaciones -->
+  <line x1="42" y1="120" x2="140" y2="120" stroke="#9ab0c4" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="72" y="132" font-size="7.5" fill="#9ab0c4">distancia conocida</text>
+</svg>`
+},
+// ─── NIVEL 5: LEY DE COSENOS ──────────────────────────
+{
+  num:5,
+  col:'#e74c3c',colBg:'rgba(231,76,60,.12)',
+  herramienta:'Ley de Cosenos',
+  llave:'Dos lados y el ángulo entre ellos',
+  cuando:'Triángulo <strong>sin ángulo recto</strong>. Tienes dos lados y el ángulo atrapado entre ellos, o los tres lados y necesitas un ángulo.',
+  porQue:'Generalización de Pitágoras: <strong>c² = a² + b² − 2ab·cos(C)</strong>. Si C=90°, cos(90°)=0 y se reduce exactamente a Pitágoras.',
+  limitacion:'<em>Límite:</em> requiere más cálculo, pero es la herramienta más general.',
+  ejemplos:['Dos barcos saliendo del mismo puerto','Distancia entre dos ciudades con rumbos conocidos','Estructuras en arquitectura y robótica'],
+  svgEsq:`<svg viewBox="0 0 200 175" xmlns="http://www.w3.org/2000/svg">
+  <!-- Triángulo: C(22,105) izq, A(172,105) der, B(75,18) arriba -->
+  <polygon points="22,105 172,105 75,18" fill="rgba(231,76,60,.12)" stroke="#e74c3c" stroke-width="2"/>
+  <circle cx="22" cy="105" r="4" fill="#f5c542"/>
+  <circle cx="172" cy="105" r="4" fill="#e74c3c"/>
+  <circle cx="75" cy="18" r="4" fill="#e74c3c"/>
+  <!-- ángulo C en (22,105): entre CA horizontal-derecha y CB diagonal arriba-derecha -->
+  <path d="M46,105 A24,24 0 0,0 36,83" fill="rgba(245,197,66,.2)" stroke="#f5c542" stroke-width="2"/>
+  <text x="42" y="98" font-size="10" fill="#f5c542" font-weight="bold">C</text>
+  <!-- lados b (C→B) y a (C→A) = el sándwich -->
+  <text x="2" y="66" font-size="11" fill="#f5c542" font-weight="bold">b</text>
+  <text x="96" y="118" font-size="11" fill="#f5c542" font-weight="bold">a</text>
+  <!-- lado c desconocido -->
+  <text x="118" y="56" font-size="11" fill="#e74c3c" font-weight="bold">c = ?</text>
+  <!-- fórmula FUERA del triángulo, debajo -->
+  <rect x="2" y="118" width="196" height="28" rx="5" fill="rgba(231,76,60,.1)" stroke="rgba(231,76,60,.35)" stroke-width="1.2"/>
+  <text x="8" y="131" font-size="8.5" fill="#e74c3c" font-weight="bold">c² = a² + b² − 2·a·b·cos(C)</text>
+  <text x="8" y="142" font-size="7" fill="#9ab0c4" font-style="italic">Si C = 90° → cos(90°) = 0 → c² = a² + b²  ✓</text>
+</svg>`,
+  svgCtx:`<svg viewBox="0 0 200 148" xmlns="http://www.w3.org/2000/svg">
+  <!-- océano -->
+  <rect x="0" y="82" width="200" height="66" fill="#0a1e30" opacity=".6"/>
+  <line x1="0" y1="82" x2="200" y2="82" stroke="#3b9eff" stroke-width="1.5"/>
+  <path d="M0,92 Q25,87 50,92 Q75,97 100,92 Q125,87 150,92 Q175,97 200,92" fill="none" stroke="#3b9eff" stroke-width=".8" opacity=".4"/>
+  <!-- puerto C — punto central -->
+  <rect x="84" y="60" width="22" height="24" fill="#253545" stroke="#3b9eff" stroke-width="1.5"/>
+  <polygon points="80,60 110,60 95,44" fill="#3b9eff" opacity=".8"/>
+  <text x="74" y="100" font-size="7.5" fill="#f5c542" font-weight="bold">Puerto C</text>
+  <!-- ángulo C en el puerto — interior entre las dos rutas -->
+  <path d="M95,82 Q112,75 118,82" fill="rgba(245,197,66,.2)" stroke="#f5c542" stroke-width="1.5"/>
+  <text x="108" y="78" font-size="8" fill="#f5c542" font-weight="bold">C°</text>
+  <!-- barco A -->
+  <ellipse cx="22" cy="116" rx="14" ry="5" fill="#253545" stroke="#9ab0c4" stroke-width="1"/>
+  <polygon points="15,116 22,96 29,116" fill="#3b9eff" opacity=".8"/>
+  <text x="5" y="134" font-size="7.5" fill="#9ab0c4">Barco A</text>
+  <!-- barco B -->
+  <ellipse cx="168" cy="124" rx="14" ry="5" fill="#253545" stroke="#9ab0c4" stroke-width="1"/>
+  <polygon points="161,124 168,104 175,124" fill="#a78bfa" opacity=".8"/>
+  <text x="152" y="140" font-size="7.5" fill="#9ab0c4">Barco B</text>
+  <!-- rutas desde puerto -->
+  <line x1="95" y1="82" x2="22" y2="114" stroke="#f5c542" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="95" y1="82" x2="168" y2="122" stroke="#f5c542" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="44" y="95" font-size="7" fill="#f5c542">ruta b</text>
+  <text x="126" y="96" font-size="7" fill="#f5c542">ruta a</text>
+  <!-- distancia desconocida entre barcos -->
+  <line x1="22" y1="118" x2="168" y2="126" stroke="#e74c3c" stroke-width="1.8" stroke-dasharray="3,2"/>
+  <text x="72" y="126" font-size="8" fill="#e74c3c" font-weight="bold">d = ?</text>
+</svg>`
+}
+];
+
+// ══════════════════════════════════════════════════════
+// MATCHING DATA
+// ══════════════════════════════════════════════════════
+const MSITS=[
+  {
+    txt:'Grúa: brazo 30m, cable 18m, ángulo entre ellos 110°. ¿Distancia entre las puntas?',
+    herr:4,
+    svgF:`<polygon points="10,70 65,70 38,12" fill="rgba(231,76,60,.15)" stroke="#e74c3c" stroke-width="1.5"/>
+    <path d="M28,70 A18,18 0 0,0 18,52" fill="none" stroke="#f5c542" stroke-width="1.3"/>
+    <text x="24" y="64" font-size="6.5" fill="#f5c542" font-weight="bold">110°</text>
+    <text x="3" y="42" font-size="6.5" fill="#e74c3c" font-weight="bold">30m</text>
+    <text x="32" y="77" font-size="6.5" fill="#e74c3c" font-weight="bold">18m</text>
+    <text x="56" y="36" font-size="6.5" fill="#e8f0f8" font-weight="bold">?</text>`
+  },
+  {
+    txt:'Árbol y persona en el mismo sol: sombras 8m y 1m, altura persona 1.7m. ¿Altura árbol?',
+    herr:0,
+    svgF:`<line x1="4" y1="68" x2="116" y2="68" stroke="#5c8040" stroke-width="1.5"/>
+    <!-- sol a la derecha -->
+    <circle cx="108" cy="10" r="7" fill="#f5c542" opacity=".9"/>
+    <!-- persona a la izquierda (x=30), sombra hacia la izquierda -->
+    <line x1="30" y1="50" x2="30" y2="68" stroke="#9ab0c4" stroke-width="2"/>
+    <circle cx="30" cy="46" r="4" fill="#9ab0c4"/>
+    <line x1="30" y1="68" x2="16" y2="68" stroke="#3b9eff" stroke-width="2" stroke-dasharray="2,1"/>
+    <text x="14" y="64" font-size="5.5" fill="#3b9eff">1m</text>
+    <text x="18" y="44" font-size="5.5" fill="#9ab0c4">1.7m</text>
+    <!-- árbol más a la derecha (x=72), sombra hacia la izquierda -->
+    <line x1="72" y1="14" x2="72" y2="68" stroke="#5c8040" stroke-width="2"/>
+    <ellipse cx="72" cy="9" rx="9" ry="7" fill="#2ecc71" opacity=".8"/>
+    <line x1="72" y1="68" x2="42" y2="68" stroke="#2ecc71" stroke-width="2" stroke-dasharray="2,1"/>
+    <text x="48" y="64" font-size="5.5" fill="#2ecc71">8m</text>
+    <text x="55" y="38" font-size="6.5" fill="#e74c3c" font-weight="bold">h=?</text>
+    <!-- rayos del sol -->
+    <line x1="106" y1="16" x2="30" y2="68" stroke="#f5c542" stroke-width=".7" stroke-dasharray="3,2" opacity=".4"/>
+    <line x1="106" y1="16" x2="72" y2="68" stroke="#f5c542" stroke-width=".7" stroke-dasharray="3,2" opacity=".4"/>`
+  },
+  {
+    txt:'Torre 50m. Ángulo de depresión 35° hacia un edificio. ¿Distancia horizontal?',
+    herr:2,
+    svgF:`<line x1="4" y1="70" x2="116" y2="70" stroke="#3b9eff" stroke-width="1.2"/>
+    <rect x="8" y="18" width="8" height="54" fill="#253545" stroke="#3b9eff" stroke-width="1"/>
+    <rect x="8" y="62" width="7" height="7" fill="none" stroke="#2ecc71" stroke-width="1"/>
+    <rect x="36" y="52" width="30" height="20" fill="#253545" stroke="#9ab0c4" stroke-width=".8"/>
+    <line x1="16" y1="22" x2="52" y2="52" stroke="#a78bfa" stroke-width="1.3" stroke-dasharray="3,2"/>
+    <line x1="16" y1="22" x2="56" y2="22" stroke="#9ab0c4" stroke-width=".7" stroke-dasharray="2,2"/>
+    <path d="M36,22 A20,20 0 0,1 24,34" fill="none" stroke="#f5c542" stroke-width="1.2"/>
+    <text x="30" y="21" font-size="6" fill="#f5c542" font-weight="bold">35°</text>
+    <text x="2" y="46" font-size="5.5" fill="#a78bfa">50m</text>
+    <text x="16" y="78" font-size="6.5" fill="#e74c3c" font-weight="bold">d=?</text>`
+  },
+  {
+    txt:'Escalera 6m apoyada en pared vertical. Base a 3m. ¿A qué altura llega?',
+    herr:1,
+    svgF:`<rect x="8" y="8" width="8" height="66" fill="#253545" stroke="#3b9eff" stroke-width="1"/>
+    <line x1="4" y1="74" x2="116" y2="74" stroke="#3b9eff" stroke-width="1.5"/>
+    <rect x="13" y="67" width="7" height="7" fill="none" stroke="#2ecc71" stroke-width="1.2"/>
+    <line x1="16" y1="28" x2="72" y2="74" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+    <line x1="26" y1="42" x2="30" y2="38" stroke="#e8a060" stroke-width="1.2"/>
+    <line x1="40" y1="56" x2="44" y2="52" stroke="#e8a060" stroke-width="1.2"/>
+    <line x1="56" y1="68" x2="60" y2="64" stroke="#e8a060" stroke-width="1.2"/>
+    <text x="2" y="54" font-size="6.5" fill="#e74c3c" font-weight="bold">?m</text>
+    <text x="36" y="80" font-size="6.5" fill="#2ecc71" font-weight="bold">3m</text>
+    <text x="46" y="48" font-size="6.5" fill="#f97316" font-weight="bold">6m</text>`
+  },
+  {
+    txt:'Globo aerostático: dos estaciones separadas 200m miden ángulos 55° y 70°. ¿Altura del globo?',
+    herr:3,
+    svgF:`<line x1="4" y1="68" x2="116" y2="68" stroke="#5c8040" stroke-width="1.5"/>
+    <ellipse cx="60" cy="16" rx="10" ry="12" fill="#f5c542" stroke="#e8b020" stroke-width="1.2"/>
+    <line x1="60" y1="28" x2="60" y2="38" stroke="#8b6914" stroke-width="1"/>
+    <ellipse cx="60" cy="40" rx="5" ry="3" fill="#253545"/>
+    <line x1="60" y1="68" x2="60" y2="43" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="3,2"/>
+    <text x="62" y="58" font-size="6" fill="#e74c3c" font-weight="bold">h=?</text>
+    <line x1="14" y1="68" x2="60" y2="43" stroke="#f97316" stroke-width="1.2"/>
+    <line x1="100" y1="68" x2="60" y2="43" stroke="#a78bfa" stroke-width="1.2"/>
+    <path d="M14,68 Q26,62 28,68" fill="none" stroke="#f97316" stroke-width="1"/>
+    <text x="22" y="65" font-size="6" fill="#f97316" font-weight="bold">55°</text>
+    <path d="M100,68 Q90,62 87,68" fill="none" stroke="#a78bfa" stroke-width="1"/>
+    <text x="84" y="65" font-size="6" fill="#a78bfa" font-weight="bold">70°</text>
+    <line x1="14" y1="72" x2="100" y2="72" stroke="#9ab0c4" stroke-width=".8" stroke-dasharray="2,2"/>
+    <text x="40" y="80" font-size="6" fill="#9ab0c4">200 m</text>`
+  }
+];
+const MHERRS=[
+  {nom:'Semejanza',sub:'Nivel 1'},
+  {nom:'Pitágoras',sub:'Nivel 2'},
+  {nom:'SOH-CAH-TOA',sub:'Nivel 3'},
+  {nom:'Ley de Senos',sub:'Nivel 4'},
+  {nom:'Ley de Cosenos',sub:'Nivel 5'},
+];
+
+// ══════════════════════════════════════════════════════
+// ENTRAR
+// ══════════════════════════════════════════════════════
+function entrar(){
+  const v=document.getElementById('inp-nom').value.trim();
+  if(v.length<3){alert('Escribe tu nombre completo.');return;}
+  NOM=v;SEED=hashStr(NOM);
+  document.getElementById('portada').style.display='none';
+  document.getElementById('topbar').style.display='flex';
+  document.getElementById('contenido').style.display='block';
+  document.getElementById('top-nom').textContent=NOM;
+  renderTopProg();
+  renderNivel(1);
+}
+
+// ══════════════════════════════════════════════════════
+// TOPBAR PROG
+// ══════════════════════════════════════════════════════
+function renderTopProg(){
+  const c=document.getElementById('top-prog');c.innerHTML='';
+  for(let i=1;i<=7;i++){
+    const d=document.createElement('div');
+    d.className='top-dot';d.id='tdot'+i;c.appendChild(d);
+  }
+  actualizarDots();
+}
+function actualizarDots(){
+  for(let i=1;i<=7;i++){
+    const d=document.getElementById('tdot'+i);if(!d)continue;
+    d.className='top-dot'+(i<pasoActual?' ok':i===pasoActual?' act':'');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER NIVEL
+// ══════════════════════════════════════════════════════
+function renderNivel(n){
+  pasoActual=n;actualizarDots();
+  const cont=document.getElementById('contenido');
+  if(document.getElementById('nivel-'+n))return;
+  if(n>1){
+    const sep=document.createElement('div');sep.className='sep-nivel';cont.appendChild(sep);
+  }
+  const d=NIVELES[n-1];
+  const div=document.createElement('div');
+  div.className='nivel';div.id='nivel-'+n;
+  div.innerHTML=`
+    <div class="nivel-cabeza">
+      <div class="nivel-num-badge" style="background:${d.colBg};color:${d.col};">${n}</div>
+      <div>
+        <div class="nivel-herr-sub" style="color:${d.col};">Herramienta ${n} de 5</div>
+        <div class="nivel-titulo">${d.herramienta}</div>
+        <div class="llave-pill">🗝 <b>${d.llave}</b></div>
+      </div>
+    </div>
+    <div class="panel-doble">
+      <div class="panel-izq">
+        <div class="panel-lbl">Diagrama</div>${d.svgEsq}
+      </div>
+      <div class="panel-der">
+        <div class="panel-lbl">Situación real</div>${d.svgCtx}
+      </div>
+    </div>
+    <div class="nivel-desc">
+      <strong>¿Cuándo?</strong> ${d.cuando}<br><br>
+      <strong>¿Por qué funciona?</strong> ${d.porQue}<br><br>
+      ${d.limitacion}
+    </div>
+    <div class="datos-tec" style="--az:${d.col};">
+      ${d.ejemplos.map(e=>`<div class="dato" style="border-left-color:${d.col};"><div class="dato-lbl">Ejemplo</div><div class="dato-val">${e}</div></div>`).join('')}
+    </div>
+    ${n<5
+      ?`<button class="btn-sig" style="color:${d.col};border-color:${d.col};" onclick="renderNivel(${n+1})">Herramienta ${n+1} →</button>`
+      :`<button class="btn-sig" style="color:var(--am);border-color:var(--am);" onclick="abrirMatching()">Ir al desafío →</button>`}
+  `;
+  cont.appendChild(div);
+  setTimeout(()=>div.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+// ══════════════════════════════════════════════════════
+// MATCHING — lógica corregida
+// ══════════════════════════════════════════════════════
+function abrirMatching(){
+  pasoActual=6;actualizarDots();
+  const m=document.getElementById('matching');
+  m.style.display='block';
+  setTimeout(()=>m.scrollIntoView({behavior:'smooth',block:'start'}),80);
+
+  const idxS=[0,1,2,3,4].sort((a,b)=>sr(SEED*17+a*7)-sr(SEED*17+b*7));
+  const idxH=[0,1,2,3,4].sort((a,b)=>sr(SEED*31+a*11)-sr(SEED*31+b*11));
+  window._idxS=idxS;window._idxH=idxH;
+  matchConex={};matchSel=null;matchVerif=false;
+
+  // ── SITUACIONES ──
+  const sc=document.getElementById('sits-col');sc.innerHTML='';
+  idxS.forEach((si,pos)=>{
+    const s=MSITS[si];
+    const d=document.createElement('div');
+    d.className='sit-card';
+    d.id='sit'+pos;
+    d.setAttribute('data-pos',pos);
+    d.innerHTML=`<div class="sit-num">Situación ${pos+1}</div>
+      <svg class="sit-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">${s.svgF}</svg>
+      <div class="sit-txt">${s.txt}</div>`;
+    d.addEventListener('click',function(){selSit(parseInt(this.getAttribute('data-pos')));});
+    sc.appendChild(d);
+  });
+
+  // ── HERRAMIENTAS ──
+  const hc=document.getElementById('herr-col');hc.innerHTML='';
+  idxH.forEach((hi,pos)=>{
+    const h=MHERRS[hi];
+    const b=document.createElement('button');
+    b.className='herr-btn';
+    b.id='herr'+pos;
+    b.setAttribute('data-pos',pos);
+    b.innerHTML=`<span class="herr-nivel-lbl">${h.sub}</span><span class="herr-nom">${h.nom}</span>`;
+    b.addEventListener('click',function(){selHerr(parseInt(this.getAttribute('data-pos')));});
+    hc.appendChild(b);
+  });
+}
+
+function selSit(pos){
+  if(matchVerif)return;
+  document.querySelectorAll('.sit-card').forEach(c=>{
+    if(!c.classList.contains('correcto')&&!c.classList.contains('incorrecto'))
+      c.classList.remove('sel');
+  });
+  document.getElementById('sit'+pos).classList.add('sel');
+  matchSel=pos;
+}
+
+function selHerr(hpos){
+  if(matchVerif)return;
+  if(matchSel===null){alert('Primero selecciona una situación (izquierda).');return;}
+  // guardar conexión
+  matchConex[matchSel]=hpos;
+  // limpiar selección visual
+  document.querySelectorAll('.sit-card').forEach(c=>{
+    if(!c.classList.contains('correcto')&&!c.classList.contains('incorrecto'))c.classList.remove('sel');
+  });
+  document.querySelectorAll('.herr-btn').forEach(b=>{
+    if(!b.classList.contains('correcto')&&!b.classList.contains('incorrecto'))b.classList.remove('sel');
+  });
+  // marcar como vinculados temporalmente
+  document.getElementById('sit'+matchSel).style.borderColor='var(--am)';
+  document.getElementById('herr'+hpos).style.borderColor='var(--am)';
+  matchSel=null;
+  // feedback de progreso
+  const n=Object.keys(matchConex).length;
+  if(n<5) document.getElementById('btn-verif').textContent=`Verificar conexiones (${n}/5) ✓`;
+  else document.getElementById('btn-verif').textContent='Verificar conexiones ✓';
+}
+
+function verificarMatching(){
+  if(Object.keys(matchConex).length<5){
+    alert('⚠️ Conecta las cinco situaciones antes de verificar.');return;
+  }
+  matchVerif=true;matchScore=0;
+  const idxS=window._idxS,idxH=window._idxH;
+  for(let sp=0;sp<5;sp++){
+    const rSit=idxS[sp];
+    const hp=matchConex[sp];
+    const rHerr=idxH[hp];
+    const ok=(rHerr===MSITS[rSit].herr);
+    if(ok)matchScore++;
+    const sc=document.getElementById('sit'+sp);
+    const hc=document.getElementById('herr'+hp);
+    sc.style.borderColor='';hc.style.borderColor='';
+    sc.classList.add(ok?'correcto':'incorrecto');
+    hc.classList.add(ok?'correcto':'incorrecto');
+  }
+  document.getElementById('btn-verif').style.display='none';
+  const pb=document.getElementById('match-puntaje');pb.style.display='block';
+  pb.innerHTML=`<h3>${matchScore}/5</h3><p>${['Repasa los niveles e intenta de nuevo 📖','¡Casi! Una más 💪','Bien encaminado 👍','¡Muy bien! Solo una falla 🌟','¡Perfecto! Eres un Geómetra ⭐'][matchScore]}</p>`;
+  setTimeout(()=>{
+    document.getElementById('cierre').style.display='block';
+    renderCierre();
+    document.getElementById('cierre').scrollIntoView({behavior:'smooth',block:'start'});
+    pasoActual=7;actualizarDots();
+  },1400);
+}
+
+// ══════════════════════════════════════════════════════
+// CIERRE
+// ══════════════════════════════════════════════════════
+function renderCierre(){
+  document.getElementById('res-alumno').innerHTML=
+    `<b>Alumno:</b> ${NOM}<br><b>Actividad:</b> Herramientas del Geómetra · TSM I · S04<br><b>Desafío:</b> ${matchScore}/5 correctas`;
+  document.getElementById('res-tabla').innerHTML=
+    NIVELES.map(n=>`<tr><td style="font-weight:800;color:${n.col};">${n.num}</td><td style="font-weight:700;">${n.herramienta}</td><td style="font-size:.75rem;color:var(--tex2);">${n.llave}</td></tr>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// MODO DOCENTE
+// ══════════════════════════════════════════════════════
+function modoDoc(){document.getElementById('modal-doc').style.display='block';}
+function cerrarDoc(){document.getElementById('modal-doc').style.display='none';}
+function entrarDoc(){
+  if(document.getElementById('doc-code').value==='TSMI25'){
+    document.getElementById('doc-panel').style.display='block';
+  }else{alert('Código incorrecto.');}
+}
+function docBuscar(){
+  const n=document.getElementById('doc-busq').value.trim();
+  if(n.length<3){document.getElementById('doc-res').textContent='';return;}
+  const s=hashStr(n);
+  const iS=[0,1,2,3,4].sort((a,b)=>sr(s*17+a*7)-sr(s*17+b*7));
+  const iH=[0,1,2,3,4].sort((a,b)=>sr(s*31+a*11)-sr(s*31+b*11));
+  const lineas=iS.map((si,pos)=>{
+    const ch=MSITS[si].herr;
+    const hp=iH.indexOf(ch);
+    return `Sit ${pos+1}: ${MSITS[si].txt.substring(0,38)}...\n  → ${MHERRS[ch].nom} · pos ${hp+1} en col. derecha`;
+  });
+  document.getElementById('doc-res').textContent=`Nombre: ${n}\nSemilla: ${s}\n\n${lineas.join('\n\n')}`;
+}
+
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')||(e.ctrlKey&&e.key==='u'))e.preventDefault();
+});
+</script>
+</body>
+</html>
