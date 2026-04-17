@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geometría Euclidiana — Los 5 Postulados · Prof. Adrián CruzH</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+MathJax = { tex:{inlineMath:[['\\(','\\)']]}, options:{skipHtmlTags:['script','noscript','style','textarea']} };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{
+  --mo:#5B2D8E;--mo2:#7B3FC0;--mo3:#B88EE8;--mo-f:#f3ecfb;
+  --ver:#1B6B45;--ver2:#52B788;
+  --nar:#E85D04;--nar2:#F9A53A;
+  --roj:#C1121F;
+  --az:#023E8A;--az2:#1565C0;
+  --am:#F5A623;
+  --cr:#fdf9ff;--tie:#1a0a2e;
+  --gris:#ede8f5;--gris2:#d5cce8;--grisDk:#666;
+  --som:0 3px 18px rgba(91,45,142,.12);
+  --radio:13px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#f0eafa;color:var(--tie);padding:12px;}
+.container{max-width:700px;margin:0 auto;}
+
+/* SECCIONES */
+.sec{display:none;background:#fff;border-radius:var(--radio);padding:20px;margin-bottom:12px;box-shadow:var(--som);}
+.sec.activa{display:block;}
+
+/* PORTADA */
+.portada{background:linear-gradient(145deg,#1a0a2e 0%,#0D1B4A 60%,#0A2010 100%);border-radius:18px;padding:30px 24px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden;}
+.portada::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(91,45,142,.2);pointer-events:none;}
+.p-tag{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4);margin-bottom:4px;}
+.p-tit{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:#B88EE8;letter-spacing:2px;line-height:1;margin-bottom:4px;}
+.p-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:14px;line-height:1.6;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.chip{font-size:.66rem;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);}
+.aviso-portada{background:rgba(249,165,58,.1);border:1.5px solid rgba(249,165,58,.3);border-radius:9px;padding:10px 13px;font-size:.79rem;color:rgba(255,255,255,.8);line-height:1.6;}
+
+/* HEADERS DE SECCIÓN */
+.sec-num{font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--grisDk);margin-bottom:2px;}
+.sec-tit{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:2.5px solid var(--mo-f);color:var(--mo);}
+.sec-tit.az{color:var(--az);border-bottom-color:#ddeeff;}
+.sec-tit.ver{color:var(--ver);border-bottom-color:#d4f0e2;}
+.sec-tit.nar{color:var(--nar);border-bottom-color:#fde8d6;}
+.sec-tit.roj{color:var(--roj);border-bottom-color:#fdeaea;}
+
+/* BLOQUES */
+.blk{border-radius:9px;padding:11px 14px;margin-bottom:10px;border-left:4px solid var(--gris2);background:var(--mo-f);}
+.blk.mo{background:var(--mo-f);border-left-color:var(--mo);}
+.blk.az{background:#eef5ff;border-left-color:var(--az2);}
+.blk.ver{background:#edfbf3;border-left-color:var(--ver);}
+.blk.nar{background:#fff4ec;border-left-color:var(--nar);}
+.blk.roj{background:#fdeaea;border-left-color:var(--roj);}
+.blk.am{background:#fffaec;border-left-color:var(--am);}
+.blk.dark{background:#1a0a2e;border-left-color:var(--mo3);}
+.blk h4{font-size:.73rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;color:var(--mo);}
+.blk.az h4{color:var(--az);}
+.blk.ver h4{color:var(--ver);}
+.blk.nar h4{color:var(--nar);}
+.blk.roj h4{color:var(--roj);}
+.blk.dark h4{color:var(--mo3);}
+.blk p,.blk li{font-size:.84rem;line-height:1.7;margin-bottom:3px;}
+.blk ul{padding-left:16px;}
+
+/* PROGRESO */
+.prog-wrap{background:#fff;border-radius:var(--radio);padding:10px 16px;margin-bottom:10px;box-shadow:var(--som);display:flex;align-items:center;gap:10px;}
+.prog-label{font-size:.72rem;font-weight:800;color:var(--mo);white-space:nowrap;}
+.prog-bar-bg{flex:1;height:8px;background:var(--gris);border-radius:4px;overflow:hidden;}
+.prog-bar{height:8px;background:linear-gradient(90deg,var(--mo2),var(--mo3));border-radius:4px;transition:width .4s ease;}
+.prog-pct{font-size:.72rem;font-weight:800;color:var(--mo3);min-width:32px;text-align:right;}
+
+/* BOTONES */
+.btn{display:inline-block;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;padding:10px 22px;border-radius:10px;border:none;cursor:pointer;transition:all .15s;}
+.btn-mo{background:var(--mo);color:#fff;}
+.btn-mo:hover{background:var(--mo2);}
+.btn-ver{background:var(--ver);color:#fff;}
+.btn-ver:hover{background:var(--ver2);}
+.btn-az{background:var(--az2);color:#fff;}
+.btn-az:hover{background:var(--az);}
+.btn-nar{background:var(--nar);color:#fff;}
+.btn-nar:hover{background:#c44e02;}
+.btn-outline{background:transparent;color:var(--mo);border:2px solid var(--mo);}
+.btn-outline:hover{background:var(--mo-f);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+
+/* INPUT Y TEXTAREA */
+input[type=text],textarea{font-family:'Nunito',sans-serif;font-size:.9rem;padding:9px 12px;border-radius:8px;border:1.5px solid var(--gris2);width:100%;margin-top:5px;outline:none;transition:border .15s;}
+input[type=text]:focus,textarea:focus{border-color:var(--mo2);}
+textarea{resize:vertical;min-height:90px;}
+.campo-lbl{font-size:.78rem;font-weight:700;color:var(--tie);margin-bottom:3px;margin-top:10px;display:block;}
+
+/* POSTULADOS — tarjetas de exploración */
+.post-card{border:2px solid var(--gris2);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s;background:#faf8ff;}
+.post-card:hover{border-color:var(--mo3);background:var(--mo-f);}
+.post-card.activo{border-color:var(--mo);background:var(--mo-f);}
+.post-card-hdr{display:flex;align-items:center;gap:10px;}
+.post-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--mo);width:28px;}
+.post-enunciado{font-size:.88rem;font-weight:700;color:var(--tie);flex:1;}
+.post-arrow{font-size:1rem;color:var(--mo3);transition:transform .2s;}
+.post-card.activo .post-arrow{transform:rotate(90deg);}
+.post-detalle{display:none;margin-top:10px;border-top:1.5px solid var(--gris2);padding-top:10px;}
+.post-card.activo .post-detalle{display:block;}
+.post-ejemplo{background:#fff4ec;border-left:3px solid var(--nar);border-radius:0 8px 8px 0;padding:9px 12px;font-size:.82rem;margin-bottom:8px;color:#5a2300;}
+.post-ejemplo strong{color:var(--nar);}
+.post-duda{background:var(--mo-f);border-left:3px solid var(--mo);border-radius:0 8px 8px 0;padding:8px 12px;font-size:.81rem;color:#2a0a6e;font-style:italic;}
+
+/* AXIOMA / POSTULADO — concepto */
+.concepto-box{border:2px solid var(--az2);border-radius:12px;padding:16px;margin-bottom:12px;background:#eef5ff;}
+.concepto-tit{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--az);letter-spacing:.5px;margin-bottom:6px;}
+.concepto-def{font-size:.87rem;line-height:1.7;color:var(--tie);}
+.comparacion{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.comp-item{border-radius:9px;padding:11px;font-size:.82rem;line-height:1.6;}
+.comp-item h5{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+.comp-axioma{background:#eef5ff;color:#023E8A;}
+.comp-axioma h5{color:var(--az);}
+.comp-postulado{background:var(--mo-f);color:#2a0a6e;}
+.comp-postulado h5{color:var(--mo);}
+@media(max-width:480px){.comparacion{grid-template-columns:1fr;}}
+
+/* QUIZ */
+.qcard{border:1.5px solid var(--gris2);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.q-num{font-size:.68rem;font-weight:800;text-transform:uppercase;color:var(--grisDk);margin-bottom:4px;}
+.q-preg{font-size:.9rem;font-weight:700;line-height:1.6;margin-bottom:10px;}
+.q-ops{display:flex;flex-direction:column;gap:5px;}
+.q-op{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--gris2);cursor:pointer;font-size:.84rem;line-height:1.5;transition:all .15s;background:#fff;}
+.q-op:hover{border-color:var(--mo3);background:var(--mo-f);}
+.q-op.sel{border-color:var(--mo);background:var(--mo-f);font-weight:700;}
+.q-op.cor{border-color:var(--ver)!important;background:#edfbf3!important;}
+.q-op.err{border-color:var(--roj)!important;background:#fdeaea!important;}
+.q-exp{font-size:.79rem;color:var(--grisDk);margin-top:8px;padding-top:8px;border-top:1px solid var(--gris);display:none;line-height:1.6;}
+.q-exp.vis{display:block;}
+.q-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(--gris2);flex-shrink:0;margin-top:2px;}
+.q-op.sel .q-radio{border-color:var(--mo);background:var(--mo);}
+
+/* CANVAS */
+.canvas-wrap{border:2px solid var(--gris2);border-radius:10px;overflow:hidden;position:relative;background:#fafafa;touch-action:none;}
+canvas{display:block;width:100%;cursor:crosshair;}
+.canvas-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:center;}
+.tool-btn{font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;padding:5px 11px;border-radius:7px;border:1.5px solid var(--gris2);cursor:pointer;background:#fff;color:var(--tie);transition:all .15s;}
+.tool-btn.activo{background:var(--mo);color:#fff;border-color:var(--mo);}
+.tool-btn:hover:not(.activo){background:var(--mo-f);border-color:var(--mo3);}
+.canvas-info{font-size:.73rem;color:var(--grisDk);margin-top:5px;}
+.canvas-hint{font-size:.75rem;color:var(--mo);background:var(--mo-f);border-radius:6px;padding:5px 9px;margin-bottom:6px;}
+
+/* CUADRÍCULA info */
+.grid-label{font-size:.7rem;color:var(--grisDk);margin-top:4px;}
+
+/* REFLEXIÓN */
+.ref-counter{font-size:.72rem;color:var(--grisDk);text-align:right;margin-top:2px;}
+.kw-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.kw-chip{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--gris);color:var(--grisDk);}
+.kw-chip.ok{background:#d8f5e5;color:var(--ver);}
+
+/* RESULTADO */
+.res-nota{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--mo);letter-spacing:2px;text-align:center;line-height:1;}
+.res-nota-lbl{font-size:.75rem;text-align:center;color:var(--grisDk);margin-bottom:14px;}
+.res-det{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:12px;}
+.res-det th{background:var(--mo);color:#fff;padding:6px 10px;text-align:left;font-size:.7rem;text-transform:uppercase;}
+.res-det td{padding:7px 10px;border-bottom:1px solid var(--gris);}
+.res-det tr:last-child td{border-bottom:none;}
+.res-hdr{position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(135deg,#1a0a2e,#0D1B4A);padding:18px;margin-bottom:14px;color:#fff;text-align:center;}
+.res-wm{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-around;pointer-events:none;opacity:.04;font-size:.7rem;font-weight:800;overflow:hidden;}
+.res-wm-row{white-space:nowrap;padding:2px 0;}
+.resp-tabla{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:10px;}
+.resp-tabla th{background:var(--mo-f);color:var(--mo);padding:5px 8px;text-align:left;font-size:.7rem;}
+.resp-tabla td{padding:5px 8px;border-bottom:1px solid var(--gris);vertical-align:top;line-height:1.5;}
+.resp-tabla tr:last-child td{border-bottom:none;}
+.badge-ok{color:var(--ver);font-weight:800;}
+.badge-err{color:var(--roj);font-weight:800;}
+.canvas-preview{border:1.5px solid var(--gris2);border-radius:8px;max-width:100%;display:block;margin:6px 0;}
+
+/* DETONADORA FINAL */
+.detonadora{background:linear-gradient(135deg,#1a0a2e,#0D1B4A);border-radius:14px;padding:20px;color:#fff;margin:14px 0;}
+.detonadora-ico{font-size:1.8rem;margin-bottom:8px;}
+.detonadora-q{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#B88EE8;letter-spacing:.8px;line-height:1.2;margin-bottom:8px;}
+.detonadora-hint{font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.6;}
+
+/* ALERTA */
+.alerta{background:#fff4ec;border:1.5px solid var(--nar);border-radius:9px;padding:10px 13px;font-size:.81rem;line-height:1.6;margin:10px 0;color:#5a2300;}
+.alerta strong{color:var(--nar);}
+
+/* PANEL DOCENTE */
+#doc-panel-float{position:fixed;bottom:14px;right:14px;background:#1a0a2e;border:1.5px solid var(--mo3);border-radius:12px;padding:12px 14px;font-size:.76rem;color:#fff;box-shadow:0 4px 20px rgba(91,45,142,.45);z-index:9999;max-width:210px;display:none;}
+.doc-panel-btn{display:block;width:100%;text-align:left;background:rgba(255,255,255,.08);color:#fff;border:none;border-radius:7px;padding:6px 9px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.75rem;cursor:pointer;margin-top:5px;}
+.doc-panel-btn:hover{background:rgba(255,255,255,.15);}
+.doc-panel-btn.avanzar{color:var(--nar2);}
+.doc-panel-btn.simular{color:var(--ver2);}
+#doc-cod-f{width:100%;padding:5px;border-radius:6px;border:none;font-family:'Nunito',sans-serif;margin-bottom:6px;font-size:.82rem;}
+
+/* PRINT */
+@media print{
+  .no-print,.prog-wrap,#doc-panel-float,.canvas-toolbar,.btn-row{display:none!important;}
+  body{background:#fff!important;font-size:12px!important;}
+  .sec{display:block!important;}
+  .sec:not(#s-final){display:none!important;}
+  #s-final{display:block!important;}
+  .card,.qcard{box-shadow:none!important;border:1px solid #ccc!important;}
+}
+
+@media(max-width:600px){
+  .p-tit{font-size:1.9rem;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- PORTADA -->
+<div class="portada">
+  <div class="p-tag">Matemáticas · Bachillerato · Geometría</div>
+  <div class="p-tit">Los 5 Postulados<br>de Euclides</div>
+  <div class="p-sub">¿Qué reglas le dan forma al espacio? Explora los fundamentos de la geometría que usamos todos los días — desde el pizarrón hasta la Ciudad de México.</div>
+  <div class="chips">
+    <span class="chip">📐 Geometría Euclidiana</span>
+    <span class="chip">⏱ ~50 minutos</span>
+    <span class="chip">📱 Individual</span>
+    <span class="chip">✏️ Dibujo interactivo</span>
+  </div>
+  <div class="aviso-portada">⚠️ Trabaja a tu propio ritmo. La actividad guarda tu progreso en esta misma página. Al terminar podrás guardar tu calificación como PDF.</div>
+</div>
+
+<!-- BARRA DE PROGRESO -->
+<div class="prog-wrap no-print">
+  <span class="prog-label">Progreso</span>
+  <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+  <span class="prog-pct" id="prog-pct">0%</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S0 — IDENTIFICACIÓN
+═══════════════════════════════════════════════ -->
+<div class="sec activa" id="s0">
+  <div class="sec-num">Inicio</div>
+  <div class="sec-tit">Una pregunta para arrancar</div>
+
+  <div style="background:#fffaec;border:1.5px solid var(--am);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+    <div style="font-size:.73rem;font-weight:800;color:var(--am);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">🛸 Pregunta inicial</div>
+    <p style="font-size:.95rem;font-weight:700;line-height:1.6;margin-bottom:10px;">Si tuvieras que explicarle a un extraterrestre qué es una línea recta <em>sin usar dibujos</em>, ¿cómo lo harías?</p>
+    <textarea id="ext-resp" placeholder="Describe con tus propias palabras qué es una línea recta. No hay respuesta correcta todavía — escribe lo que pienses." oncopy="return false" onpaste="return false" oncontextmenu="return false" style="min-height:80px;"></textarea>
+    <div class="ref-counter" id="ext-cnt">0 / 40</div>
+  </div>
+
+  <label class="campo-lbl" for="inp-nombre">Tu nombre completo</label>
+  <input type="text" id="inp-nombre" placeholder="Ej. Valeria Morales Ríos" autocomplete="off" maxlength="80">
+  <div style="font-size:.74rem;color:var(--grisDk);margin-top:4px;">Aparecerá en tu calificación al final.</div>
+
+  <div class="btn-row">
+    <button class="btn btn-mo" onclick="avanzarDe('s0','s1')">Comenzar &#8594;</button>
+  </div>
+  <div id="s0-msg" style="font-size:.78rem;color:var(--roj);margin-top:5px;"></div>
+  <div style="margin-top:16px;text-align:right;">
+    <span onclick="abrirDoc()" style="cursor:pointer;font-size:.68rem;color:var(--grisDk);opacity:.35;user-select:none;">Prof. Adrián CruzH</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S1 — ACTIVACIÓN: ¿Qué son axiomas y postulados?
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-num">Sección 1 de 5</div>
+  <div class="sec-tit az">Axioma y Postulado — dos palabras clave</div>
+
+  <div class="blk am">
+    <h4>🏙️ Analogía CDMX</h4>
+    <p>Piensa en el Reglamento de Tránsito. Hay reglas tan básicas que no las discutes: <em>"el rojo es alto, el verde es siga"</em>. Nadie pide que las demuestres. En matemáticas esas reglas se llaman <strong>axiomas</strong>.</p>
+  </div>
+
+  <div style="border:2px solid var(--az2);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#eef5ff;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--az);letter-spacing:.4px;margin-bottom:4px;">Axioma</div>
+    <p style="font-size:.88rem;line-height:1.7;">Afirmación que se acepta como verdadera <strong>sin demostración</strong>. Es el punto de partida de un sistema matemático.</p>
+    <p style="font-size:.8rem;color:var(--az);margin-top:4px;"><em>Ejemplo: "Si A = B y B = C, entonces A = C." No lo pruebas — lo aceptas.</em></p>
+  </div>
+
+  <div style="border:2px solid var(--mo3);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:var(--mo-f);">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--mo);letter-spacing:.4px;margin-bottom:4px;">Postulado</div>
+    <p style="font-size:.88rem;line-height:1.7;">Es un axioma aplicado a un campo específico. En geometría, los postulados son las <strong>reglas básicas del espacio</strong> que Euclides decidió aceptar. Todo lo demás se deduce de ellos.</p>
+    <p style="font-size:.8rem;color:var(--mo);margin-top:4px;"><em>Ejemplo: "Por dos puntos pasa exactamente una recta." Lo aceptamos — no lo demostramos.</em></p>
+  </div>
+
+  <div class="blk mo">
+    <h4>¿Para qué sirven?</h4>
+    <ul>
+      <li>Son la <strong>base</strong> de toda la geometría.</li>
+      <li>Si aceptas los postulados, todo lo demás sale de ahí por lógica pura.</li>
+      <li>Cambiar un postulado = cambiar la geometría completa (lo verás al final).</li>
+    </ul>
+  </div>
+
+  <div style="background:#1a0a2e;border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.7rem;font-weight:800;color:var(--mo3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">📓 Copia en tu cuaderno</div>
+    <p style="font-size:.86rem;color:#e0d8f5;line-height:1.7;"><strong style="color:var(--mo3);">Axioma:</strong> regla que se acepta sin demostración; base de un sistema matemático.<br>
+    <strong style="color:var(--mo3);">Postulado:</strong> axioma aplicado a geometría; regla básica del espacio aceptada sin prueba.</p>
+  </div>
+
+  <!-- Reflexión de activación -->
+  <div style="background:#fffaec;border:1.5px solid var(--am);border-radius:10px;padding:14px;margin-top:4px;">
+    <div style="font-size:.73rem;font-weight:800;color:var(--am);text-transform:uppercase;margin-bottom:6px;">✏️ Reflexión de activación</div>
+    <p id="act-q-txt" style="font-size:.88rem;font-weight:700;margin-bottom:8px;line-height:1.6;">¿Puedes pensar en alguna "regla básica" de tu vida diaria que aceptas sin discutir, como si fuera un axioma?</p>
+    <textarea id="act-resp" placeholder="Ej. Cuando llego tarde a la escuela sé que me van a llamar la atención. No necesito que me lo expliquen cada vez — lo acepto como regla." oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+    <div class="ref-counter" id="act-cnt">0 / 60</div>
+    <div id="act-msg" style="font-size:.78rem;margin-top:4px;"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-az" onclick="validarAct()">Continuar &#8594;</button>
+  </div>
+  <div id="act-intentos" style="font-size:.75rem;color:var(--grisDk);margin-top:5px;"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S2 — LOS 5 POSTULADOS (exploración)
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-num">Sección 2 de 5</div>
+  <div class="sec-tit">Los 5 Postulados de Euclides</div>
+
+  <div class="blk mo">
+    <h4>Euclides — ~300 a.C.</h4>
+    <p>Matemático griego que construyó toda la geometría a partir de solo 5 reglas básicas. De esas 5, dedujo cientos de resultados usando únicamente lógica.</p>
+  </div>
+
+  <div style="background:#1a0a2e;border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.7rem;font-weight:800;color:var(--mo3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">📓 Instrucción</div>
+    <p style="font-size:.85rem;color:#e0d8f5;line-height:1.7;">Toca cada postulado para leerlo. <strong style="color:#fff;">Copia en tu cuaderno el enunciado y el ejemplo de cada uno.</strong> Luego escribe con tus propias palabras qué entendiste.</p>
+  </div>
+
+  <!-- P1 -->
+  <div class="post-card" id="pc1" onclick="togglePost(1)">
+    <div class="post-card-hdr">
+      <span class="post-num">I</span>
+      <span class="post-enunciado">Por dos puntos cualesquiera pasa exactamente una línea recta.</span>
+      <span class="post-arrow">&#9654;</span>
+    </div>
+    <div class="post-detalle">
+      <div class="post-ejemplo"><strong>Ejemplo:</strong> Marca dos puntos en el pizarrón. Solo puedes trazar <em>una</em> recta que los una — no dos, no tres.</div>
+      <div style="background:#1a0a2e;border-radius:8px;padding:10px 12px;margin-top:8px;">
+        <div style="font-size:.68rem;font-weight:800;color:var(--mo3);text-transform:uppercase;margin-bottom:5px;">📓 Copia en tu cuaderno</div>
+        <p style="font-size:.83rem;color:#e0d8f5;line-height:1.65;"><strong style="color:#fff;">P. I:</strong> Por dos puntos pasa exactamente una recta.<br><strong style="color:var(--mo3);">Ejemplo propio:</strong> _______________________</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="post-card" id="pc2" onclick="togglePost(2)">
+    <div class="post-card-hdr">
+      <span class="post-num">II</span>
+      <span class="post-enunciado">Un segmento de recta puede extenderse indefinidamente en línea recta.</span>
+      <span class="post-arrow">&#9654;</span>
+    </div>
+    <div class="post-detalle">
+      <div class="post-ejemplo"><strong>Ejemplo:</strong> Av. Insurgentes podría seguir recta más allá de la CDMX, sin fin. El espacio no tiene bordes que la detengan.</div>
+      <div style="background:#1a0a2e;border-radius:8px;padding:10px 12px;margin-top:8px;">
+        <div style="font-size:.68rem;font-weight:800;color:var(--mo3);text-transform:uppercase;margin-bottom:5px;">📓 Copia en tu cuaderno</div>
+        <p style="font-size:.83rem;color:#e0d8f5;line-height:1.65;"><strong style="color:#fff;">P. II:</strong> Una recta puede extenderse sin límite en ambas direcciones.<br><strong style="color:var(--mo3);">Ejemplo propio:</strong> _______________________</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="post-card" id="pc3" onclick="togglePost(3)">
+    <div class="post-card-hdr">
+      <span class="post-num">III</span>
+      <span class="post-enunciado">Con cualquier centro y cualquier radio se puede trazar un círculo.</span>
+      <span class="post-arrow">&#9654;</span>
+    </div>
+    <div class="post-detalle">
+      <div class="post-ejemplo"><strong>Ejemplo:</strong> Clava el compás en cualquier punto y ábrelo a cualquier distancia. Siempre obtienes un círculo perfecto.</div>
+      <div style="background:#1a0a2e;border-radius:8px;padding:10px 12px;margin-top:8px;">
+        <div style="font-size:.68rem;font-weight:800;color:var(--mo3);text-transform:uppercase;margin-bottom:5px;">📓 Copia en tu cuaderno</div>
+        <p style="font-size:.83rem;color:#e0d8f5;line-height:1.65;"><strong style="color:#fff;">P. III:</strong> Se puede trazar un círculo con cualquier centro y cualquier radio.<br><strong style="color:var(--mo3);">Ejemplo propio:</strong> _______________________</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div class="post-card" id="pc4" onclick="togglePost(4)">
+    <div class="post-card-hdr">
+      <span class="post-num">IV</span>
+      <span class="post-enunciado">Todos los ángulos rectos son iguales entre sí.</span>
+      <span class="post-arrow">&#9654;</span>
+    </div>
+    <div class="post-detalle">
+      <div class="post-ejemplo"><strong>Ejemplo:</strong> La esquina de tu cuaderno y la esquina de una cancha de futbol forman el mismo ángulo: 90°. Siempre, en cualquier lugar.</div>
+      <div style="background:#1a0a2e;border-radius:8px;padding:10px 12px;margin-top:8px;">
+        <div style="font-size:.68rem;font-weight:800;color:var(--mo3);text-transform:uppercase;margin-bottom:5px;">📓 Copia en tu cuaderno</div>
+        <p style="font-size:.83rem;color:#e0d8f5;line-height:1.65;"><strong style="color:#fff;">P. IV:</strong> Todos los ángulos rectos miden lo mismo (90°) sin importar dónde estén.<br><strong style="color:var(--mo3);">Ejemplo propio:</strong> _______________________</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P5 -->
+  <div class="post-card" id="pc5" onclick="togglePost(5)" style="border-color:var(--mo);background:#f3ecfb;">
+    <div class="post-card-hdr">
+      <span class="post-num" style="color:var(--roj);">V</span>
+      <span class="post-enunciado" style="color:var(--mo);">⚡ Si una recta corta a otras dos y los ángulos interiores de un lado suman menos de 180°, esas dos rectas se cruzarán en ese lado.</span>
+      <span class="post-arrow" style="color:var(--mo);">&#9654;</span>
+    </div>
+    <div class="post-detalle">
+      <div style="background:#fdeaea;border-left:3px solid var(--roj);border-radius:0 8px 8px 0;padding:9px 12px;font-size:.81rem;margin-bottom:8px;color:#5a0000;">
+        <strong style="color:var(--roj);">⚠️ El más polémico:</strong> Debatido durante <strong>casi 2,000 años</strong>. Versión simplificada: <em>"Por un punto fuera de una recta pasa exactamente una recta paralela."</em>
+      </div>
+      <div class="post-ejemplo"><strong>Ejemplo:</strong> Traza dos rectas en el pizarrón y córtalas con una tercera (transversal). Si los ángulos del mismo lado suman exactamente 180°, las dos rectas nunca se cruzan — son paralelas. Si suman menos, se cruzarán.</div>
+      <div class="post-duda">Pregunta para el cierre: ¿qué pasaría si este postulado NO se cumpliera?</div>
+      <div style="background:#1a0a2e;border-radius:8px;padding:10px 12px;margin-top:8px;">
+        <div style="font-size:.68rem;font-weight:800;color:var(--mo3);text-transform:uppercase;margin-bottom:5px;">📓 Copia en tu cuaderno</div>
+        <p style="font-size:.83rem;color:#e0d8f5;line-height:1.65;"><strong style="color:#fff;">P. V:</strong> Por un punto fuera de una recta pasa exactamente una paralela a esa recta.<br><strong style="color:var(--mo3);">Ejemplo propio:</strong> _______________________</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-mo" onclick="validarPostulados()">Continuar &#8594;</button>
+  </div>
+  <div id="post-msg" style="font-size:.78rem;color:var(--roj);margin-top:5px;"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S3 — DIBUJO INTERACTIVO
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-num">Sección 3 de 5</div>
+  <div class="sec-tit nar">Verifica los postulados — Dibujo libre</div>
+
+  <div class="blk nar">
+    <h4>¿Para qué es esto?</h4>
+    <p>Usa las herramientas para dibujar rectas y círculos sobre la cuadrícula. Luego responde las preguntas de verificación. Tu dibujo quedará guardado en los resultados.</p>
+  </div>
+
+  <div class="canvas-hint">💡 <strong>Recta:</strong> toca inicio y fin. <strong>Círculo:</strong> toca centro y luego un punto del borde. <strong>Borrar:</strong> limpia todo el lienzo.</div>
+
+  <div class="canvas-toolbar">
+    <button class="tool-btn activo" id="tb-recta" onclick="setHerramienta('recta')">📏 Recta</button>
+    <button class="tool-btn" id="tb-circulo" onclick="setHerramienta('circulo')">⭕ Círculo</button>
+    <button class="tool-btn" id="tb-paralelas" onclick="setHerramienta('paralelas')">&#8741; Paralelas + transversal</button>
+    <button class="tool-btn" id="tb-borrar" onclick="borrarCanvas()" style="margin-left:auto;color:var(--roj);border-color:var(--roj);">✕ Borrar</button>
+  </div>
+
+  <div class="canvas-wrap" id="canvas-wrap">
+    <canvas id="dibujo-canvas"></canvas>
+  </div>
+  <div class="canvas-info">Toca o arrastra para dibujar. El dibujo se incluirá en tus resultados finales.</div>
+
+  <div style="margin-top:14px;">
+    <div class="blk az">
+      <h4>Preguntas de verificación</h4>
+      <p style="margin-bottom:8px;"><strong>a)</strong> Dibuja dos puntos cualesquiera y traza la recta que los une. ¿Pudiste trazar más de una recta por esos mismos puntos? (Postulado I)</p>
+      <select id="ver-a" style="font-family:'Nunito',sans-serif;padding:7px;border-radius:7px;border:1.5px solid var(--gris2);width:100%;font-size:.85rem;margin-bottom:10px;">
+        <option value="">— Selecciona —</option>
+        <option value="no">No, solo pasa una recta.</option>
+        <option value="si">Sí, pasaron varias rectas.</option>
+        <option value="ns">No sé / no estoy seguro/a.</option>
+      </select>
+      <p style="margin-bottom:8px;"><strong>b)</strong> Dibuja un círculo. ¿Todos los puntos del círculo están a la misma distancia del centro? (Postulado III)</p>
+      <select id="ver-b" style="font-family:'Nunito',sans-serif;padding:7px;border-radius:7px;border:1.5px solid var(--gris2);width:100%;font-size:.85rem;">
+        <option value="">— Selecciona —</option>
+        <option value="si">Sí, todos están a la misma distancia.</option>
+        <option value="no">No, la distancia varía.</option>
+        <option value="ns">No lo noté al dibujarlo.</option>
+      </select>
+    </div>
+
+    <div class="blk mo" style="margin-top:10px;">
+      <h4>Con las paralelas y la transversal</h4>
+      <p style="margin-bottom:8px;"><strong>c)</strong> Activa "Paralelas + transversal" y dibuja. Observa los ángulos que se forman. ¿Los ángulos del mismo lado de la transversal entre las dos rectas suman 180°?</p>
+      <select id="ver-c" style="font-family:'Nunito',sans-serif;padding:7px;border-radius:7px;border:1.5px solid var(--gris2);width:100%;font-size:.85rem;">
+        <option value="">— Selecciona —</option>
+        <option value="si">Sí, suman 180° y las rectas parecen paralelas.</option>
+        <option value="no">No, suman menos de 180° y se cruzarían.</option>
+        <option value="ns">No sé cómo medirlos.</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-nar" onclick="validarDibujo()">Guardar dibujo y continuar &#8594;</button>
+  </div>
+  <div id="dib-msg" style="font-size:.78rem;color:var(--roj);margin-top:5px;"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S4 — QUIZ
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-num">Sección 4 de 5</div>
+  <div class="sec-tit ver">Quiz — Pon a prueba lo que aprendiste</div>
+
+  <div class="blk ver">
+    <h4>Instrucciones</h4>
+    <ul>
+      <li>10 preguntas de opción múltiple — 5 opciones cada una.</li>
+      <li>Puedes cambiar tu respuesta antes de verificar.</li>
+      <li>Al terminar presiona "Verificar quiz".</li>
+    </ul>
+  </div>
+
+  <div id="quiz-contenedor"></div>
+
+  <div class="btn-row" id="btn-verificar-row">
+    <button class="btn btn-ver" onclick="verificarQuiz()" id="btn-verificar">Verificar quiz</button>
+  </div>
+  <div id="quiz-msg" style="font-size:.78rem;color:var(--roj);margin-top:5px;"></div>
+  <div class="btn-row" id="btn-quiz-cont" style="display:none;">
+    <button class="btn btn-mo" onclick="avanzarDe('s4','s5')">Continuar &#8594;</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S5 — COMPRENSIÓN Y CIERRE
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-num">Sección 5 de 5</div>
+  <div class="sec-tit" style="color:var(--mo);">Comprensión y Cierre</div>
+
+  <div class="blk mo">
+    <h4>Enuncia con tus propias palabras</h4>
+    <p>Elige <strong>dos postulados</strong> de Euclides y escríbelos con tus propias palabras. Después da un ejemplo físico de cada uno que puedas ver en tu vida diaria (escuela, casa, colonia, metro, etc.).</p>
+  </div>
+
+  <label class="campo-lbl" for="comp-resp">Tu respuesta (mínimo 120 caracteres)</label>
+  <textarea id="comp-resp" placeholder="Ej. 'El primer postulado dice que si tengo dos puntos, solo puedo unirlos con una recta…'" oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+  <div class="ref-counter" id="comp-cnt">0 / 120</div>
+  <div class="kw-chips" id="comp-kw">
+    <span class="kw-chip" id="kw-recta">recta</span>
+    <span class="kw-chip" id="kw-puntos">puntos</span>
+    <span class="kw-chip" id="kw-circulo">círculo / radio</span>
+    <span class="kw-chip" id="kw-angulo">ángulo</span>
+    <span class="kw-chip" id="kw-paralela">paralela</span>
+  </div>
+  <div style="font-size:.7rem;color:var(--grisDk);margin-top:4px;">Las palabras clave se irán marcando en verde conforme las menciones.</div>
+  <div id="comp-msg" style="font-size:.78rem;margin-top:6px;"></div>
+  <div id="comp-intentos" style="font-size:.74rem;color:var(--grisDk);margin-top:3px;"></div>
+
+  <!-- PREGUNTA DETONADORA -->
+  <div class="detonadora" style="margin-top:18px;">
+    <div class="detonadora-ico">🌐</div>
+    <div class="detonadora-q">Sesión 2 — Pregunta para pensar:<br>¿Qué pasaría si el 5° postulado NO se cumpliera?</div>
+    <div class="detonadora-hint">¿Las rectas "paralelas" podrían cruzarse? ¿O podrían alejarse cada vez más? Piénsalo — en la próxima sesión exploraremos geometrías donde el 5° postulado cambia… y el espacio se dobla.</div>
+  </div>
+
+  <label class="campo-lbl" for="det-resp">Tu respuesta a la pregunta detonadora (mínimo 80 caracteres)</label>
+  <textarea id="det-resp" placeholder="Escribe tu conjetura: ¿qué crees que pasaría?..." oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+  <div class="ref-counter" id="det-cnt">0 / 80</div>
+  <div id="det-msg" style="font-size:.78rem;margin-top:4px;"></div>
+  <div id="det-intentos" style="font-size:.74rem;color:var(--grisDk);margin-top:3px;"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-mo" onclick="validarComp()">Ver mis resultados &#8594;</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     S-FINAL — RESULTADOS
+═══════════════════════════════════════════════ -->
+<div class="sec" id="s-final">
+  <div class="res-hdr" id="res-hdr">
+    <div class="res-wm" id="res-wm"></div>
+    <div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:4px;">CALIFICACIÓN FINAL</div>
+    <div class="res-nota" id="res-nota">—</div>
+    <div class="res-nota-lbl">/10 · Geometría Euclidiana</div>
+    <div style="font-size:.82rem;color:rgba(255,255,255,.7);margin-top:4px;" id="res-nombre-hdr"></div>
+  </div>
+
+  <table class="res-det" id="res-det-tabla">
+    <tr><th>Categoría</th><th>Puntos</th><th>Máximo</th></tr>
+  </table>
+
+  <!-- Vista previa del dibujo -->
+  <div id="res-canvas-wrap" style="margin-bottom:12px;">
+    <div class="sec-num" style="margin-bottom:6px;">Tu dibujo guardado</div>
+    <img id="res-canvas-img" src="" alt="Tu dibujo" class="canvas-preview" style="display:none;">
+    <div id="res-canvas-none" style="font-size:.78rem;color:var(--grisDk);display:none;">No se guardó ningún dibujo.</div>
+  </div>
+
+  <!-- Tabla quiz -->
+  <div class="sec-num" style="margin-bottom:6px;">Detalle del Quiz</div>
+  <table class="resp-tabla" id="res-quiz-tabla">
+    <tr><th>#</th><th>Pregunta</th><th>Tu resp.</th><th>Correcta</th><th></th></tr>
+  </table>
+
+  <!-- Reflexiones -->
+  <div id="res-reflexiones"></div>
+
+  <div class="detonadora" style="margin-top:10px;">
+    <div class="detonadora-ico">🚀</div>
+    <div class="detonadora-q">¡Excelente trabajo!<br>Próxima sesión: Geometrías no euclidianas</div>
+    <div class="detonadora-hint">Cuando el 5° postulado cambia, el espacio se curva. Exploraremos la geometría de la esfera (como la Tierra) y la geometría hiperbólica (como una silla de montar) — y verás por qué la Relatividad General de Einstein necesitaba otro tipo de geometría.</div>
+  </div>
+
+  <div class="btn-row no-print">
+    <button class="btn btn-mo" onclick="guardarPDF()">&#128438; Guardar como PDF</button>
+    <button class="btn btn-outline" onclick="location.reload()">&#8635; Nueva sesión</button>
+  </div>
+</div>
+
+<!-- PANEL DOCENTE -->
+<div id="doc-panel-float">
+  <div style="font-weight:800;color:var(--mo3);margin-bottom:8px;font-size:.8rem;">🔒 Panel Docente</div>
+  <div id="doc-login-f">
+    <input id="doc-cod-f" type="password" placeholder="código" onkeydown="if(event.key==='Enter')chkDoc()">
+    <button onclick="chkDoc()" style="width:100%;background:var(--mo2);color:#fff;border:none;border-radius:6px;padding:5px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:.8rem;">Entrar</button>
+  </div>
+  <div id="doc-acciones" style="display:none;">
+    <button class="doc-panel-btn avanzar" onclick="docAvanzar()">&#9197; Avanzar sin validar</button>
+    <button class="doc-panel-btn simular" onclick="simularResultados()">&#9889; Simular resultados</button>
+    <button class="doc-panel-btn" onclick="cerrarDoc()">&#10005; Cerrar</button>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+/* ═══════════════════════════
+   DATOS — QUIZ (10 preguntas × 5 opciones)
+═══════════════════════════ */
+var QB_POSTULADOS = [
+  {
+    p: '¿Qué es un postulado en geometría?',
+    ops: [
+      'Una regla básica que se acepta sin demostración dentro de un sistema geométrico',
+      'Un resultado que se demuestra a partir de teoremas previos',
+      'Una fórmula para calcular áreas y perímetros',
+      'Una definición de una figura geométrica',
+      'Un problema sin solución conocida'
+    ],
+    ok: 0,
+    ex: 'Un postulado (o axioma geométrico) es una afirmación que se acepta como verdadera sin necesidad de demostración. Es el punto de partida de todo el sistema geométrico.'
+  },
+  {
+    p: '¿Cuántos postulados usó Euclides como base de su geometría en el libro "Elementos"?',
+    ops: ['3','4','5','7','10'],
+    ok: 2,
+    ex: 'Euclides usó exactamente 5 postulados. A partir de ellos dedujo cientos de teoremas usando solo lógica.'
+  },
+  {
+    p: 'El Postulado I de Euclides establece que por dos puntos distintos cualesquiera pasa:',
+    ops: [
+      'Exactamente una recta',
+      'Al menos dos rectas',
+      'Un círculo únicamente',
+      'Ninguna recta recta',
+      'Un número infinito de rectas'
+    ],
+    ok: 0,
+    ex: 'El Postulado I dice que entre dos puntos cualesquiera se puede trazar exactamente una línea recta — ni más, ni menos.'
+  },
+  {
+    p: 'Según el Postulado II, un segmento de recta puede:',
+    ops: [
+      'Extenderse indefinidamente en ambas direcciones',
+      'Extenderse solo hasta el borde del papel',
+      'Doblarse si es muy largo',
+      'Terminar en el punto medio del segmento original',
+      'Solo extenderse en una dirección'
+    ],
+    ok: 0,
+    ex: 'El Postulado II garantiza que el espacio geométrico no tiene "bordes": cualquier segmento puede extenderse infinitamente en ambas direcciones.'
+  },
+  {
+    p: 'El Postulado III de Euclides afirma que es posible trazar un círculo:',
+    ops: [
+      'Con cualquier centro y cualquier radio',
+      'Solo si el radio es mayor que 1 cm',
+      'Solo con centro en el origen',
+      'Con radio fijo de un valor estándar',
+      'Solo si el centro está en el centro del plano'
+    ],
+    ok: 0,
+    ex: 'El Postulado III no impone ninguna restricción: el centro puede ser cualquier punto del plano y el radio puede ser cualquier valor positivo.'
+  },
+  {
+    p: 'El Postulado IV establece que todos los ángulos rectos son:',
+    ops: [
+      'Iguales entre sí',
+      'Diferentes según el lugar donde se tracen',
+      'Mayores de 90° en el hemisferio sur',
+      'Distintos si la figura se rota',
+      'Válidos solo en triángulos'
+    ],
+    ok: 0,
+    ex: 'El Postulado IV garantiza la uniformidad del espacio: un ángulo recto mide 90° sin importar su posición, orientación o escala.'
+  },
+  {
+    p: '¿Cuál es la versión simplificada (equivalente) del Postulado V?',
+    ops: [
+      'Por un punto exterior a una recta pasa exactamente una paralela a esa recta',
+      'Dos rectas paralelas siempre se cruzan en el infinito',
+      'No existen rectas paralelas en un plano',
+      'Por un punto exterior pasan infinitas rectas paralelas',
+      'Las rectas paralelas son siempre perpendiculares'
+    ],
+    ok: 0,
+    ex: 'La versión de Playfair dice: "Por un punto externo a una recta pasa exactamente una recta paralela." Es más fácil de enunciar y equivalente al original.'
+  },
+  {
+    p: '¿Por qué el 5° postulado de Euclides es históricamente especial?',
+    ops: [
+      'Durante casi 2,000 años los matemáticos intentaron demostrarlo a partir de los otros cuatro, sin éxito',
+      'Fue el más fácil de demostrar de todos',
+      'Fue inventado en el siglo XIX, no por Euclides',
+      'Solo aplica a figuras tridimensionales',
+      'Es el único que tiene una demostración formal'
+    ],
+    ok: 0,
+    ex: 'El 5° postulado fue sospechoso desde el principio: su enunciado es más complejo que los otros. Muchos pensaron que era un teorema disfrazado. En el s. XIX se probó que no se puede deducir de los otros cuatro.'
+  },
+  {
+    p: 'Cuando se modificó el 5° postulado (siglo XIX), ¿qué ocurrió?',
+    ops: [
+      'Surgieron nuevas geometrías: esférica e hiperbólica',
+      'La geometría quedó incompleta y se abandonó',
+      'Se demostró que Euclides estaba equivocado en todo',
+      'Los otros cuatro postulados también tuvieron que cambiar',
+      'Se comprobó que el 5° era innecesario'
+    ],
+    ok: 0,
+    ex: 'Al cambiar el 5° postulado surgieron las geometrías no euclidianas: la esférica (Riemann, donde las paralelas se cruzan) y la hiperbólica (Lobachevski, donde pasan infinitas paralelas por un punto). Son tan válidas como la euclidiana.'
+  },
+  {
+    p: 'Una transversal corta dos rectas paralelas. Los ángulos interiores del mismo lado suman:',
+    ops: ['180°','90°','360°','270°','45°'],
+    ok: 0,
+    ex: 'Cuando una transversal corta dos rectas paralelas, los ángulos interiores del mismo lado son suplementarios: suman exactamente 180°. Esto es consecuencia directa del 5° postulado.'
+  }
+];
+
+/* ═══════════════════════════
+   ESTADO GLOBAL
+═══════════════════════════ */
+var nom = '';
+var estadoQuiz = [];
+var quizVerificado = false;
+var actIntentos = 0;
+var compIntentos = 0;
+var detIntentos = 0;
+var modoDocente = false;
+var modoRecorrer = false;
+var herramienta = 'recta';
+var dibujando = false;
+var puntoInicio = null;
+var canvasCtx = null;
+var canvasEl = null;
+var canvasSnapshot = null;
+var trazos = [];
+
+/* ═══════════════════════════
+   INIT
+═══════════════════════════ */
+window.onload = function() {
+  estadoQuiz = new Array(QB_POSTULADOS.length);
+  for (var i = 0; i < QB_POSTULADOS.length; i++) estadoQuiz[i] = -1;
+  renderQuiz();
+  bindContadores();
+  aplicarAntiPaste();
+};
+
+/* ═══════════════════════════
+   NAVEGACIÓN
+═══════════════════════════ */
+var PASOS = ['s0','s1','s2','s3','s4','s5','s-final'];
+var progActual = 0;
+
+function showSec(id) {
+  for (var i = 0; i < PASOS.length; i++) {
+    var el = document.getElementById(PASOS[i]);
+    if (el) el.classList.remove('activa');
+  }
+  var t = document.getElementById(id);
+  if (t) { t.classList.add('activa'); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+  for (var j = 0; j < PASOS.length; j++) {
+    if (PASOS[j] === id) { progActual = j; break; }
+  }
+  actualizarProg();
+  if (id === 's3') { setTimeout(initCanvas, 100); }
+}
+
+function avanzarDe(from, to) {
+  showSec(to);
+}
+
+function actualizarProg() {
+  var pct = Math.round((progActual / (PASOS.length - 1)) * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+/* ═══════════════════════════
+   S0 — NOMBRE
+═══════════════════════════ */
+/* avanzarDe ya llamado con chk de nombre */
+var origAvanzarDe = null;
+(function(){
+  var realAvanzar = avanzarDe;
+  avanzarDe = function(from, to) {
+    if (from === 's0') {
+      nom = document.getElementById('inp-nombre').value.trim();
+      var ext = document.getElementById('ext-resp') ? document.getElementById('ext-resp').value.trim() : 'x';
+      var msg = document.getElementById('s0-msg');
+      if (!nom) { if(msg) msg.textContent = 'Escribe tu nombre para continuar.'; return; }
+      if (ext.length < 10) { if(msg) msg.textContent = 'Escribe tu respuesta sobre la línea recta antes de continuar.'; return; }
+      if(msg) msg.textContent = '';
+    }
+    realAvanzar(from, to);
+  };
+})();
+
+/* ═══════════════════════════
+   S1 — ACTIVACIÓN
+═══════════════════════════ */
+function validarAct() {
+  var v = document.getElementById('act-resp').value.trim();
+  var msg = document.getElementById('act-msg');
+  var int = document.getElementById('act-intentos');
+  if (modoRecorrer) { showSec('s2'); return; }
+  if (v.length < 60) {
+    actIntentos++;
+    msg.style.color = 'var(--roj)';
+    msg.textContent = 'Escribe al menos 60 caracteres para continuar. (' + actIntentos + '/3)';
+    if (actIntentos >= 3) {
+      int.textContent = 'Avanzando sin calificación en esta sección...';
+      setTimeout(function() { showSec('s2'); }, 1200);
+    }
+    return;
+  }
+  msg.style.color = 'var(--ver)';
+  msg.textContent = '¡Bien! Avanzando...';
+  setTimeout(function() { showSec('s2'); }, 600);
+}
+
+/* ═══════════════════════════
+   S2 — POSTULADOS
+═══════════════════════════ */
+var postAbiertos = [];
+
+function togglePost(n) {
+  var card = document.getElementById('pc' + n);
+  if (card.classList.contains('activo')) {
+    card.classList.remove('activo');
+  } else {
+    card.classList.add('activo');
+    if (postAbiertos.indexOf(n) < 0) postAbiertos.push(n);
+  }
+}
+
+function validarPostulados() {
+  var msg = document.getElementById('post-msg');
+  if (modoRecorrer || postAbiertos.length >= 3) {
+    showSec('s3');
+    return;
+  }
+  msg.textContent = 'Abre al menos 3 postulados antes de continuar (tócalos para expandirlos).';
+}
+
+/* ═══════════════════════════
+   S3 — CANVAS
+═══════════════════════════ */
+function setHerramienta(h) {
+  herramienta = h;
+  var ids = ['recta','circulo','paralelas'];
+  for (var i = 0; i < ids.length; i++) {
+    document.getElementById('tb-' + ids[i]).classList.remove('activo');
+  }
+  document.getElementById('tb-' + h).classList.add('activo');
+  puntoInicio = null;
+}
+
+function initCanvas() {
+  canvasEl = document.getElementById('dibujo-canvas');
+  if (!canvasEl) return;
+  var dpr = window.devicePixelRatio || 1;
+  var w = canvasEl.offsetWidth;
+  var h = Math.round(w * 0.6);
+  canvasEl.style.height = h + 'px';
+  canvasEl.width = w * dpr;
+  canvasEl.height = h * dpr;
+  canvasCtx = canvasEl.getContext('2d');
+  canvasCtx.scale(dpr, dpr);
+  dibujarCuadricula();
+
+  canvasEl.addEventListener('mousedown', function(e) { onDown(e.offsetX, e.offsetY); });
+  canvasEl.addEventListener('mousemove', function(e) { onMove(e.offsetX, e.offsetY); });
+  canvasEl.addEventListener('mouseup', function(e) { onUp(e.offsetX, e.offsetY); });
+  canvasEl.addEventListener('touchstart', function(e) { e.preventDefault(); var t = getTouchPos(e); onDown(t.x, t.y); }, {passive:false});
+  canvasEl.addEventListener('touchmove', function(e) { e.preventDefault(); var t = getTouchPos(e); onMove(t.x, t.y); }, {passive:false});
+  canvasEl.addEventListener('touchend', function(e) { e.preventDefault(); var t = getTouchPos(e); onUp(t.x, t.y); }, {passive:false});
+}
+
+function getTouchPos(e) {
+  var r = canvasEl.getBoundingClientRect();
+  var touch = e.touches[0] || e.changedTouches[0];
+  return { x: touch.clientX - r.left, y: touch.clientY - r.top };
+}
+
+function dibujarCuadricula() {
+  if (!canvasCtx || !canvasEl) return;
+  var w = canvasEl.offsetWidth;
+  var h = canvasEl.offsetHeight;
+  canvasCtx.clearRect(0, 0, w, h);
+  canvasCtx.strokeStyle = '#e0daea';
+  canvasCtx.lineWidth = 0.5;
+  var paso = 30;
+  for (var x = 0; x <= w; x += paso) {
+    canvasCtx.beginPath(); canvasCtx.moveTo(x, 0); canvasCtx.lineTo(x, h); canvasCtx.stroke();
+  }
+  for (var y = 0; y <= h; y += paso) {
+    canvasCtx.beginPath(); canvasCtx.moveTo(0, y); canvasCtx.lineTo(w, y); canvasCtx.stroke();
+  }
+  // Re-dibujar trazos guardados
+  for (var i = 0; i < trazos.length; i++) {
+    dibujarTrazo(trazos[i]);
+  }
+}
+
+function dibujarTrazo(t) {
+  if (!canvasCtx) return;
+  canvasCtx.save();
+  if (t.tipo === 'recta') {
+    canvasCtx.strokeStyle = '#5B2D8E';
+    canvasCtx.lineWidth = 2.5;
+    canvasCtx.lineCap = 'round';
+    canvasCtx.beginPath();
+    // Extender la recta
+    var dx = t.x2 - t.x1, dy = t.y2 - t.y1;
+    var len = Math.sqrt(dx*dx + dy*dy);
+    if (len < 1) { canvasCtx.restore(); return; }
+    var factor = 2000 / len;
+    canvasCtx.moveTo(t.x1 - dx*factor, t.y1 - dy*factor);
+    canvasCtx.lineTo(t.x2 + dx*factor, t.y2 + dy*factor);
+    canvasCtx.stroke();
+    // Puntos
+    canvasCtx.fillStyle = '#E85D04';
+    canvasCtx.beginPath(); canvasCtx.arc(t.x1, t.y1, 4, 0, Math.PI*2); canvasCtx.fill();
+    canvasCtx.beginPath(); canvasCtx.arc(t.x2, t.y2, 4, 0, Math.PI*2); canvasCtx.fill();
+  } else if (t.tipo === 'circulo') {
+    var r = Math.sqrt(Math.pow(t.x2-t.x1,2)+Math.pow(t.y2-t.y1,2));
+    canvasCtx.strokeStyle = '#023E8A';
+    canvasCtx.lineWidth = 2;
+    canvasCtx.beginPath(); canvasCtx.arc(t.x1, t.y1, r, 0, Math.PI*2); canvasCtx.stroke();
+    canvasCtx.fillStyle = '#023E8A';
+    canvasCtx.beginPath(); canvasCtx.arc(t.x1, t.y1, 4, 0, Math.PI*2); canvasCtx.fill();
+    // Radio punteado
+    canvasCtx.setLineDash([5,4]);
+    canvasCtx.strokeStyle = '#7B3FC0';
+    canvasCtx.lineWidth = 1;
+    canvasCtx.beginPath(); canvasCtx.moveTo(t.x1, t.y1); canvasCtx.lineTo(t.x2, t.y2); canvasCtx.stroke();
+    canvasCtx.setLineDash([]);
+  } else if (t.tipo === 'paralelas') {
+    var y1 = t.y1, y2 = t.y2;
+    var w = canvasEl.offsetWidth;
+    // Paralela 1
+    canvasCtx.strokeStyle = '#1B6B45'; canvasCtx.lineWidth = 2; canvasCtx.lineCap='round';
+    canvasCtx.beginPath(); canvasCtx.moveTo(0, y1); canvasCtx.lineTo(w, y1); canvasCtx.stroke();
+    // Paralela 2
+    canvasCtx.beginPath(); canvasCtx.moveTo(0, y2); canvasCtx.lineTo(w, y2); canvasCtx.stroke();
+    // Transversal
+    canvasCtx.strokeStyle = '#E85D04'; canvasCtx.lineWidth = 2;
+    canvasCtx.beginPath(); canvasCtx.moveTo(t.tx, 0); canvasCtx.lineTo(t.tx + 40, canvasEl.offsetHeight); canvasCtx.stroke();
+    // Ángulos indicados
+    canvasCtx.fillStyle = '#023E8A';
+    canvasCtx.font = '11px Nunito, sans-serif';
+    canvasCtx.fillText('α', t.tx + 6, y1 - 4);
+    canvasCtx.fillText('β', t.tx + 6, y2 - 4);
+    canvasCtx.fillStyle = '#5B2D8E';
+    canvasCtx.fillText('α+β=180°', t.tx - 60, (y1+y2)/2);
+  }
+  canvasCtx.restore();
+}
+
+function onDown(x, y) {
+  dibujando = true;
+  if (herramienta === 'paralelas') {
+    var h = canvasEl.offsetHeight;
+    var gap = h * 0.25;
+    var cy = Math.max(gap, Math.min(h - gap, y));
+    trazos.push({ tipo:'paralelas', y1: cy - gap*0.6, y2: cy + gap*0.6, tx: x });
+    dibujarCuadricula();
+    dibujando = false;
+    return;
+  }
+  puntoInicio = {x:x, y:y};
+}
+
+function onMove(x, y) {
+  if (!dibujando || !puntoInicio || herramienta === 'paralelas') return;
+  dibujarCuadricula();
+  // Preview
+  canvasCtx.save();
+  canvasCtx.setLineDash([6,4]);
+  if (herramienta === 'recta') {
+    canvasCtx.strokeStyle = '#7B3FC0'; canvasCtx.lineWidth = 1.5;
+    canvasCtx.beginPath(); canvasCtx.moveTo(puntoInicio.x, puntoInicio.y); canvasCtx.lineTo(x, y); canvasCtx.stroke();
+  } else if (herramienta === 'circulo') {
+    var r = Math.sqrt(Math.pow(x-puntoInicio.x,2)+Math.pow(y-puntoInicio.y,2));
+    canvasCtx.strokeStyle = '#1565C0'; canvasCtx.lineWidth = 1.5;
+    canvasCtx.beginPath(); canvasCtx.arc(puntoInicio.x, puntoInicio.y, r, 0, Math.PI*2); canvasCtx.stroke();
+  }
+  canvasCtx.restore();
+}
+
+function onUp(x, y) {
+  if (!dibujando || !puntoInicio || herramienta === 'paralelas') { dibujando = false; return; }
+  if (herramienta === 'recta') {
+    trazos.push({ tipo:'recta', x1:puntoInicio.x, y1:puntoInicio.y, x2:x, y2:y });
+  } else if (herramienta === 'circulo') {
+    trazos.push({ tipo:'circulo', x1:puntoInicio.x, y1:puntoInicio.y, x2:x, y2:y });
+  }
+  puntoInicio = null;
+  dibujando = false;
+  dibujarCuadricula();
+}
+
+function borrarCanvas() {
+  trazos = [];
+  puntoInicio = null;
+  dibujando = false;
+  dibujarCuadricula();
+}
+
+function canvasTieneDibujo() {
+  return trazos.length > 0;
+}
+
+function validarDibujo() {
+  var a = document.getElementById('ver-a').value;
+  var b = document.getElementById('ver-b').value;
+  var c = document.getElementById('ver-c').value;
+  var msg = document.getElementById('dib-msg');
+  if (modoRecorrer) { capturarCanvas(); showSec('s4'); return; }
+  if (!a || !b || !c) {
+    msg.textContent = 'Responde las tres preguntas de verificación antes de continuar.';
+    return;
+  }
+  capturarCanvas();
+  showSec('s4');
+}
+
+function capturarCanvas() {
+  if (canvasEl) {
+    try { canvasSnapshot = canvasEl.toDataURL('image/png'); } catch(e) { canvasSnapshot = null; }
+  }
+}
+
+/* ═══════════════════════════
+   S4 — QUIZ
+═══════════════════════════ */
+function renderQuiz() {
+  var cont = document.getElementById('quiz-contenedor');
+  if (!cont) return;
+  var html = '';
+  for (var i = 0; i < QB_POSTULADOS.length; i++) {
+    var q = QB_POSTULADOS[i];
+    html += '<div class="qcard" id="qcard-'+i+'">';
+    html += '<div class="q-num">Pregunta '+(i+1)+' de '+QB_POSTULADOS.length+'</div>';
+    html += '<div class="q-preg">'+q.p+'</div>';
+    html += '<div class="q-ops" id="qops-'+i+'">';
+    // Barajar opciones
+    var orden = [];
+    for (var j = 0; j < q.ops.length; j++) orden.push(j);
+    orden.sort(function() { return Math.random() - 0.5; });
+    for (var k = 0; k < orden.length; k++) {
+      var idx = orden[k];
+      html += '<div class="q-op" id="qop-'+i+'-'+idx+'" onclick="selOp('+i+','+idx+')">';
+      html += '<div class="q-radio"></div>';
+      html += '<span>'+q.ops[idx]+'</span></div>';
+    }
+    html += '</div>';
+    html += '<div class="q-exp" id="qexp-'+i+'">'+q.ex+'</div>';
+    html += '</div>';
+  }
+  cont.innerHTML = html;
+}
+
+function selOp(qi, oi) {
+  if (quizVerificado) return;
+  estadoQuiz[qi] = oi;
+  // Quitar sel de todas las ops de esta pregunta
+  for (var j = 0; j < QB_POSTULADOS[qi].ops.length; j++) {
+    var el = document.getElementById('qop-'+qi+'-'+j);
+    if (el) el.classList.remove('sel');
+  }
+  var sel = document.getElementById('qop-'+qi+'-'+oi);
+  if (sel) sel.classList.add('sel');
+}
+
+function verificarQuiz() {
+  // Verificar que todas estén respondidas
+  var falta = false;
+  for (var i = 0; i < estadoQuiz.length; i++) {
+    if (estadoQuiz[i] < 0) { falta = true; break; }
+  }
+  var msg = document.getElementById('quiz-msg');
+  if (falta && !modoDocente) {
+    msg.textContent = 'Responde todas las preguntas antes de verificar.';
+    return;
+  }
+  quizVerificado = true;
+  msg.textContent = '';
+  document.getElementById('btn-verificar').disabled = true;
+  for (var i = 0; i < QB_POSTULADOS.length; i++) {
+    var q = QB_POSTULADOS[i];
+    var respuesta = modoDocente ? q.ok : estadoQuiz[i];
+    for (var j = 0; j < q.ops.length; j++) {
+      var op = document.getElementById('qop-'+i+'-'+j);
+      if (!op) continue;
+      op.style.pointerEvents = 'none';
+      if (j === q.ok) op.classList.add('cor');
+      else if (j === respuesta && j !== q.ok) op.classList.add('err');
+    }
+    var exp = document.getElementById('qexp-'+i);
+    if (exp) exp.classList.add('vis');
+  }
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+  document.getElementById('btn-quiz-cont').style.display = 'flex';
+}
+
+/* ═══════════════════════════
+   S5 — COMPRENSIÓN
+═══════════════════════════ */
+var KW_COMP = [
+  {id:'kw-recta', words:['recta','línea']},
+  {id:'kw-puntos', words:['punto','puntos']},
+  {id:'kw-circulo', words:['círculo','circulo','radio','compás','compas']},
+  {id:'kw-angulo', words:['ángulo','angulo','recto','90']},
+  {id:'kw-paralela', words:['paralela','paralelo','transversal']}
+];
+
+function chkKW(txt) {
+  var low = txt.toLowerCase();
+  for (var i = 0; i < KW_COMP.length; i++) {
+    var found = false;
+    for (var j = 0; j < KW_COMP[i].words.length; j++) {
+      if (low.indexOf(KW_COMP[i].words[j]) >= 0) { found = true; break; }
+    }
+    var chip = document.getElementById(KW_COMP[i].id);
+    if (chip) {
+      if (found) chip.classList.add('ok');
+      else chip.classList.remove('ok');
+    }
+  }
+}
+
+function validarComp() {
+  var comp = document.getElementById('comp-resp').value.trim();
+  var det = document.getElementById('det-resp').value.trim();
+  var msg = document.getElementById('comp-msg');
+  var detMsg = document.getElementById('det-msg');
+  var msgInt = document.getElementById('comp-intentos');
+  var detInt = document.getElementById('det-intentos');
+
+  if (modoRecorrer) { finalizar(); return; }
+
+  var compOk = comp.length >= 120;
+  var detOk = det.length >= 80;
+
+  if (!compOk) {
+    compIntentos++;
+    msg.style.color = 'var(--roj)';
+    msg.textContent = 'Escribe al menos 120 caracteres en tu reflexión. (' + compIntentos + '/3)';
+    if (compIntentos >= 3) {
+      msgInt.textContent = 'Avanzando...';
+      compOk = true;
+    }
+  } else { msg.style.color = 'var(--ver)'; msg.textContent = '✓ Reflexión registrada.'; }
+
+  if (!detOk) {
+    detIntentos++;
+    detMsg.style.color = 'var(--roj)';
+    detMsg.textContent = 'Escribe al menos 80 caracteres en la pregunta detonadora. (' + detIntentos + '/3)';
+    if (detIntentos >= 3) {
+      detInt.textContent = 'Avanzando...';
+      detOk = true;
+    }
+  } else { detMsg.style.color = 'var(--ver)'; detMsg.textContent = '✓ Pregunta detonadora registrada.'; }
+
+  if (compOk && detOk) {
+    setTimeout(function() { finalizar(); }, 500);
+  }
+}
+
+/* ═══════════════════════════
+   CALIFICACIÓN Y RESULTADOS
+═══════════════════════════ */
+function calcNota() {
+  var pts = 0;
+  var det = [];
+
+  // QUIZ (5 pts)
+  var qc = 0;
+  for (var i = 0; i < QB_POSTULADOS.length; i++) {
+    if (estadoQuiz[i] === QB_POSTULADOS[i].ok) qc++;
+  }
+  var qpts = Math.round(qc * 0.5 * 10) / 10;
+  pts += qpts;
+  det.push({cat:'Quiz (10 preguntas)', pts:qpts, max:5, extra:qc+'/10 correctas'});
+
+  // ACTIVACIÓN (1 pt)
+  var actTxt = document.getElementById('act-resp') ? document.getElementById('act-resp').value.trim() : '';
+  var actPts = actTxt.length >= 60 ? 1 : (actTxt.length >= 30 ? 0.5 : 0);
+  pts += actPts;
+  det.push({cat:'Activación (axioma cotidiano)', pts:actPts, max:1, extra:''});
+
+  // COMPRENSIÓN (2 pts)
+  var compTxt = document.getElementById('comp-resp') ? document.getElementById('comp-resp').value.trim() : '';
+  var compPts = 0;
+  var low = compTxt.toLowerCase();
+  var kwFound = 0;
+  for (var k = 0; k < KW_COMP.length; k++) {
+    for (var j = 0; j < KW_COMP[k].words.length; j++) {
+      if (low.indexOf(KW_COMP[k].words[j]) >= 0) { kwFound++; break; }
+    }
+  }
+  if (compTxt.length >= 120) compPts += 1;
+  if (kwFound >= 2) compPts += 1;
+  pts += compPts;
+  det.push({cat:'Comprensión (postulados propios)', pts:compPts, max:2, extra:kwFound+' palabras clave'});
+
+  // DETONADORA (0.8 pts)
+  var detTxt = document.getElementById('det-resp') ? document.getElementById('det-resp').value.trim() : '';
+  var detPts = detTxt.length >= 80 ? 0.8 : (detTxt.length >= 40 ? 0.4 : 0);
+  pts += detPts;
+  det.push({cat:'Pregunta detonadora (S2)', pts:detPts, max:0.8, extra:''});
+
+  // DIBUJO (0.2 pts)
+  var dibPts = canvasTieneDibujo() ? 0.2 : 0;
+  pts += dibPts;
+  det.push({cat:'Dibujo interactivo', pts:dibPts, max:0.2, extra:canvasTieneDibujo()?'Con trazos':'Sin trazos'});
+
+  return {total: Math.min(Math.round(pts * 10) / 10, 10), max:10, det:det};
+}
+
+function finalizar() {
+  if (!quizVerificado) {
+    // Simular quiz correcto si es modo docente
+    if (modoDocente) {
+      for (var i = 0; i < QB_POSTULADOS.length; i++) estadoQuiz[i] = QB_POSTULADOS[i].ok;
+    }
+    quizVerificado = true;
+  }
+  var res = calcNota();
+
+  // Nota
+  document.getElementById('res-nota').textContent = res.total;
+  document.getElementById('res-nombre-hdr').textContent = nom || 'Alumno/a';
+
+  // Watermark
+  var wm = document.getElementById('res-wm');
+  var wmRow = '';
+  for (var i = 0; i < 8; i++) wmRow += '<div class="res-wm-row">' + (nom||'Alumno') + ' &nbsp;·&nbsp; ' + (nom||'Alumno') + '</div>';
+  wm.innerHTML = wmRow;
+
+  // Tabla desglose
+  var tabla = document.getElementById('res-det-tabla');
+  var rows = '<tr><th>Categoría</th><th>Puntos</th><th>Máximo</th></tr>';
+  for (var i = 0; i < res.det.length; i++) {
+    var d = res.det[i];
+    rows += '<tr><td>' + d.cat + (d.extra?' <span style="color:var(--grisDk);font-size:.74rem;">(' + d.extra + ')</span>':'') + '</td><td><strong>' + d.pts + '</strong></td><td>' + d.max + '</td></tr>';
+  }
+  rows += '<tr style="background:var(--mo-f);"><td><strong>Total</strong></td><td><strong>' + res.total + '</strong></td><td>10</td></tr>';
+  tabla.innerHTML = rows;
+
+  // Canvas preview
+  var imgEl = document.getElementById('res-canvas-img');
+  var noneEl = document.getElementById('res-canvas-none');
+  if (canvasSnapshot) {
+    imgEl.src = canvasSnapshot;
+    imgEl.style.display = 'block';
+  } else {
+    noneEl.style.display = 'block';
+  }
+
+  // Quiz tabla
+  var qt = document.getElementById('res-quiz-tabla');
+  var qrows = '<tr><th>#</th><th>Pregunta</th><th>Tu resp.</th><th>Correcta</th><th></th></tr>';
+  for (var i = 0; i < QB_POSTULADOS.length; i++) {
+    var q = QB_POSTULADOS[i];
+    var uResp = estadoQuiz[i] >= 0 ? q.ops[estadoQuiz[i]] : '—';
+    var ok = estadoQuiz[i] === q.ok;
+    qrows += '<tr>';
+    qrows += '<td>' + (i+1) + '</td>';
+    qrows += '<td>' + q.p + '</td>';
+    qrows += '<td>' + uResp + '</td>';
+    qrows += '<td>' + q.ops[q.ok] + '</td>';
+    qrows += '<td>' + (ok ? '<span class="badge-ok">✓</span>' : '<span class="badge-err">✗</span>') + '</td>';
+    qrows += '</tr>';
+  }
+  qt.innerHTML = qrows;
+
+  // Reflexiones
+  var extTxt = document.getElementById('ext-resp') ? document.getElementById('ext-resp').value.trim() : '';
+  var compTxt = document.getElementById('comp-resp') ? document.getElementById('comp-resp').value.trim() : '';
+  var detTxt = document.getElementById('det-resp') ? document.getElementById('det-resp').value.trim() : '';
+  var ref = document.getElementById('res-reflexiones');
+  ref.innerHTML = '<div class="sec-num" style="margin-bottom:6px;">Tus reflexiones</div>'
+    + '<div class="blk az"><h4>¿Cómo le explicarías una recta a un extraterrestre?</h4><p>' + (extTxt||'(no respondida)') + '</p></div>'
+    + '<div class="blk mo"><h4>Postulados con tus palabras</h4><p>' + (compTxt||'(no respondida)') + '</p></div>'
+    + '<div class="blk az"><h4>Pregunta detonadora — ¿Qué pasaría sin el 5°?</h4><p>' + (detTxt||'(no respondida)') + '</p></div>';
+
+  showSec('s-final');
+
+  if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+}
+
+/* ═══════════════════════════
+   CONTADORES DE TEXTO
+═══════════════════════════ */
+function bindContadores() {
+  function bind(inputId, cntId, min) {
+    var el = document.getElementById(inputId);
+    var cnt = document.getElementById(cntId);
+    if (!el || !cnt) return;
+    el.addEventListener('input', function() {
+      var n = el.value.length;
+      cnt.textContent = n + ' / ' + min;
+      cnt.style.color = n >= min ? 'var(--ver)' : 'var(--grisDk)';
+    });
+  }
+  bind('ext-resp', 'ext-cnt', 40);
+  bind('act-resp', 'act-cnt', 60);
+  bind('comp-resp', 'comp-cnt', 120);
+  bind('det-resp', 'det-cnt', 80);
+
+  // KW checker en comp-resp
+  var compEl = document.getElementById('comp-resp');
+  if (compEl) {
+    compEl.addEventListener('input', function() { chkKW(compEl.value); });
+  }
+}
+
+/* ═══════════════════════════
+   ANTI-PASTE
+═══════════════════════════ */
+function aplicarAntiPaste() {
+  var els = document.querySelectorAll('textarea, input[type=text]');
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].id === 'inp-nombre') continue;
+    (function(el) {
+      el.addEventListener('paste', function(e) { e.preventDefault(); });
+      el.addEventListener('copy', function(e) { e.preventDefault(); });
+      el.addEventListener('cut', function(e) { e.preventDefault(); });
+      el.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    })(els[i]);
+  }
+}
+
+/* ═══════════════════════════
+   PANEL DOCENTE
+═══════════════════════════ */
+function abrirDoc() {
+  document.getElementById('doc-panel-float').style.display = 'block';
+}
+function cerrarDoc() {
+  document.getElementById('doc-panel-float').style.display = 'none';
+  document.getElementById('doc-cod-f').value = '';
+}
+function chkDoc() {
+  var v = document.getElementById('doc-cod-f').value.trim();
+  if (v === '890') {
+    document.getElementById('doc-login-f').style.display = 'none';
+    document.getElementById('doc-acciones').style.display = 'block';
+  }
+}
+function docAvanzar() {
+  modoRecorrer = true;
+  cerrarDoc();
+  var orden = ['s0','s1','s2','s3','s4','s5','s-final'];
+  var actual = PASOS[progActual];
+  var idx = -1;
+  for (var i = 0; i < orden.length; i++) {
+    if (orden[i] === actual) { idx = i; break; }
+  }
+  var siguiente = orden[idx + 1] || 's-final';
+  if (siguiente === 's-final') {
+    nom = document.getElementById('inp-nombre').value.trim() || 'Docente';
+    finalizar();
+  } else {
+    showSec(siguiente);
+  }
+}
+function simularResultados() {
+  modoDocente = true;
+  cerrarDoc();
+  document.getElementById('inp-nombre').value = 'Docente — Demo';
+  nom = 'Docente — Demo';
+  for (var i = 0; i < QB_POSTULADOS.length; i++) estadoQuiz[i] = QB_POSTULADOS[i].ok;
+  quizVerificado = true;
+  finalizar();
+}
+
+/* ═══════════════════════════
+   PDF
+═══════════════════════════ */
+function guardarPDF() {
+  window.scrollTo(0, 0);
+  setTimeout(function() { window.print(); }, 200);
+}
+</script>
+</body>
+</html>
