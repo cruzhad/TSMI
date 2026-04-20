@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Geometrías del mundo · Descubriendo otras formas de medir · Prof. Adrián CruzH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: #f0eafa; padding: 16px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    :root {
+      --mo: #5B2D8E; --mo2: #7B3FC0; --mo3: #B88EE8; --mo-f: #f3ecfb;
+      --ver: #1B6B45; --ver2: #52B788; --nar: #E85D04; --roj: #C1121F;
+      --az: #023E8A; --az2: #1565C0; --am: #F5A623; --tie: #1a0a2e;
+      --gris: #ede8f5; --gris2: #d5cce8; --grisDk: #666; --som: 0 3px 18px rgba(91,45,142,.12);
+      --radio: 13px;
+    }
+    .prog-wrap { position: sticky; top: 0; z-index: 100; background: white; border-radius: 20px; padding: 8px 16px; margin-bottom: 12px; box-shadow: var(--som); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .prog-bar-bg { flex: 1; height: 12px; background: var(--gris); border-radius: 20px; }
+    .prog-bar-fill { width: 0%; height: 100%; background: var(--mo2); border-radius: 20px; transition: width .2s; }
+    .prog-text { font-size: .75rem; font-weight: 800; color: var(--mo); }
+    .seccion { display: none; background: #fff; border-radius: var(--radio); padding: 22px; margin-bottom: 14px; box-shadow: var(--som); }
+    .seccion.activa { display: block; }
+    .sec-tit { font-family: 'Bebas Neue'; font-size: 1.7rem; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2.5px solid var(--mo-f); color: var(--mo); }
+    .blk { padding: 12px 15px; margin-bottom: 12px; border-left: 4px solid; background: var(--mo-f); border-radius: 8px; }
+    .blk.mo { border-left-color: var(--mo); }
+    .blk.az { background: #eef5ff; border-left-color: var(--az2); }
+    .blk.ver { background: #edfbf3; border-left-color: var(--ver); }
+    .blk.nar { background: #fff4ec; border-left-color: var(--nar); }
+    .alerta { background: #fff4ec; border: 1.5px solid var(--nar); border-radius: 9px; padding: 10px 14px; font-size: .8rem; margin: 8px 0; }
+    .aviso-verde { background: #e0f5e9; border-left: 4px solid var(--ver); padding: 8px 12px; font-size: .8rem; margin: 8px 0; }
+    .btn { background: var(--mo2); border: none; color: white; padding: 8px 18px; border-radius: 40px; font-weight: 800; cursor: pointer; margin-top: 6px; transition: 0.2s; }
+    .btn-sec { background: var(--az2); }
+    input, textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1.5px solid var(--gris2); font-family: 'Nunito'; margin: 6px 0; }
+    .emsg { color: var(--roj); font-size: .7rem; display: none; }
+    .emsg.show { display: block; }
+    .pregunta-guia { background: #fff9e8; border-left: 4px solid var(--am); padding: 12px; margin-bottom: 16px; border-radius: 8px; }
+    .pregunta-guia p { font-weight: 800; margin-bottom: 6px; }
+    .qcard { background: #fefefe; border-radius: 12px; padding: 12px; margin-bottom: 16px; border: 1px solid var(--gris2); }
+    .qtext { font-weight: 800; margin-bottom: 8px; }
+    .qopts { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; text-align: left; }
+    .qopts label {
+      display: block;
+      margin: 4px 0;
+      text-align: left;
+      font-size: .85rem;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .opcion-letra {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      background: var(--gris);
+      border-radius: 30px;
+      text-align: center;
+      font-weight: 800;
+      margin-right: 8px;
+      line-height: 28px;
+      vertical-align: middle;
+    }
+    .explicacion { font-size: .75rem; background: var(--mo-f); padding: 6px; border-radius: 8px; margin-top: 6px; display: none; }
+    .btn-verificar-q { background: #F9A53A; color: #3a2a00; border: none; padding: 4px 12px; border-radius: 30px; font-size: .7rem; font-weight: bold; margin-top: 6px; cursor: pointer; }
+    .canvas-container { background: #fef9e6; border-radius: 12px; padding: 8px; border: 2px solid var(--am); margin: 10px 0; }
+    canvas.dibujo-canvas { border-radius: 8px; background: white; width: 100%; height: auto; cursor: crosshair; touch-action: none; border: 1px solid #ccc; }
+    .toolbar { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .tool-btn { background: var(--gris2); border: none; padding: 5px 12px; border-radius: 30px; font-size: .7rem; font-weight: bold; cursor: pointer; }
+    .doc-panel-float { position: fixed; bottom: 16px; right: 16px; background: #1a0a2e; border: 1.5px solid var(--mo3); border-radius: 12px; padding: 12px 14px; font-size: .78rem; color: white; box-shadow: 0 4px 20px rgba(91,45,142,.4); z-index: 9999; max-width: 230px; display: none; }
+    .doc-panel-float input { background: white; color: black; border-radius: 6px; }
+    .doc-panel-float button { background: var(--mo2); border: none; color: white; border-radius: 6px; padding: 5px; margin-top: 5px; width: 100%; font-weight: 700; cursor: pointer; }
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear,
+    input[type="password"]::-webkit-credentials-auto-fill-button,
+    input[type="password"]::-webkit-password-toggle-button {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    .trigger-doc { font-size: .7rem; color: var(--grisDk); opacity: .5; cursor: pointer; user-select: none; display: inline-block; margin-top: 6px; }
+    .resultado-tabla { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .75rem; }
+    .resultado-tabla th, .resultado-tabla td { border: 1px solid var(--gris2); padding: 6px 8px; vertical-align: top; text-align: left; }
+    .resultado-tabla th { background: var(--mo); color: white; }
+    .nota-grande { font-size: 2rem; font-weight: 900; color: var(--mo); margin-bottom: 12px; }
+    .dibujo-miniatura { max-width: 200px; border: 1px solid #ccc; border-radius: 8px; margin-top: 8px; }
+    @media print {
+      .no-print, .prog-wrap, .doc-panel-float, .toolbar, .btn, .tab-container { display: none !important; }
+      body { background: white; }
+      .seccion { display: block !important; page-break-after: always; }
+      #resultados { display: block !important; }
+    }
+    #globe-container { width: 100%; height: 480px; border-radius: 16px; overflow: hidden; margin: 12px 0; background: #050b1a; position: relative; }
+    .globe-note { font-size: .7rem; text-align: center; color: var(--grisDk); margin-bottom: 8px; }
+    .tab-container { display: flex; gap: 8px; justify-content: center; margin: 12px 0; flex-wrap: wrap; }
+    .tab-btn { background: #1e2a3a; border: none; color: #eee; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    .tab-btn.active { background: var(--az2); color: white; }
+    @media (max-width: 700px) { #globe-container { height: 320px; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="prog-wrap no-print">
+    <div class="prog-bar-bg"><div class="prog-bar-fill" id="progFill"></div></div>
+    <div class="prog-text" id="progLabel">Sección 0/4</div>
+  </div>
+
+  <!-- S0: Identificación + Activación -->
+  <div id="sec0" class="seccion activa">
+    <div class="sec-tit">🌍 Empecemos a observar</div>
+    <div class="alerta">⚠️ No minimices ni recargues la página mientras trabajas.</div>
+    <div class="aviso-verde">✅ Todas tus respuestas son parte de tu proceso de aprendizaje. Al final verás un resumen, pero lo importante es lo que descubras.</div>
+    <label>📛 Nombre y grupo (para identificar tu trabajo):</label>
+    <input type="text" id="inp-nombre" placeholder="Ej: Ana Pérez · 402" autocomplete="off">
+    <div class="trigger-doc" onclick="abrirDoc()">👨‍🏫 Prof. Adrián CruzH</div>
+    <div class="blk mo" style="margin-top:15px;">
+      <strong>🔍 Pregunta para empezar a pensar</strong>
+      <p id="actQText">Cargando...</p>
+      <textarea id="actResp" rows="3" placeholder="Escribe lo que se te ocurra (mínimo 50 caracteres)"></textarea>
+      <div class="emsg" id="actErr"></div>
+      <button class="btn btn-sec" id="validarActBtn">Guardar reflexión y continuar</button>
+    </div>
+  </div>
+
+  <!-- S1: Exploración del globo 3D -->
+  <div id="sec1" class="seccion">
+    <div class="sec-tit">🌐 Explora el mundo con tus propias manos</div>
+    <div class="blk az">
+      <p>🔎 <strong>Antes de leer cualquier teoría</strong>, juega con el globo terráqueo de abajo. Gíralo, acércate, aléjate. Observa las líneas que aparecen al hacer clic en los botones.</p>
+    </div>
+    <div id="globe-container"></div>
+    <div class="tab-container no-print">
+      <button class="tab-btn" data-mode="meridianos">📏 Líneas verticales (de polo a polo)</button>
+      <button class="tab-btn" data-mode="triangulo">🔺 Triángulo enorme sobre la esfera</button>
+      <button class="tab-btn" data-mode="ruta">✈️ Viaje CDMX → Tokio</button>
+      <button class="tab-btn" data-mode="paralelas">🌍 Líneas horizontales (paralelos)</button>
+    </div>
+    <div class="globe-note">🖱️ Arrastra para rotar | Desplaza para zoom</div>
+    
+    <div class="pregunta-guia">
+      <p>📌 <strong>Copia estas preguntas en tu cuaderno y respóndelas mientras exploras:</strong></p>
+      <ul style="margin-left: 20px; margin-top: 5px;">
+        <li>¿Las líneas que van de polo a polo se juntan en algún lugar?</li>
+        <li>¿Las líneas horizontales (paralelos) son todas del mismo tamaño? ¿Cuál es la más larga?</li>
+        <li>En la pestaña "Triángulo enorme", observa el triángulo que se dibuja. ¿Cómo crees que serán sus ángulos? ¿Sumarán 180° como en el pizarrón?</li>
+        <li>En "Viaje CDMX → Tokio": la línea <span style="color:#44ff44">verde</span> va sobre la superficie; la línea <span style="color:#ff6666">roja</span> va recta por dentro. ¿Cuál crees que es la distancia real que recorre un avión?</li>
+      </ul>
+    </div>
+    <button class="btn" id="nextToQuiz">Continuar con las preguntas →</button>
+  </div>
+
+  <!-- S2: Preguntas para reflexionar (formativas) -->
+  <div id="sec2" class="seccion">
+    <div class="sec-tit">🤔 Preguntas para pensar (sin presión)</div>
+    <div class="aviso-verde">No hay respuestas incorrectas, solo ideas para construir tu comprensión. Selecciona la opción que más se acerque a lo que piensas ahora.</div>
+    <div id="quizContainer"></div>
+    <button class="btn btn-sec" id="nextToReflexion">Guardar mis respuestas y continuar →</button>
+  </div>
+
+  <!-- S3: Reflexión final + dibujo -->
+  <div id="sec3" class="seccion">
+    <div class="sec-tit">📖 Cierre: ¿para qué sirve todo esto?</div>
+    <div class="blk mo">
+      <strong>💭 Reflexión final</strong>
+      <p id="reflexionPregunta">Cargando...</p>
+      <textarea id="reflexionResp" rows="5" placeholder="Escribe tu reflexión (mínimo 80 caracteres)"></textarea>
+      <div class="emsg" id="refErr"></div>
+      <button id="validarReflexionBtn" class="btn">Guardar reflexión</button>
+      <div id="reflexionStatus" class="aviso-verde" style="margin-top:6px;"></div>
+    </div>
+    <div class="canvas-container">
+      <strong>🎨 Dibujo libre:</strong> Si quieres, traza cómo imaginas un triángulo enorme sobre la Tierra o la ruta de un avión. (No es obligatorio, pero ayuda a expresar tus ideas)
+      <canvas id="dibujoCanvas" width="500" height="280" class="dibujo-canvas" style="width:100%; height:auto; max-width:500px;"></canvas>
+      <div class="toolbar">
+        <button class="tool-btn" id="lapizBtn">✏️ Lápiz</button>
+        <button class="tool-btn" id="borradorBtn">🧽 Borrador</button>
+        <button class="tool-btn" id="limpiarCanvasBtn">🗑️ Limpiar</button>
+      </div>
+    </div>
+    <button class="btn" id="finalizarActBtn">Ver mi resumen final →</button>
+  </div>
+
+  <!-- S4: Resumen formativo -->
+  <div id="sec4" class="seccion">
+    <div class="sec-tit">📊 Tu proceso de descubrimiento</div>
+    <div id="resultadosPanel"></div>
+    <button class="btn no-print" id="pdfBtn">📄 Guardar este resumen como PDF</button>
+  </div>
+
+  <!-- Panel docente flotante -->
+  <div id="doc-panel-float" class="doc-panel-float no-print">
+    <div style="font-weight:800;color:var(--mo3);">🔒 Panel Docente</div>
+    <div id="doc-login-f">
+      <input type="password" id="doc-cod-f" placeholder="" autocomplete="off">
+      <button onclick="chkDoc()">Entrar</button>
+    </div>
+    <div id="doc-acciones" style="display:none;">
+      <button onclick="docAvanzar()">⏭ Avanzar sin validar</button>
+      <button onclick="simularResultados()">⚡ Simular resultados (ejemplo)</button>
+      <button onclick="cerrarDoc()">✕ Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- PREGUNTAS DE ACTIVACIÓN (fija para todos) ----------
+const ACTIVACION = [
+  {q:"¿Cómo crees que son las reglas de la geometría en una superficie curva como la Tierra? ¿Serán iguales que en una hoja de papel?", kw:["curva","esfera","reglas"], min:50}
+];
+const COMPRENSION = [
+  {q:"Después de explorar el globo y responder las preguntas, escribe una conclusión personal: ¿Qué significa que existan diferentes 'geometrías'? ¿Por qué es importante conocer que la geometría de la esfera es distinta a la del plano? Menciona al menos un ejemplo de tu vida diaria donde esto tenga aplicación.", kw:["geometría","esfera","plano","aplicación"], min:80}
+];
+
+// ---------- PREGUNTAS GUIADAS (formativas) ----------
+const PREGUNTAS_GUIA = [
+  {p:"Después de observar el globo, ¿cómo describirías las líneas que van de un polo al otro (las que aparecen al hacer clic en 'Líneas verticales')?", 
+    ops:["Todas se juntan en los polos", "Son todas paralelas como en un mapa", "Algunas se cruzan y otras no", "No lo sé"], 
+    ref:"Se llaman meridianos y todas se encuentran en los polos. En una superficie curva, las líneas que van de polo a polo no pueden ser paralelas."},
+  {p:"En la pestaña 'Triángulo enorme', el triángulo que ves tiene sus tres vértices en: Polo Norte, Ecuador frente a África, y Ecuador frente a Asia. ¿Cuánto crees que suman sus ángulos interiores?", 
+    ops:["180° (como en el plano)", "Más de 180°", "Menos de 180°", "No es posible saberlo"], 
+    ref:"En una superficie esférica, los triángulos pueden tener suma de ángulos mayor a 180°. Este triángulo en particular suma 270° (tres ángulos de 90°)."},
+  {p:"En el viaje CDMX → Tokio, la línea verde sigue la superficie (la ruta real de los aviones) y la línea roja es recta por el interior. ¿Cuál es la distancia más corta entre las dos ciudades?", 
+    ops:["La línea verde (sobre la superficie)", "La línea roja (recta por dentro)", "Ambas miden igual", "Depende del día"], 
+    ref:"La distancia más corta sobre la superficie de una esfera es la línea de 'gran círculo' (verde). Los aviones la usan para ahorrar combustible."},
+  {p:"Si dos personas caminan desde el ecuador hacia el norte siguiendo dos meridianos diferentes (líneas verticales), ¿alguna vez se encontrarán?", 
+    ops:["Sí, en el polo norte", "No, siempre estarán paralelas", "Depende de qué tan separadas empiecen", "Solo si caminan muy lento"], 
+    ref:"Sí, porque los meridianos convergen en los polos. En una esfera no existen líneas rectas paralelas infinitas como en el plano."},
+  {p:"¿Qué utilidad puede tener saber que la geometría de la esfera es diferente a la del plano? Elige la opción que te parezca más importante.", 
+    ops:["Para navegar barcos y aviones (rutas más cortas)", "Para diseñar mapas y entender sus distorsiones", "Para entender cómo funciona el GPS", "Todas las anteriores"], 
+    ref:"Todas son correctas. La navegación, la cartografía y el GPS usan geometría esférica porque vivimos en una esfera."},
+  {p:"¿Qué aprendiste nuevo con esta actividad? ¿Qué fue lo que más te sorprendió?", 
+    ops:["Que los triángulos en la esfera no suman 180°", "Que los aviones no vuelan en línea recta en el mapa", "Que hay diferentes tipos de geometría según la superficie", "Todo me sorprendió"], 
+    ref:"Esperamos que te haya sorprendido descubrir que la geometría no es única; depende de dónde la apliques."},
+  {p:"¿Crees que las matemáticas que estudias en el salón son suficientes para entender todo lo que pasa en el mundo real, o hace falta aprender otras geometrías?", 
+    ops:["Solo con la geometría plana basta", "Hay que conocer también la geometría esférica y otras", "Las matemáticas no sirven para la vida real", "No lo sé"], 
+    ref:"La geometría plana es muy útil, pero para entender la Tierra, el universo o incluso ciertas estructuras, necesitamos otras geometrías."},
+  {p:"¿Por qué es importante, como cultura general, saber que existen diferentes tipos de geometrías?", 
+    ops:["Para no pensar que todo es como en un papel", "Para entender mejor fenómenos como los mapas o las rutas aéreas", "Para valorar que las matemáticas se adaptan al mundo", "Todas las anteriores"], 
+    ref:"Las tres opciones reflejan la importancia de tener una visión más amplia de las matemáticas y su relación con la realidad."},
+  {p:"¿Qué crees que pasaría con el quinto postulado de Euclides (el de las rectas paralelas) si lo intentamos aplicar en una esfera?", 
+    ops:["Se cumpliría igual que en el plano", "No se cumpliría porque dos 'rectas' esféricas siempre se cruzan", "Solo se cumpliría en el ecuador", "No tiene sentido preguntarlo"], 
+    ref:"El quinto postulado falla: en la esfera no existen rectas paralelas, porque dos círculos máximos siempre se cortan en dos puntos."},
+  {p:"Después de toda la exploración, ¿cómo te sientes respecto a las matemáticas?", 
+    ops:["Más interesado, porque veo que se conectan con el mundo real", "Igual que antes", "Más confundido", "No me gustan las matemáticas"], 
+    ref:"Las matemáticas están vivas y nos ayudan a entender el mundo. Ojalá esta actividad te haya mostrado una faceta nueva y fascinante."}
+];
+
+let QUIZ = [];
+for (let i = 0; i < PREGUNTAS_GUIA.length; i++) {
+  const original = PREGUNTAS_GUIA[i];
+  // Mezclar opciones para evitar copia
+  let optsConIdx = original.ops.map((txt, idx) => ({ txt, idx }));
+  for (let j = optsConIdx.length - 1; j > 0; j--) {
+    const r = Math.floor(Math.random() * (j + 1));
+    [optsConIdx[j], optsConIdx[r]] = [optsConIdx[r], optsConIdx[j]];
+  }
+  const nuevasOps = optsConIdx.map(o => o.txt);
+  QUIZ.push({
+    pregunta: original.p,
+    opciones: nuevasOps,
+    explicacion: original.ref,
+    userChoice: -1,
+    verificada: false
+  });
+}
+
+let estadoQuiz = new Array(QUIZ.length).fill(-1);
+let actValidada = false, refValidada = false;
+let modoRecorrer = false;
+let actSeleccionada, refSeleccionada;
+
+function initAleatorio() {
+  actSeleccionada = ACTIVACION[0];
+  refSeleccionada = COMPRENSION[Math.floor(Math.random() * COMPRENSION.length)];
+  document.getElementById("actQText").innerText = actSeleccionada.q;
+  document.getElementById("reflexionPregunta").innerText = refSeleccionada.q;
+}
+initAleatorio();
+
+function aplicarAntiPaste() {
+  const campos = document.querySelectorAll('textarea, input[type=text]');
+  for (let el of campos) {
+    if (el.id === 'inp-nombre') continue;
+    el.addEventListener('paste', e => e.preventDefault());
+    el.addEventListener('copy', e => e.preventDefault());
+    el.setAttribute('onpaste', 'return false');
+    el.setAttribute('oncopy', 'return false');
+  }
+}
+
+function validarActivacion() {
+  const resp = document.getElementById('actResp').value.trim();
+  if (resp.length < actSeleccionada.min) {
+    document.getElementById('actErr').innerText = `Mínimo ${actSeleccionada.min} caracteres.`;
+    document.getElementById('actErr').classList.add('show');
+    return false;
+  }
+  document.getElementById('actErr').classList.remove('show');
+  actValidada = true;
+  alert('¡Gracias! Tu reflexión quedó guardada. Ahora explora el globo.');
+  cambiarSeccion(1);
+  return true;
+}
+
+function validarReflexion() {
+  const txt = document.getElementById('reflexionResp').value.trim();
+  if (txt.length < 80) {
+    document.getElementById('refErr').innerText = 'Escribe al menos 80 caracteres para expresar tu conclusión.';
+    document.getElementById('refErr').classList.add('show');
+    return false;
+  }
+  document.getElementById('refErr').classList.remove('show');
+  refValidada = true;
+  document.getElementById('reflexionStatus').innerHTML = '✅ Reflexión guardada. Puedes finalizar.';
+  return true;
+}
+
+function renderizarQuiz() {
+  let html = '';
+  const letras = ['A', 'B', 'C', 'D'];
+  for (let i = 0; i < QUIZ.length; i++) {
+    const q = QUIZ[i];
+    html += `<div class="qcard" id="qcard-${i}">
+      <div class="qtext">${i+1}. ${q.pregunta}</div>
+      <div class="qopts">`;
+    for (let o = 0; o < q.opciones.length; o++) {
+      const checked = (q.userChoice === o) ? 'checked' : '';
+      html += `<label>
+        <input type="radio" name="q${i}" value="${o}" ${checked} onchange="marcarRespuesta(${i}, ${o})">
+        <span class="opcion-letra">${letras[o]}</span> 
+        <span>${q.opciones[o]}</span>
+      </label>`;
+    }
+    html += `</div>
+      <button class="btn-verificar-q" data-qidx="${i}">💡 Ver retroalimentación</button>
+      <div class="explicacion" id="expl-${i}"></div>
+    </div>`;
+  }
+  document.getElementById('quizContainer').innerHTML = html;
+  for (let i = 0; i < QUIZ.length; i++) {
+    const btn = document.querySelector(`.btn-verificar-q[data-qidx="${i}"]`);
+    if (btn) btn.onclick = () => verificarPregunta(i);
+    if (QUIZ[i].verificada) {
+      const explDiv = document.getElementById(`expl-${i}`);
+      explDiv.innerHTML = `<strong>🤓 Para reflexionar:</strong> ${QUIZ[i].explicacion}`;
+      explDiv.style.display = 'block';
+    }
+  }
+}
+
+function marcarRespuesta(idx, opt) {
+  QUIZ[idx].userChoice = opt;
+}
+
+function verificarPregunta(idx) {
+  if (QUIZ[idx].userChoice === -1) { alert('Selecciona una opción primero'); return; }
+  estadoQuiz[idx] = 1;
+  QUIZ[idx].verificada = true;
+  const explDiv = document.getElementById(`expl-${idx}`);
+  explDiv.innerHTML = `<strong>🤓 Para reflexionar:</strong> ${QUIZ[idx].explicacion}`;
+  explDiv.style.display = 'block';
+}
+
+// Canvas dibujo
+let canvas, ctx, dibujando = false, modoBorrador = false;
+function initCanvas() {
+  canvas = document.getElementById('dibujoCanvas');
+  if (!canvas) return;
+  ctx = canvas.getContext('2d');
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  const getPos = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    let clientX, clientY;
+    if (e.touches) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; }
+    else { clientX = e.clientX; clientY = e.clientY; }
+    let x = (clientX - rect.left) * scaleX;
+    let y = (clientY - rect.top) * scaleY;
+    x = Math.min(Math.max(0, x), canvas.width);
+    y = Math.min(Math.max(0, y), canvas.height);
+    return { x, y };
+  };
+  const dibujar = (e) => {
+    if (!dibujando) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    ctx.globalCompositeOperation = modoBorrador ? 'destination-out' : 'source-over';
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, modoBorrador ? 12 : 3, 0, Math.PI * 2);
+    ctx.fillStyle = modoBorrador ? 'rgba(0,0,0,1)' : '#1a0a2e';
+    ctx.fill();
+  };
+  canvas.addEventListener('mousedown', (e) => { dibujando = true; dibujar(e); e.preventDefault(); });
+  window.addEventListener('mouseup', () => { dibujando = false; });
+  canvas.addEventListener('mousemove', dibujar);
+  canvas.addEventListener('touchstart', (e) => { dibujando = true; dibujar(e); e.preventDefault(); });
+  canvas.addEventListener('touchmove', (e) => { dibujar(e); e.preventDefault(); });
+  canvas.addEventListener('touchend', () => { dibujando = false; });
+  document.getElementById('lapizBtn').onclick = () => { modoBorrador = false; };
+  document.getElementById('borradorBtn').onclick = () => { modoBorrador = true; };
+  document.getElementById('limpiarCanvasBtn').onclick = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+}
+function obtenerImagenDibujo() {
+  if (!canvas || !ctx) return null;
+  try {
+    return canvas.toDataURL('image/png');
+  } catch(e) { return null; }
+}
+
+function mostrarResultados() {
+  const nombre = document.getElementById('inp-nombre').value.trim() || "Estudiante";
+  const reflexionTexto = document.getElementById('reflexionResp').value || "No escrita";
+  let tablaHtml = `<table class="resultado-tabla">
+    <thead><tr><th>#</th><th>Pregunta</th><th>Tu respuesta</th><th>Idea para reflexionar</th></tr></thead><tbody>`;
+  const letras = ['A','B','C','D'];
+  for (let i = 0; i < QUIZ.length; i++) {
+    const q = QUIZ[i];
+    const respAlumno = (q.userChoice !== -1) ? `${letras[q.userChoice]}) ${q.opciones[q.userChoice]}` : "Sin responder";
+    tablaHtml += `<tr>
+      <td>${i+1}</td>
+      <td>${q.pregunta.substring(0,80)}...</td>
+      <td>${respAlumno}</td>
+      <td>${q.explicacion.substring(0,100)}...</td>
+    </tr>`;
+  }
+  tablaHtml += `</tbody></table>`;
+  
+  const imagenDibujo = obtenerImagenDibujo();
+  let dibujoHtml = '';
+  if (imagenDibujo) {
+    dibujoHtml = `<div class="blk ver"><strong>🎨 Tu dibujo:</strong><br><img src="${imagenDibujo}" class="dibujo-miniatura" alt="Dibujo del alumno" style="max-width:100%; border-radius:8px;"></div>`;
+  } else {
+    dibujoHtml = `<div class="blk ver"><strong>🎨 Dibujo:</strong> No realizaste dibujo.</div>`;
+  }
+  
+  const htmlFinal = `
+    <div style="margin-bottom: 20px;">
+      <div class="nota-grande">✨ Actividad formativa completada ✨</div>
+      <div><strong>Estudiante:</strong> ${nombre}</div>
+      <div class="aviso-verde" style="margin-top: 10px;">Este resumen es para que el profesor observe tu proceso. No hay una calificación numérica, sino un registro de tus reflexiones.</div>
+    </div>
+    <div class="blk mo"><strong>📋 Tus respuestas a las preguntas guía:</strong> ${tablaHtml}</div>
+    <div class="blk az"><strong>💬 Tu reflexión final:</strong><br>${reflexionTexto}</div>
+    ${dibujoHtml}
+    <div class="blk nar">
+      <strong>✏️ Copia esta conclusión en tu cuaderno:</strong><br>
+      La geometría no es única. Depende de la superficie donde trabajemos. Entender la geometría esférica nos ayuda a viajar, usar el GPS, diseñar mapas y comprender mejor nuestro planeta.
+    </div>
+  `;
+  document.getElementById('resultadosPanel').innerHTML = htmlFinal;
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+let currentSec = 0;
+function cambiarSeccion(idx) {
+  const ids = ['sec0','sec1','sec2','sec3','sec4'];
+  for (let i = 0; i < ids.length; i++) {
+    document.getElementById(ids[i]).classList.toggle('activa', i === idx);
+  }
+  currentSec = idx;
+  const pct = Math.round((idx / (ids.length-1)) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').innerText = `Sección ${idx}/4`;
+  if (idx === 3) setTimeout(() => initCanvas(), 100);
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+// Eventos
+document.getElementById('validarActBtn').onclick = () => { if (modoRecorrer || validarActivacion()) cambiarSeccion(1); };
+document.getElementById('nextToQuiz').onclick = () => { if (modoRecorrer || actValidada) cambiarSeccion(2); else alert('Primero guarda tu reflexión inicial.'); };
+document.getElementById('nextToReflexion').onclick = () => { cambiarSeccion(3); };
+document.getElementById('validarReflexionBtn').onclick = () => { validarReflexion(); };
+document.getElementById('finalizarActBtn').onclick = () => { if (!modoRecorrer && !refValidada) validarReflexion(); mostrarResultados(); cambiarSeccion(4); };
+document.getElementById('pdfBtn').onclick = () => window.print();
+
+// Panel docente
+function abrirDoc() { document.getElementById('doc-panel-float').style.display = 'block'; }
+function cerrarDoc() { document.getElementById('doc-panel-float').style.display = 'none'; document.getElementById('doc-cod-f').value = ''; }
+function chkDoc() { if (document.getElementById('doc-cod-f').value.trim() === '890') { document.getElementById('doc-login-f').style.display = 'none'; document.getElementById('doc-acciones').style.display = 'block'; } }
+function docAvanzar() { modoRecorrer = true; cerrarDoc(); alert('Modo recorrido: puedes navegar sin validaciones.'); }
+function simularResultados() {
+  modoRecorrer = true;
+  document.getElementById('inp-nombre').value = 'Ejemplo · Grupo 402';
+  actValidada = true; refValidada = true;
+  for (let i = 0; i < QUIZ.length; i++) {
+    QUIZ[i].userChoice = 0;
+    verificarPregunta(i);
+  }
+  document.getElementById('reflexionResp').value = "Descubrí que la geometría de la esfera es diferente a la del plano. Los triángulos pueden sumar más de 180° y las líneas que parecen paralelas en un mapa en realidad se juntan en los polos. Esto es importante para la navegación aérea y el GPS.";
+  validarReflexion();
+  initCanvas(); if (ctx) { ctx.fillStyle = '#1a0a2e'; ctx.fillRect(10,10,80,60); }
+  mostrarResultados();
+  cambiarSeccion(4);
+}
+
+// ---------- SIMULADOR 3D CON PARALELOS CORREGIDOS ----------
+function iniciarGlobo() {
+  const container = document.getElementById('globe-container');
+  if (!container) return;
+  if (container.clientWidth === 0) { setTimeout(iniciarGlobo, 100); return; }
+  
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050b1a);
+  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.set(0, 0.2, 3.2);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  container.innerHTML = '';
+  container.appendChild(renderer.domElement);
+  
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.autoRotate = false;
+  controls.enableZoom = true;
+  controls.target.set(0, 0, 0);
+  
+  const ambientLight = new THREE.AmbientLight(0x404060);
+  scene.add(ambientLight);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  dirLight.position.set(5, 10, 7);
+  scene.add(dirLight);
+  
+  const earthGeo = new THREE.SphereGeometry(1, 128, 128);
+  const textureLoader = new THREE.TextureLoader();
+  const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+  const earthMat = new THREE.MeshStandardMaterial({ map: earthTexture, roughness: 0.5, transparent: true, opacity: 0.85 });
+  const earth = new THREE.Mesh(earthGeo, earthMat);
+  scene.add(earth);
+  
+  function geoToVector(lat, lon, r) {
+    const latRad = lat * Math.PI / 180;
+    const lonRad = (-lon) * Math.PI / 180;
+    const x = r * Math.cos(latRad) * Math.cos(lonRad);
+    const y = r * Math.sin(latRad);
+    const z = r * Math.cos(latRad) * Math.sin(lonRad);
+    return new THREE.Vector3(x, y, z);
+  }
+  
+  let currentGroup = null;
+  function clearGroup() { if (currentGroup) scene.remove(currentGroup); }
+  function setMode(mode) {
+    clearGroup();
+    const group = new THREE.Group();
+    const r = 1.003;
+    if (mode === 'meridianos') {
+      const lons = [0, 30, 60, 90, 120, 150, 180];
+      lons.forEach(lon => {
+        const points = [];
+        for (let lat = -85; lat <= 85; lat += 2) points.push(geoToVector(lat, lon, r));
+        const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0xff8888 }));
+        group.add(line);
+      });
+    } else if (mode === 'triangulo') {
+      const eqPoints = [];
+      for (let lon = -45; lon <= 45; lon += 2) eqPoints.push(geoToVector(0, lon, r));
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(eqPoints), new THREE.LineBasicMaterial({ color: 0xff8844 })));
+      const merA = [];
+      for (let lat = 0; lat <= 85; lat += 2) merA.push(geoToVector(lat, -45, r));
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(merA), new THREE.LineBasicMaterial({ color: 0x44ff88 })));
+      const merB = [];
+      for (let lat = 0; lat <= 85; lat += 2) merB.push(geoToVector(lat, 45, r));
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(merB), new THREE.LineBasicMaterial({ color: 0xaa88ff })));
+    } else if (mode === 'ruta') {
+      const p1 = geoToVector(19.4326, -99.1332, 1);
+      const p2 = geoToVector(35.6895, 139.6917, 1);
+      const angle = p1.angleTo(p2);
+      const axis = new THREE.Vector3().crossVectors(p1, p2).normalize();
+      const points = [];
+      for (let i = 0; i <= 100; i++) {
+        const t = i / 100;
+        const quat = new THREE.Quaternion().setFromAxisAngle(axis, t * angle);
+        const pt = p1.clone().applyQuaternion(quat).normalize().multiplyScalar(r);
+        points.push(pt);
+      }
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x44ff44 })));
+      const straightPoints = [p1.clone().multiplyScalar(r), p2.clone().multiplyScalar(r)];
+      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(straightPoints), new THREE.LineBasicMaterial({ color: 0xff3333 })));
+      const sphereMat = new THREE.MeshStandardMaterial({ color: 0xff6666 });
+      const marker1 = new THREE.Mesh(new THREE.SphereGeometry(0.025, 16, 16), sphereMat);
+      marker1.position.copy(p1.clone().multiplyScalar(r));
+      const marker2 = new THREE.Mesh(new THREE.SphereGeometry(0.025, 16, 16), sphereMat);
+      marker2.position.copy(p2.clone().multiplyScalar(r));
+      group.add(marker1); group.add(marker2);
+    } else if (mode === 'paralelas') {
+      const latitudes = [-60, -30, 0, 30, 60];
+      latitudes.forEach(lat => {
+        const points = [];
+        for (let lon = -180; lon <= 180; lon += 5) {
+          points.push(geoToVector(lat, lon, r));
+        }
+        const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x88aaff }));
+        group.add(line);
+      });
+    }
+    currentGroup = group;
+    scene.add(currentGroup);
+  }
+  
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      setMode(btn.getAttribute('data-mode'));
+    });
+  });
+  setMode('meridianos');
+  if (btns[0]) btns[0].classList.add('active');
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+}
+
+function cargarThree() {
+  if (typeof THREE !== 'undefined') {
+    iniciarGlobo();
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  script.onload = () => {
+    const orbitScript = document.createElement('script');
+    orbitScript.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+    orbitScript.onload = () => {
+      iniciarGlobo();
+    };
+    document.head.appendChild(orbitScript);
+  };
+  document.head.appendChild(script);
+}
+
+window.onload = () => {
+  aplicarAntiPaste();
+  renderizarQuiz();
+  cargarThree();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TSMII · Ecuación de la recta | Aprende + Evalúa</title>
+    <!-- MathJax para formato profesional de fracciones y ecuaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #e2e8f0 100%);
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 24px 20px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Pestañas */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            color: #1f5068;
+            border: 1px solid #cbdde9;
+        }
+        .tab-btn.active {
+            background: #2c7da0;
+            color: white;
+            border-color: #2c7da0;
+            box-shadow: 0 8px 18px rgba(44,125,160,0.3);
+        }
+        .tab-pane {
+            display: none;
+            animation: fade 0.25s ease;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Estilos generales de tarjetas */
+        .card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            padding: 28px 24px 36px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #1a2c3e;
+        }
+        .prof {
+            font-size: 0.85rem;
+            text-align: right;
+            color: #4b6f8e;
+            margin-top: 8px;
+            border-top: 1px solid #cbdde9;
+            padding-top: 12px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 14px 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            font-weight: 500;
+            color: #856404;
+        }
+        .input-group {
+            margin: 24px 0;
+        }
+        label {
+            font-weight: 600;
+            color: #1f5068;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 2px solid #cbdde9;
+            border-radius: 60px;
+            outline: none;
+            transition: 0.2s;
+            background: white;
+        }
+        input:focus {
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+        button {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin: 8px 6px 0 0;
+        }
+        button:hover {
+            background: #1f5e7e;
+            transform: scale(0.97);
+        }
+        .btn-secondary {
+            background: #5c8faa;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #2c7da0;
+            color: #2c7da0;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: #e6f2f7;
+        }
+        .explicacion {
+            background: #eef3f9;
+            padding: 18px 22px;
+            border-radius: 32px;
+            margin: 20px 0;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            border-left: 6px solid #2c7da0;
+        }
+        .question-card {
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+        }
+        .question-text {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            color: #0b3b4f;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 20px 0;
+        }
+        .option {
+            background: #f9fbfd;
+            border: 1px solid #cfe1ea;
+            border-radius: 60px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option input {
+            width: auto;
+            margin: 0;
+            transform: scale(1.2);
+            accent-color: #2c7da0;
+        }
+        .option label {
+            margin: 0;
+            font-weight: normal;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 28px;
+            gap: 12px;
+        }
+        .progress {
+            font-size: 0.9rem;
+            background: #e2edf2;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+        }
+        .result-table {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #dce5ec;
+        }
+        th {
+            background: #e2edf2;
+            color: #1a4b65;
+        }
+        .correct {
+            background-color: #e0f2e9;
+        }
+        .incorrect {
+            background-color: #ffe6e5;
+        }
+        .score {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: #1f5068;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            color: white;
+            margin: 12px 0;
+        }
+        .footer-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 28px;
+            gap: 12px;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Estilos ejemplos formativos */
+        .tipo-card {
+            background: white;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+        }
+        .tipo-header {
+            background: #2c7da0;
+            padding: 20px 28px;
+            color: white;
+        }
+        .tipo-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        .problemas-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding: 28px;
+        }
+        .problema-item {
+            flex: 1;
+            min-width: 280px;
+            background: #fefefe;
+            border-radius: 32px;
+            border: 1px solid #cfe1ea;
+            overflow: hidden;
+        }
+        .problema-titulo {
+            background: #eef3f9;
+            padding: 16px 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1a4b65;
+            border-bottom: 2px solid #cbdde9;
+        }
+        .problema-enunciado {
+            padding: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #1f2f3a;
+        }
+        .btn-solucion {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 60px;
+            cursor: pointer;
+            margin: 0 20px 20px 20px;
+            width: calc(100% - 40px);
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .solucion-detalle {
+            background: #f8fbfe;
+            border-top: 1px dashed #cbdde9;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease-out, padding 0.3s;
+        }
+        .solucion-detalle.mostrar {
+            max-height: 800px;
+            padding: 20px;
+            border-bottom: 1px solid #d4e2ec;
+        }
+        .paso {
+            margin-bottom: 18px;
+            padding-left: 12px;
+            border-left: 4px solid #2c7da0;
+        }
+        .ecuacion-final {
+            background: #e2f0f7;
+            padding: 12px 18px;
+            border-radius: 28px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 16px 0 8px;
+        }
+        @media (max-width: 800px) {
+            .problemas-container { flex-direction: column; }
+            .question-text { font-size: 1.1rem; }
+            .card { padding: 20px 16px; }
+        }
+        /* Ajuste para que MathJax no desborde */
+        mjx-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+<div class="main-container">
+    <!-- Pestañas -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-estudio">📘 Aprende con ejemplos</button>
+        <button class="tab-btn" data-tab="tab-examen">📝 Evaluación · 6 preguntas</button>
+    </div>
+
+    <!-- ======================= SECCIÓN FORMATIVA (ejemplos con MathJax) ======================= -->
+    <div id="tab-estudio" class="tab-pane active">
+        <div class="card">
+            <h1>📐 Ecuación general de la recta \(Ax + By + C = 0\)</h1>
+            <div class="prof">🎓 Temas Selectos de Matemáticas II · Aprendizaje guiado</div>
+            <div class="explicacion">
+                💡 <strong>¿Cómo obtener la forma general?</strong> A partir de punto-pendiente, dos puntos o pendiente+ordenada. Sigue los pasos, elimina denominadores y simplifica.
+            </div>
+
+            <!-- Tipo 1: punto y pendiente -->
+            <div class="tipo-card">
+                <div class="tipo-header"><h2>📍 Tipo 1 · Punto y pendiente</h2></div>
+                <div class="problemas-container">
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 1A</div>
+                        <div class="problema-enunciado">
+                            \( \text{Pendiente } m = -2,\ \text{punto } P(4,3) \)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol1a">🔍 Ver solución</button>
+                        <div id="sol1a" class="solucion-detalle">
+                            <div class="paso">\( y - 3 = -2(x - 4) \)</div>
+                            <div class="paso">\( y - 3 = -2x + 8 \)</div>
+                            <div class="paso">\( 2x + y - 11 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( 2x + y - 11 = 0 \)</div>
+                        </div>
+                    </div>
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 1B</div>
+                        <div class="problema-enunciado">
+                            \( \text{Pendiente } m = \frac{3}{2},\ \text{punto } (2,5) \)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol1b">🔍 Ver solución</button>
+                        <div id="sol1b" class="solucion-detalle">
+                            <div class="paso">\( y - 5 = \frac{3}{2}(x - 2) \)</div>
+                            <div class="paso">Multiplicamos por 2: \( 2y - 10 = 3x - 6 \)</div>
+                            <div class="paso">\( -3x + 2y - 4 = 0 \) → multiplicar por -1: \( 3x - 2y + 4 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( 3x - 2y + 4 = 0 \)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipo 2: dos puntos -->
+            <div class="tipo-card">
+                <div class="tipo-header"><h2>📌 Tipo 2 · Dos puntos</h2></div>
+                <div class="problemas-container">
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 2A</div>
+                        <div class="problema-enunciado">
+                            \( A(-1,4) \) y \( B(3,-2) \)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol2a">🔍 Ver solución</button>
+                        <div id="sol2a" class="solucion-detalle">
+                            <div class="paso">\( m = \frac{-2 - 4}{3 - (-1)} = \frac{-6}{4} = -\frac{3}{2} \)</div>
+                            <div class="paso">\( y - 4 = -\frac{3}{2}(x + 1) \)</div>
+                            <div class="paso">\( 2y - 8 = -3x - 3 \) → \( 3x + 2y - 5 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( 3x + 2y - 5 = 0 \)</div>
+                        </div>
+                    </div>
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 2B</div>
+                        <div class="problema-enunciado">
+                            \( (2,15) \) y \( (5,6) \) (temperatura-altitud)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol2b">🔍 Ver solución</button>
+                        <div id="sol2b" class="solucion-detalle">
+                            <div class="paso">\( m = \frac{6-15}{5-2} = \frac{-9}{3} = -3 \)</div>
+                            <div class="paso">\( y - 15 = -3(x - 2) \) → \( y - 15 = -3x + 6 \)</div>
+                            <div class="paso">\( 3x + y - 21 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( 3x + y - 21 = 0 \)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipo 3: pendiente y ordenada al origen -->
+            <div class="tipo-card">
+                <div class="tipo-header"><h2>📌 Tipo 3 · Pendiente \(m\) y ordenada \(b\)</h2></div>
+                <div class="problemas-container">
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 3A</div>
+                        <div class="problema-enunciado">
+                            \( m = 4,\ b = -7 \)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol3a">🔍 Ver solución</button>
+                        <div id="sol3a" class="solucion-detalle">
+                            <div class="paso">\( y = 4x - 7 \)</div>
+                            <div class="paso">\( y - 4x + 7 = 0 \) → multiplicar por -1: \( 4x - y - 7 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( 4x - y - 7 = 0 \)</div>
+                        </div>
+                    </div>
+                    <div class="problema-item">
+                        <div class="problema-titulo">Ejemplo 3B</div>
+                        <div class="problema-enunciado">
+                            \( m = -\frac{1}{3},\ b = 2 \)
+                        </div>
+                        <button class="btn-solucion" data-solucion="sol3b">🔍 Ver solución</button>
+                        <div id="sol3b" class="solucion-detalle">
+                            <div class="paso">\( y = -\frac{1}{3}x + 2 \)</div>
+                            <div class="paso">Multiplicamos por 3: \( 3y = -x + 6 \)</div>
+                            <div class="paso">\( x + 3y - 6 = 0 \)</div>
+                            <div class="ecuacion-final">✔ \( x + 3y - 6 = 0 \)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="explicacion">✅ Recuerda: forma general con coeficientes enteros, \(A \ge 0\) y sin factores comunes.</div>
+        </div>
+    </div>
+
+    <!-- ======================= SECCIÓN EVALUACIÓN ======================= -->
+    <div id="tab-examen" class="tab-pane">
+        <div class="card" id="appEvaluacion">
+            <div id="inicioExamen">
+                <h1>📝 Evaluación: Ecuación general de la recta</h1>
+                <div class="prof">🎓 Prof. Adrián Cruz H. · TSMII</div>
+                <div class="warning">
+                    ⚠️ <strong>ATENCIÓN:</strong> Una vez que comiences, si minimizas la ventana, cambias de pestaña o bloqueas la pantalla, la actividad se reiniciará automáticamente y se generarán nuevos problemas.
+                </div>
+                <div class="input-group">
+                    <label>✏️ Tu nombre completo:</label>
+                    <input type="text" id="nombreEstudianteExamen" placeholder="Ej: Ana Pérez" autocomplete="off">
+                </div>
+                <button id="btnComenzarExamen">▶ Comenzar evaluación</button>
+                <div class="explicacion">📌 Tendrás 6 problemas (2 de cada tipo). Elige la opción correcta en forma \(Ax+By+C=0\).</div>
+            </div>
+
+            <div id="quizExamen" class="hidden">
+                <h2>🎯 Responde cada pregunta</h2>
+                <div class="prof">Estudiante: <span id="nombreDisplayExamen"></span></div>
+                <div id="preguntaContainer"></div>
+                <div class="nav-buttons">
+                    <button id="btnAnteriorExamen" class="btn-outline" disabled>◀ Anterior</button>
+                    <button id="btnSiguienteExamen" class="btn-secondary">Siguiente ▶</button>
+                </div>
+                <div class="footer-buttons">
+                    <button id="btnTerminarExamen" class="btn-outline">✅ Terminar y ver resultados</button>
+                    <button id="btnReiniciarExamenManual" class="btn-outline">🔄 Reiniciar evaluación</button>
+                </div>
+            </div>
+
+            <div id="resultadosExamen" class="hidden">
+                <h1>📊 Resultados</h1>
+                <div class="prof">Evaluación personalizada</div>
+                <div id="resultadoNombreExamen"></div>
+                <div id="tablaResultadosExamen" class="result-table"></div>
+                <div id="puntajeFinalExamen" class="score"></div>
+                <div class="footer-buttons">
+                    <button id="btnGuardarPDFExamen">🖨️ Guardar PDF</button>
+                    <button id="btnNuevaActividadExamen" class="btn-outline">➕ Nueva evaluación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ======================= BANCOS DE PROBLEMAS CON EXPRESIONES LATEX =======================
+    // Todas las fracciones y expresiones están escritas con doble barra para JSON.
+    const bancoTipo1 = [
+        { texto: "🚲 Un ciclista tiene pendiente \\(m = -2\\) y pasa por el punto \\((4,3)\\). Halla la ecuación general.", correcta: "2x + y - 11 = 0", opciones: ["2x + y - 11 = 0", "2x - y - 5 = 0", "x + 2y - 10 = 0", "2x + y + 11 = 0", "x - 2y + 2 = 0", "2x + y - 5 = 0"] },
+        { texto: "📈 Pendiente \\(m = \\frac{3}{2}\\), punto \\((2,5)\\). Ecuación general.", correcta: "3x - 2y + 4 = 0", opciones: ["3x - 2y + 4 = 0", "3x + 2y - 16 = 0", "2x - 3y + 11 = 0", "3x - 2y - 4 = 0", "x - 2y + 8 = 0", "3x - 2y + 1 = 0"] },
+        { texto: "🏔️ Pendiente \\(m = \\frac{1}{2}\\), pasa por \\((-2,4)\\). Ecuación general (enteros).", correcta: "x - 2y + 10 = 0", opciones: ["x - 2y + 10 = 0", "x + 2y - 6 = 0", "2x - y + 8 = 0", "x - 2y - 10 = 0", "2x + y = 0", "x - 2y + 8 = 0"] },
+        { texto: "⚡ Pendiente \\(m = -\\frac{4}{3}\\), punto \\((6,-1)\\). Ecuación general.", correcta: "4x + 3y - 21 = 0", opciones: ["4x + 3y - 21 = 0", "4x - 3y - 27 = 0", "3x + 4y - 14 = 0", "4x + 3y + 21 = 0", "2x + 1.5y - 10.5 = 0", "4x + 3y - 27 = 0"] },
+        { texto: "📉 Pendiente \\(m = 5\\), punto \\((0,-7)\\).", correcta: "5x - y - 7 = 0", opciones: ["5x - y - 7 = 0", "5x + y + 7 = 0", "x - 5y - 35 = 0", "5x - y + 7 = 0", "x + 5y + 35 = 0", "5x - y - 35 = 0"] },
+        { texto: "🎢 Pendiente \\(m = -2\\), punto \\((-5,3)\\).", correcta: "2x + y + 7 = 0", opciones: ["2x + y + 7 = 0", "2x - y + 13 = 0", "x + 2y - 1 = 0", "2x + y - 7 = 0", "x - 2y + 11 = 0", "2x + y - 3 = 0"] },
+        { texto: "🚴 Pendiente \\(m = \\frac{1}{4}\\), punto \\((8,2)\\).", correcta: "x - 4y = 0", opciones: ["x - 4y = 0", "x + 4y - 16 = 0", "4x - y - 30 = 0", "x - 4y - 8 = 0", "4x + y - 34 = 0", "x - 4y + 8 = 0"] },
+        { texto: "📊 Pendiente \\(m = -\\frac{3}{4}\\), punto \\((4,-2)\\).", correcta: "3x + 4y - 4 = 0", opciones: ["3x + 4y - 4 = 0", "3x - 4y - 20 = 0", "4x + 3y - 10 = 0", "3x + 4y + 4 = 0", "6x + 8y - 8 = 0", "3x + 4y - 20 = 0"] }
+    ];
+
+    const bancoTipo2 = [
+        { texto: "📍 Puntos \\(A(2,3)\\) y \\(B(4,7)\\). Ecuación general.", correcta: "2x - y - 1 = 0", opciones: ["2x - y - 1 = 0", "2x + y - 7 = 0", "x - 2y + 4 = 0", "2x - y + 1 = 0", "x + 2y - 8 = 0", "2x - y - 3 = 0"] },
+        { texto: "🏗️ Puntos \\((-1,5)\\) y \\((3,-3)\\).", correcta: "2x + y - 3 = 0", opciones: ["2x + y - 3 = 0", "2x - y + 7 = 0", "x + 2y - 9 = 0", "2x + y + 3 = 0", "x - 2y + 11 = 0", "2x + y - 5 = 0"] },
+        { texto: "📉 Puntos \\((5,12)\\) y \\((8,18)\\).", correcta: "2x - y + 2 = 0", opciones: ["2x - y + 2 = 0", "2x + y - 22 = 0", "x - 2y + 19 = 0", "2x - y - 2 = 0", "3x - y - 3 = 0", "2x - y + 4 = 0"] },
+        { texto: "🏞️ Puntos \\((0,4)\\) y \\((6,-2)\\).", correcta: "x + y - 4 = 0", opciones: ["x + y - 4 = 0", "x - y + 4 = 0", "2x + y - 4 = 0", "x + y + 4 = 0", "x + 2y - 8 = 0", "x - y - 4 = 0"] },
+        { texto: "⚙️ Puntos \\((-2,7)\\) y \\((4,-5)\\).", correcta: "2x + y - 3 = 0", opciones: ["2x + y - 3 = 0", "2x - y + 11 = 0", "x + 2y - 12 = 0", "2x + y + 3 = 0", "x - 2y + 16 = 0", "2x + y - 9 = 0"] },
+        { texto: "📈 Puntos \\((1,5)\\) y \\((3,11)\\).", correcta: "3x - y + 2 = 0", opciones: ["3x - y + 2 = 0", "3x + y - 8 = 0", "x - 3y + 14 = 0", "3x - y - 2 = 0", "6x - 2y + 4 = 0", "3x - y + 4 = 0"] },
+        { texto: "🏠 Puntos \\((2,15)\\) y \\((5,6)\\).", correcta: "3x + y - 21 = 0", opciones: ["3x + y - 21 = 0", "3x - y - 9 = 0", "x + 3y - 47 = 0", "3x + y + 21 = 0", "x - 3y + 43 = 0", "3x + y - 15 = 0"] },
+        { texto: "🚀 Puntos \\((0,10)\\) y \\((8,2)\\).", correcta: "x + y - 10 = 0", opciones: ["x + y - 10 = 0", "x - y + 10 = 0", "2x + y - 10 = 0", "x + y + 10 = 0", "x + 2y - 20 = 0", "x - y - 10 = 0"] }
+    ];
+
+    const bancoTipo3 = [
+        { texto: "📐 Pendiente \\(m = 3\\), ordenada al origen \\(b = -2\\).", correcta: "3x - y - 2 = 0", opciones: ["3x - y - 2 = 0", "3x + y + 2 = 0", "x - 3y - 6 = 0", "3x - y + 2 = 0", "3x - y - 6 = 0", "x + 3y + 6 = 0"] },
+        { texto: "💰 Pendiente \\(m = \\frac{1}{2}\\), ordenada \\(b = -3\\).", correcta: "x - 2y - 6 = 0", opciones: ["x - 2y - 6 = 0", "x + 2y + 6 = 0", "2x - y - 3 = 0", "x - 2y + 6 = 0", "2x + y + 6 = 0", "x - 2y - 3 = 0"] },
+        { texto: "📉 Pendiente \\(m = -2\\), ordenada \\(b = 5\\).", correcta: "2x + y - 5 = 0", opciones: ["2x + y - 5 = 0", "2x - y + 5 = 0", "x + 2y - 10 = 0", "2x + y + 5 = 0", "x - 2y + 10 = 0", "2x + y - 10 = 0"] },
+        { texto: "🏦 Pendiente \\(m = -\\frac{4}{5}\\), ordenada \\(b = 2\\).", correcta: "4x + 5y - 10 = 0", opciones: ["4x + 5y - 10 = 0", "4x - 5y + 10 = 0", "5x + 4y - 8 = 0", "4x + 5y + 10 = 0", "8x + 10y - 20 = 0", "4x + 5y - 2 = 0"] },
+        { texto: "🎯 Pendiente \\(m = 0\\), ordenada \\(b = 7\\).", correcta: "y - 7 = 0", opciones: ["y - 7 = 0", "x - 7 = 0", "y + 7 = 0", "x + y - 7 = 0", "x - y + 7 = 0", "y = 7"] },
+        { texto: "📊 Pendiente \\(m = 1\\), ordenada \\(b = -4\\).", correcta: "x - y - 4 = 0", opciones: ["x - y - 4 = 0", "x + y + 4 = 0", "x - y + 4 = 0", "x + y - 4 = 0", "2x - 2y - 8 = 0", "x - y - 2 = 0"] },
+        { texto: "🌡️ Pendiente \\(m = \\frac{2}{3}\\), ordenada \\(b = -1\\).", correcta: "2x - 3y - 3 = 0", opciones: ["2x - 3y - 3 = 0", "2x + 3y + 3 = 0", "3x - 2y - 2 = 0", "2x - 3y + 3 = 0", "4x - 6y - 6 = 0", "2x - 3y - 1 = 0"] },
+        { texto: "🚢 Pendiente \\(m = -\\frac{1}{2}\\), ordenada \\(b = 6\\).", correcta: "x + 2y - 12 = 0", opciones: ["x + 2y - 12 = 0", "x - 2y + 12 = 0", "2x + y - 6 = 0", "x + 2y + 12 = 0", "2x - y - 12 = 0", "x + 2y - 6 = 0"] }
+    ];
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function seleccionarProblemasEvaluacion() {
+        let t1 = shuffleArray([...bancoTipo1]).slice(0,2);
+        let t2 = shuffleArray([...bancoTipo2]).slice(0,2);
+        let t3 = shuffleArray([...bancoTipo3]).slice(0,2);
+        let combinados = shuffleArray([...t1, ...t2, ...t3]);
+        return combinados.map(p => ({ ...p, opciones: shuffleArray([...p.opciones]) }));
+    }
+
+    // Estado del examen
+    let examState = {
+        student: "",
+        problems: [],
+        answers: [],
+        currentIdx: 0,
+        completed: false,
+        enCurso: false
+    };
+
+    const inicioDiv = document.getElementById('inicioExamen');
+    const quizDiv = document.getElementById('quizExamen');
+    const resultadosDiv = document.getElementById('resultadosExamen');
+    const nombreInput = document.getElementById('nombreEstudianteExamen');
+    const btnComenzar = document.getElementById('btnComenzarExamen');
+    const btnTerminar = document.getElementById('btnTerminarExamen');
+    const btnReiniciarManual = document.getElementById('btnReiniciarExamenManual');
+    const btnNueva = document.getElementById('btnNuevaActividadExamen');
+    const btnPDF = document.getElementById('btnGuardarPDFExamen');
+    const btnAnterior = document.getElementById('btnAnteriorExamen');
+    const btnSiguiente = document.getElementById('btnSiguienteExamen');
+    const preguntaContainer = document.getElementById('preguntaContainer');
+    const nombreDisplay = document.getElementById('nombreDisplayExamen');
+
+    function reiniciarExamen(mostrarAlerta = false) {
+        if (mostrarAlerta && examState.enCurso) {
+            alert("⚠️ La actividad se ha reiniciado porque cambiaste de pestaña, minimizaste o bloqueaste la pantalla. Se generarán nuevos problemas.");
+        }
+        examState = {
+            student: "",
+            problems: [],
+            answers: [],
+            currentIdx: 0,
+            completed: false,
+            enCurso: false
+        };
+        nombreInput.value = "";
+        inicioDiv.classList.remove('hidden');
+        quizDiv.classList.add('hidden');
+        resultadosDiv.classList.add('hidden');
+        preguntaContainer.innerHTML = "";
+    }
+
+    function renderPregunta() {
+        if (!examState.problems.length) return;
+        const prob = examState.problems[examState.currentIdx];
+        const respGuardada = examState.answers[examState.currentIdx] || "";
+        let html = `<div class="question-card"><div class="progress">Pregunta ${examState.currentIdx+1} de ${examState.problems.length}</div>
+                    <div class="question-text">${prob.texto}</div><div class="options">`;
+        prob.opciones.forEach((opt, idx) => {
+            html += `<div class="option"><input type="radio" name="pregActual" value="${opt.replace(/"/g, '&quot;')}" id="opt_${idx}" ${respGuardada === opt ? 'checked' : ''}>
+                     <label for="opt_${idx}">\\(${opt}\\)</label></div>`;
+        });
+        html += `</div></div>`;
+        preguntaContainer.innerHTML = html;
+        // Forzar renderizado de MathJax en el nuevo contenido
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+        document.querySelectorAll('input[name="pregActual"]').forEach(radio => {
+            radio.addEventListener('change', (e) => { examState.answers[examState.currentIdx] = e.target.value; });
+        });
+        btnAnterior.disabled = (examState.currentIdx === 0);
+        btnSiguiente.textContent = (examState.currentIdx === examState.problems.length-1) ? "Finalizar ▶" : "Siguiente ▶";
+    }
+
+    function siguiente() {
+        if (!examState.answers[examState.currentIdx]) { alert("Selecciona una respuesta antes de continuar."); return; }
+        if (examState.currentIdx + 1 < examState.problems.length) {
+            examState.currentIdx++;
+            renderPregunta();
+        } else terminarEvaluacion();
+    }
+    function anterior() { if (examState.currentIdx > 0) { examState.currentIdx--; renderPregunta(); } }
+
+    function terminarEvaluacion() {
+        if (examState.answers.some(a => !a)) { alert("Responde todas las preguntas."); return; }
+        examState.enCurso = false;
+        mostrarResultados();
+    }
+
+    function mostrarResultados() {
+        let correctas = 0;
+        let detalles = [];
+        examState.problems.forEach((prob, i) => {
+            let user = examState.answers[i];
+            let ok = (user === prob.correcta);
+            if (ok) correctas++;
+            detalles.push({ texto: prob.texto, respuestaUser: user, correcta: prob.correcta, ok });
+        });
+        let puntaje = (correctas / examState.problems.length) * 10;
+        document.getElementById('resultadoNombreExamen').innerHTML = `<h3>👩‍🎓 ${examState.student}</h3>`;
+        let tabla = `<table><thead><tr><th>Problema</th><th>Tu respuesta</th><th>Correcta</th><th>Estado</th></tr></thead><tbody>`;
+        detalles.forEach(d => {
+            tabla += `<tr class="${d.ok ? 'correct' : 'incorrect'}"><td style="max-width:350px;">${d.texto}</td>
+                      <td>\\(${d.respuestaUser}\\)</td>
+                      <td>\\(${d.correcta}\\)</td>
+                      <td>${d.ok ? '✅' : '❌'}</td></tr>`;
+        });
+        tabla += `</tbody></table>`;
+        document.getElementById('tablaResultadosExamen').innerHTML = tabla;
+        document.getElementById('puntajeFinalExamen').innerHTML = `🎯 Calificación: ${puntaje.toFixed(1)} / 10.0`;
+        if (window.MathJax) MathJax.typesetPromise();
+        inicioDiv.classList.add('hidden');
+        quizDiv.classList.add('hidden');
+        resultadosDiv.classList.remove('hidden');
+        examState.completed = true;
+    }
+
+    function iniciarExamen() {
+        let nombre = nombreInput.value.trim();
+        if (!nombre) { alert("Ingresa tu nombre."); return; }
+        examState.student = nombre;
+        examState.problems = seleccionarProblemasEvaluacion();
+        examState.answers = new Array(examState.problems.length).fill(null);
+        examState.currentIdx = 0;
+        examState.enCurso = true;
+        examState.completed = false;
+        nombreDisplay.innerText = nombre;
+        renderPregunta();
+        inicioDiv.classList.add('hidden');
+        quizDiv.classList.remove('hidden');
+        resultadosDiv.classList.add('hidden');
+    }
+
+    function exportarPDF() {
+        if (!examState.completed || resultadosDiv.classList.contains('hidden')) { alert("Completa el examen primero."); return; }
+        const element = document.getElementById('resultadosExamen').cloneNode(true);
+        element.querySelectorAll('.footer-buttons button').forEach(b => b.remove());
+        html2pdf().set({ margin: 0.5, filename: `TSMII_${examState.student}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } }).from(element).save();
+    }
+
+    // Eventos
+    btnComenzar.addEventListener('click', iniciarExamen);
+    btnTerminar.addEventListener('click', terminarEvaluacion);
+    btnReiniciarManual.addEventListener('click', () => reiniciarExamen(false));
+    btnNueva.addEventListener('click', () => reiniciarExamen(false));
+    btnPDF.addEventListener('click', exportarPDF);
+    btnSiguiente.addEventListener('click', siguiente);
+    btnAnterior.addEventListener('click', anterior);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && examState.enCurso) {
+            reiniciarExamen(true);
+        }
+    });
+
+    // Pestañas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+            if (window.MathJax) MathJax.typesetPromise();
+        });
+    });
+
+    // Botones de solución para ejemplos
+    document.querySelectorAll('.btn-solucion').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const target = document.getElementById(this.getAttribute('data-solucion'));
+            if (target) {
+                target.classList.toggle('mostrar');
+                this.textContent = target.classList.contains('mostrar') ? '📖 Ocultar solución' : '🔍 Ver solución';
+                if (window.MathJax) MathJax.typesetPromise();
+            }
+        });
+    });
+
+    // Forzar renderizado inicial de MathJax
+    if (window.MathJax) {
+        MathJax.typesetPromise();
+    }
+</script>
+</body>
+</html>
