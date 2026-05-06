@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador: Ecuación de la Recta</title>
+  <style>
+    :root {
+      --bg: #f8fafc; --panel: #ffffff; --text: #0f172a; --subtext: #64748b;
+      --accent: #2563eb; --accent2: #059669; --accent3: #d97706;
+      --grid: #e2e8f0; --axis: #475569; --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+    .app { display: grid; grid-template-columns: 340px 1fr; height: 100vh; }
+    
+    aside { background: var(--panel); padding: 1.5rem; overflow-y: auto; border-right: 1px solid var(--border); }
+    aside h1 { font-size: 1.3rem; margin-bottom: 0.4rem; color: var(--accent); }
+    aside p { font-size: 0.85rem; color: var(--subtext); margin-bottom: 1rem; }
+    .control-group { margin-bottom: 1rem; }
+    label { display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem; }
+    select, input[type="range"] { width: 100%; padding: 0.4rem; background: #f1f5f9; border: 1px solid var(--border); color: var(--text); border-radius: 6px; }
+    input[type="range"] { margin-top: 0.2rem; accent-color: var(--accent); }
+    
+    .eq-box { background: #f8fafc; padding: 0.7rem; border-radius: 8px; margin: 0.8rem 0; border: 1px solid var(--border); }
+    .eq-title { font-size: 0.7rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+    .eq-val { font-size: 0.95rem; color: var(--text); font-weight: 500; min-height: 1.4em; }
+    
+    /* Fracciones verticales */
+    .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 2px; line-height: 1; }
+    .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 3px 1px; }
+    .frac .den { padding: 1px 3px 0; }
+    
+    button { width: 100%; padding: 0.6rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 0.5rem; transition: 0.2s; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-active { background: var(--accent2) !important; color: white; }
+    
+    .info { font-size: 0.8rem; background: #eff6ff; padding: 0.8rem; border-radius: 6px; margin-top: 1rem; border-left: 3px solid var(--accent); color: #1e40af; }
+    
+    main { position: relative; background: var(--bg); }
+    canvas { width: 100%; height: 100%; display: block; cursor: crosshair; }
+    .tooltip { position: absolute; background: rgba(255,255,255,0.98); padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.8rem; pointer-events: none; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+    
+    @media print {
+      body { background: white; }
+      .app { grid-template-columns: 1fr; }
+      aside { display: none; }
+      canvas { border: 1px solid #000; }
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      aside { max-height: 45vh; border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <h1>📐 Simulador de la Recta</h1>
+      <p>Arrastra puntos, ajusta Δx y Δy. Las ecuaciones muestran fracciones verticales y la forma general con enteros simplificados.</p>
+      
+      <div class="control-group">
+        <label for="mode">Modo de construcción</label>
+        <select id="mode">
+          <option value="mb">Pendiente y Ordenada (y = mx + b)</option>
+          <option value="pm">Punto-Pendiente</option>
+          <option value="pp">Dos Puntos</option>
+        </select>
+      </div>
+
+      <div id="dynamic-inputs" class="control-group"></div>
+
+      <div class="eq-box">
+        <div class="eq-title">Pendiente-Ordenada</div>
+        <div class="eq-val" id="eq-si"></div>
+      </div>
+      <div class="eq-box">
+        <div class="eq-title">Punto-Pendiente</div>
+        <div class="eq-val" id="eq-pp"></div>
+      </div>
+      <div class="eq-box">
+        <div class="eq-title">Forma General (enteros simplificados)</div>
+        <div class="eq-val" id="eq-gen"></div>
+      </div>
+
+      <button id="toggle-slope" class="btn-secondary">📐 Mostrar Triángulo de Pendiente</button>
+      <button id="toggle-grid" class="btn-active">⬛ Cuadrícula</button>
+      <button id="reset" class="btn-secondary">🔄 Reiniciar</button>
+
+      <div class="info">
+        💡 <strong>Nota:</strong> La forma general se muestra con coeficientes enteros, simplificados y con A ≥ 0. La recta tiene flechas para indicar que es infinita.
+      </div>
+    </aside>
+    <main>
+      <canvas id="graph"></canvas>
+      <div class="tooltip" id="tooltip"></div>
+    </main>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('graph');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip');
+    const modeSelect = document.getElementById('mode');
+    const dynamicInputs = document.getElementById('dynamic-inputs');
+    
+    let showSlope = false, dragging = null, mouse = {x:0, y:0};
+    
+    const state = {
+      mode: 'mb', dx: 1, dy: 1, b: 0,
+      p1: {x: -2, y: -2}, p2: {x: 3, y: 3},
+      scale: 45, offset: {x: 0, y: 0}
+    };
+
+    // === UTILIDADES MATEMÁTICAS ===
+    const gcd = (a, b) => b === 0 ? Math.abs(a) : gcd(b, a % b);
+    const gcd3 = (a, b, c) => gcd(gcd(a, b), c);
+    
+    const simplify = (num, den) => {
+      if (den === 0) return {num: 1, den: 0};
+      if (den < 0) { num = -num; den = -den; }
+      const g = gcd(Math.abs(num), den);
+      return { num: num/g, den: den/g };
+    };
+    
+    const fracHTML = (num, den) => {
+      const s = simplify(num, den);
+      if (s.den === 1) return `${s.num}`;
+      return `<span class="frac"><span class="num">${s.num}</span><span class="den">${s.den}</span></span>`;
+    };
+    
+    // Simplificar forma general Ax + By + C = 0 a enteros mínimos
+    const simplifyGeneral = (A, B, C) => {
+      // Convertir a enteros si hay decimales
+      const toInt = n => Math.round(n * 1000) / 1000; // evitar errores de punto flotante
+      let [a, b, c] = [A, B, C].map(toInt);
+      
+      // Si hay fracciones, multiplicar para hacer enteros
+      const decimals = [a,b,c].map(n => {
+        const str = Math.abs(n).toString();
+        return str.includes('.') ? str.split('.')[1].length : 0;
+      });
+      const maxDec = Math.max(...decimals);
+      const factor = Math.pow(10, maxDec);
+      [a, b, c] = [a, b, c].map(n => Math.round(n * factor));
+      
+      // Simplificar por MCD
+      const g = gcd3(a, b, c);
+      if (g > 1) { a /= g; b /= g; c /= g; }
+      
+      // Normalizar signo: A > 0, o si A=0 entonces B > 0
+      if (a < 0 || (a === 0 && b < 0)) { a = -a; b = -b; c = -c; }
+      
+      return [Math.round(a), Math.round(b), Math.round(c)];
+    };
+    
+    const formatGeneral = (A, B, C) => {
+      const parts = [];
+      // Término Ax
+      if (A !== 0) {
+        const coeff = Math.abs(A) === 1 ? '' : Math.abs(A);
+        parts.push(`${A < 0 ? '-' : ''}${coeff}x`);
+      }
+      // Término By
+      if (B !== 0) {
+        const coeff = Math.abs(B) === 1 ? '' : Math.abs(B);
+        parts.push(`${B < 0 ? '-' : '+'} ${coeff}y`);
+      }
+      // Término C
+      if (C !== 0) {
+        parts.push(`${C < 0 ? '-' : '+'} ${Math.abs(C)}`);
+      }
+      if (parts.length === 0) return '0 = 0';
+      return parts.join(' ') + ' = 0';
+    };
+
+    // === INICIALIZACIÓN ===
+    function init() {
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      updateInputs();
+      setupEvents();
+      loop();
+    }
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      state.offset.x = canvas.width / 2;
+      state.offset.y = canvas.height / 2;
+    }
+
+    function w2s(x, y) { return { x: x * state.scale + state.offset.x, y: -y * state.scale + state.offset.y }; }
+    function s2w(sx, sy) { return { x: (sx - state.offset.x) / state.scale, y: -(sy - state.offset.y) / state.scale }; }
+    function dist(p1, p2) { return Math.hypot(p1.x - p2.x, p1.y - p2.y); }
+
+    // === CONTROLES ===
+    function updateInputs() {
+      dynamicInputs.innerHTML = '';
+      const addSlider = (key, label, min, max, step, val) => {
+        const div = document.createElement('div');
+        div.innerHTML = `<label>${label} <span id="val-${key}" style="float:right;color:var(--accent)">${val}</span></label>
+          <input type="range" id="in-${key}" min="${min}" max="${max}" step="${step}" value="${val}">`;
+        dynamicInputs.appendChild(div);
+        document.getElementById(`in-${key}`).addEventListener('input', e => {
+          const v = parseFloat(e.target.value);
+          document.getElementById(`val-${key}`).textContent = v;
+          if (key === 'dx') state.dx = v;
+          else if (key === 'dy') state.dy = v;
+          else if (key === 'b') state.b = v;
+          else if (key.startsWith('p1')) state.p1[key.slice(2)] = v;
+          else if (key.startsWith('p2')) state.p2[key.slice(2)] = v;
+          updateEquations();
+        });
+      };
+
+      if (state.mode === 'mb') {
+        addSlider('dx', 'Δx (avance derecha)', 1, 5, 1, state.dx);
+        addSlider('dy', 'Δy (subida/bajada)', -5, 5, 1, state.dy);
+        addSlider('b', 'Ordenada al origen (b)', -10, 10, 0.5, state.b);
+      } else if (state.mode === 'pm') {
+        addSlider('dx', 'Δx', 1, 5, 1, state.dx);
+        addSlider('dy', 'Δy', -5, 5, 1, state.dy);
+        addSlider('p1x', 'x₁', -8, 8, 0.5, state.p1.x);
+        addSlider('p1y', 'y₁', -8, 8, 0.5, state.p1.y);
+      } else {
+        addSlider('p1x', 'x₁', -8, 8, 0.5, state.p1.x);
+        addSlider('p1y', 'y₁', -8, 8, 0.5, state.p1.y);
+        addSlider('p2x', 'x₂', -8, 8, 0.5, state.p2.x);
+        addSlider('p2y', 'y₂', -8, 8, 0.5, state.p2.y);
+      }
+      updateEquations();
+    }
+
+    // === ECUACIONES ===
+    function updateEquations() {
+      let mNum, mDen, x1, y1;
+      
+      if (state.mode === 'pp') {
+        mNum = state.p2.y - state.p1.y;
+        mDen = state.p2.x - state.p1.x;
+        x1 = state.p1.x; y1 = state.p1.y;
+      } else {
+        mNum = state.dy; mDen = state.dx;
+        if (state.mode === 'pm') { x1 = state.p1.x; y1 = state.p1.y; }
+        else { x1 = 0; y1 = state.b; }
+      }
+
+      const sM = simplify(mNum, mDen);
+      const isVert = mDen === 0;
+      
+      // Calcular b como fracción: b = y1 - m*x1 = (y1*mDen - x1*mNum) / mDen
+      const bNum = y1 * mDen - x1 * mNum;
+      const bDen = mDen;
+      const sB = simplify(bNum, bDen);
+
+      // Forma Pendiente-Ordenada
+      document.getElementById('eq-si').innerHTML = isVert ? `x = ${fracHTML(x1, 1)}` : 
+        `y = ${fracHTML(sM.num, sM.den)}x ${sB.num >= 0 ? '+' : '-'} ${fracHTML(Math.abs(sB.num), sB.den)}`;
+
+      // Forma Punto-Pendiente
+      const signY = y1 >= 0 ? '-' : '+';
+      const signX = x1 >= 0 ? '-' : '+';
+      document.getElementById('eq-pp').innerHTML = isVert ? `x = ${fracHTML(x1, 1)}` :
+        `y ${signY} ${fracHTML(Math.abs(y1), 1)} = ${fracHTML(sM.num, sM.den)}(x ${signX} ${fracHTML(Math.abs(x1), 1)})`;
+
+      // Forma General: mNum·x - mDen·y + (y1·mDen - x1·mNum) = 0
+      if (isVert) {
+        document.getElementById('eq-gen').textContent = formatGeneral(1, 0, -x1);
+      } else {
+        const [A, B, C] = simplifyGeneral(mNum, -mDen, bNum);
+        document.getElementById('eq-gen').textContent = formatGeneral(A, B, C);
+      }
+    }
+
+    // === DIBUJADO ===
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid();
+      drawAxes();
+      
+      let mNum, mDen, p1, p2;
+      if (state.mode === 'mb') {
+        mNum = state.dy; mDen = state.dx;
+        const m = mNum / mDen;
+        p1 = { x: -100, y: -100 * m + state.b };
+        p2 = { x: 100, y: 100 * m + state.b };
+      } else if (state.mode === 'pm') {
+        mNum = state.dy; mDen = state.dx;
+        const m = mNum / mDen;
+        p1 = state.p1;
+        p2 = { x: p1.x - 100, y: p1.y - 100 * m };
+      } else {
+        p1 = state.p1; p2 = state.p2;
+        mNum = p2.y - p1.y; mDen = p2.x - p1.x;
+      }
+
+      drawLine(p1, p2, mNum, mDen);
+      drawPoints(p1, p2);
+      
+      if (showSlope && mDen !== 0 && state.mode !== 'pp') {
+        drawSlopeTriangle(state.mode === 'mb' ? {x:0, y:state.b} : state.p1, mNum, mDen);
+      }
+    }
+
+    function drawGrid() {
+      if (!document.getElementById('toggle-grid').classList.contains('btn-active')) return;
+      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+      const range = 30;
+      ctx.beginPath();
+      for (let i = -range; i <= range; i++) {
+        const sx = i * state.scale + state.offset.x;
+        ctx.moveTo(sx, 0); ctx.lineTo(sx, canvas.height);
+        const sy = -i * state.scale + state.offset.y;
+        ctx.moveTo(0, sy); ctx.lineTo(canvas.width, sy);
+      }
+      ctx.stroke();
+    }
+
+    function drawAxes() {
+      ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, state.offset.y); ctx.lineTo(canvas.width, state.offset.y);
+      ctx.moveTo(state.offset.x, 0); ctx.lineTo(state.offset.x, canvas.height);
+      ctx.stroke();
+      
+      ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      for (let i = -12; i <= 12; i++) {
+        if (i === 0) continue;
+        ctx.fillText(i, i * state.scale + state.offset.x, state.offset.y + 4);
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(i, state.offset.x - 4, -i * state.scale + state.offset.y);
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      }
+    }
+
+    function drawLine(p1, p2, mNum, mDen) {
+      const s1 = w2s(p1.x, p1.y);
+      const s2 = w2s(p2.x, p2.y);
+      
+      // Dibujar línea principal
+      ctx.strokeStyle = '#1e40af'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(s1.x, s1.y); ctx.lineTo(s2.x, s2.y); ctx.stroke();
+      
+      // Flechas en los extremos (indicando infinitud)
+      drawArrow(s1.x, s1.y, s2.x, s2.y, '#1e40af');
+      drawArrow(s2.x, s2.y, s1.x, s1.y, '#1e40af');
+    }
+
+    function drawArrow(fromX, fromY, toX, toY, color) {
+      const headLen = 12;
+      const angle = Math.atan2(toY - fromY, toX - fromX);
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(fromX, fromY);
+      ctx.lineTo(toX, toY);
+      ctx.stroke();
+      // Punta de flecha
+      ctx.beginPath();
+      ctx.moveTo(toX, toY);
+      ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI/6), toY - headLen * Math.sin(angle - Math.PI/6));
+      ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI/6), toY - headLen * Math.sin(angle + Math.PI/6));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawPoints(p1, p2) {
+      const drawP = (p, color, label) => {
+        const s = w2s(p.x, p.y);
+        ctx.fillStyle = color; ctx.beginPath(); ctx.arc(s.x, s.y, 5, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = '#0f172a'; ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.fillText(label, s.x, s.y - 7);
+        ctx.textBaseline = 'top';
+        ctx.fillText(`(${Math.round(p.x*2)/2}, ${Math.round(p.y*2)/2})`, s.x, s.y + 6);
+      };
+      
+      if (state.mode === 'mb') drawP({x:0, y:state.b}, '#059669', 'B');
+      else if (state.mode === 'pm') drawP(p1, '#d97706', 'P₁');
+      else { drawP(p1, '#d97706', 'P₁'); drawP(p2, '#dc2626', 'P₂'); }
+    }
+
+    function drawSlopeTriangle(base, mNum, mDen) {
+      const dx = Math.abs(mDen);
+      const dy = mNum;
+      const start = {x: base.x, y: base.y};
+      const mid = {x: start.x + dx, y: start.y};
+      const end = {x: mid.x, y: mid.y + dy};
+
+      const sS = w2s(start.x, start.y);
+      const sM = w2s(mid.x, mid.y);
+      const sE = w2s(end.x, end.y);
+
+      // Triángulo punteado
+      ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(sS.x, sS.y); ctx.lineTo(sM.x, sM.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(sM.x, sM.y); ctx.lineTo(sE.x, sE.y); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Relleno suave
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.15)';
+      ctx.beginPath(); ctx.moveTo(sS.x, sS.y); ctx.lineTo(sM.x, sM.y); ctx.lineTo(sE.x, sE.y); ctx.closePath(); ctx.fill();
+
+      // Etiquetas
+      ctx.fillStyle = '#b45309'; ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      ctx.fillText(`Δx = ${dx}`, (sS.x + sM.x)/2, sS.y - 4);
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(`Δy = ${dy}`, sM.x + 6, (sM.y + sE.y)/2);
+    }
+
+    // === EVENTOS ===
+    function setupEvents() {
+      modeSelect.addEventListener('change', e => { state.mode = e.target.value; updateInputs(); });
+      
+      document.getElementById('toggle-slope').addEventListener('click', function() {
+        showSlope = !showSlope;
+        this.textContent = showSlope ? '📐 Ocultar Triángulo' : '📐 Mostrar Triángulo de Pendiente';
+        this.classList.toggle('btn-active', showSlope);
+      });
+      
+      document.getElementById('toggle-grid').addEventListener('click', function() {
+        this.classList.toggle('btn-active');
+        this.textContent = this.classList.contains('btn-active') ? '⬛ Cuadrícula' : '⬜ Sin Cuadrícula';
+      });
+      
+      document.getElementById('reset').addEventListener('click', () => {
+        state.dx = 1; state.dy = 1; state.b = 0;
+        state.p1 = {x: -2, y: -2}; state.p2 = {x: 3, y: 3};
+        updateInputs();
+      });
+
+      canvas.addEventListener('mousedown', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+        const w = s2w(mouse.x, mouse.y);
+        if (state.mode === 'pm' && dist(w, state.p1) < 1) dragging = 'p1';
+        else if (state.mode === 'pp') {
+          if (dist(w, state.p1) < 1) dragging = 'p1';
+          else if (dist(w, state.p2) < 1) dragging = 'p2';
+        }
+      });
+
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+        const w = s2w(mouse.x, mouse.y);
+        if (dragging) {
+          state[dragging].x = Math.round(w.x * 2) / 2;
+          state[dragging].y = Math.round(w.y * 2) / 2;
+          updateInputs();
+        }
+        tooltip.style.display = 'block';
+        tooltip.style.left = (mouse.x + 15) + 'px';
+        tooltip.style.top = (mouse.y - 25) + 'px';
+        tooltip.textContent = `(${Math.round(w.x*2)/2}, ${Math.round(w.y*2)/2})`;
+      });
+
+      canvas.addEventListener('mouseup', () => dragging = null);
+      canvas.addEventListener('mouseleave', () => { dragging = null; tooltip.style.display = 'none'; });
+    }
+
+    function loop() { draw(); requestAnimationFrame(loop); }
+    init();
+  </script>
+</body>
+</html>

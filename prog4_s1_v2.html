@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Progresión 4 · Sesión 1 — Ecuación de la Línea Recta</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mo:#5B2D8E;--mo2:#7B3FC0;--mo3:#B88EE8;--mo-f:#f3ecfb;
+  --ver:#1B6B45;--ver2:#52B788;
+  --nar:#E85D04;--nar2:#F9A53A;
+  --roj:#C1121F;
+  --az:#023E8A;--az2:#1565C0;
+  --am:#F5A623;
+  --cr:#fdf9ff;--tie:#1a0a2e;
+  --gris:#ede8f5;--gris2:#d5cce8;--grisDk:#666;
+  --som:0 3px 18px rgba(91,45,142,.12);
+  --radio:13px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#f0eafa;color:var(--tie);padding:0;min-height:100vh;}
+
+/* PROGRESO */
+.prog-wrap{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 8px rgba(91,45,142,.15);padding:10px 16px;}
+.prog-label{font-size:.72rem;font-weight:800;color:var(--mo);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:flex;justify-content:space-between;}
+.prog-bar{height:7px;background:var(--gris);border-radius:10px;overflow:hidden;}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--mo2),var(--nar2));border-radius:10px;transition:width .5s ease;}
+.prog-steps{display:flex;gap:4px;margin-top:6px;}
+.prog-dot{width:22px;height:22px;border-radius:50%;background:var(--gris);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:var(--grisDk);flex-shrink:0;transition:all .3s;}
+.prog-dot.done{background:var(--ver2);color:#fff;}
+.prog-dot.active{background:var(--mo2);color:#fff;box-shadow:0 0 0 3px var(--mo-f);}
+
+/* LAYOUT */
+.container{max-width:700px;margin:0 auto;padding:16px;}
+.sec{display:none;}
+.sec.visible{display:block;}
+.card{background:#fff;border-radius:var(--radio);padding:22px;margin-bottom:14px;box-shadow:var(--som);}
+
+/* HERO */
+.hero{background:linear-gradient(145deg,#1a0a2e 0%,#2a1060 55%,#0a3020 100%);border-radius:18px;padding:32px 24px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(184,142,232,.15);}
+.hero::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(82,183,136,.1);}
+.hero-tag{font-size:.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px;}
+.hero-tit{font-family:'Bebas Neue';font-size:2.4rem;color:var(--mo3);letter-spacing:2px;line-height:1;margin-bottom:6px;}
+.hero-sub{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:14px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.hchip{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);}
+
+/* BLOQUES */
+.blk{border-radius:9px;padding:12px 15px;margin-bottom:10px;}
+.blk.mo{background:var(--mo-f);border-left:4px solid var(--mo);}
+.blk.az{background:#eef5ff;border-left:4px solid var(--az2);}
+.blk.ver{background:#edfbf3;border-left:4px solid var(--ver);}
+.blk.nar{background:#fff4ec;border-left:4px solid var(--nar);}
+.blk.am{background:#fffaec;border-left:4px solid var(--am);}
+.blk.roj{background:#fdeaea;border-left:4px solid var(--roj);}
+.blk.dark{background:#1a0a2e;border-left:4px solid var(--mo3);}
+.blk h4{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;}
+.blk.mo h4{color:var(--mo);}
+.blk.az h4{color:var(--az2);}
+.blk.ver h4{color:var(--ver);}
+.blk.nar h4{color:var(--nar);}
+.blk.am h4{color:#7a4a00;}
+.blk.roj h4{color:var(--roj);}
+.blk.dark h4{color:var(--mo3);}
+.blk p,.blk li{font-size:.85rem;line-height:1.75;margin-bottom:3px;}
+.blk ul{padding-left:16px;}
+
+/* SECCIÓN HEADER */
+.sec-num{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--grisDk);margin-bottom:2px;}
+.sec-tit{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;color:var(--mo);border-bottom:2.5px solid var(--mo-f);}
+.sec-tit.az{color:var(--az);border-bottom-color:#ddeeff;}
+.sec-tit.ver{color:var(--ver);border-bottom-color:#d4f0e2;}
+.sec-tit.nar{color:var(--nar);border-bottom-color:#fde8d6;}
+
+/* FORMULARIO */
+.campo{margin-bottom:14px;}
+.campo label{display:block;font-size:.78rem;font-weight:800;color:var(--tie);margin-bottom:5px;}
+.campo input[type=text],.campo textarea{width:100%;border:2px solid var(--gris2);border-radius:9px;padding:10px 12px;font-family:'Nunito';font-size:.9rem;color:var(--tie);background:#faf8ff;transition:border-color .2s;outline:none;}
+.campo input[type=text]:focus,.campo textarea:focus{border-color:var(--mo2);}
+.campo textarea{resize:vertical;min-height:90px;}
+
+/* SÍMBOLOS */
+.sym-inline{display:flex;flex-wrap:wrap;gap:3px;margin:5px 0 8px;}
+.sym-btn{background:var(--tie);color:#fff;border:none;border-radius:5px;padding:5px 9px;font-size:.82rem;font-weight:800;font-family:'Nunito';cursor:pointer;touch-action:manipulation;}
+.sym-btn.op{background:var(--az2);}
+.sym-btn.mo{background:var(--mo2);}
+.sym-btn.spec{background:var(--ver);}
+.sym-btn.clr{background:var(--roj);}
+
+/* BOTONES */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;border-radius:10px;border:none;font-family:'Nunito';font-size:.9rem;font-weight:800;cursor:pointer;touch-action:manipulation;transition:all .2s;width:100%;justify-content:center;margin-top:6px;}
+.btn.primario{background:linear-gradient(135deg,var(--mo2),var(--mo));color:#fff;box-shadow:0 4px 14px rgba(91,45,142,.3);}
+.btn.primario:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(91,45,142,.4);}
+.btn.secundario{background:var(--gris);color:var(--tie);}
+.btn.verde{background:linear-gradient(135deg,var(--ver2),var(--ver));color:#fff;}
+.btn.naranja{background:linear-gradient(135deg,var(--nar2),var(--nar));color:#fff;}
+.btn.azul{background:linear-gradient(135deg,#1565C0,#023E8A);color:#fff;}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+/* QUIZ */
+.qcard{background:#fff;border-radius:11px;padding:17px;margin-bottom:13px;box-shadow:var(--som);border:2px solid var(--gris);}
+.qcard.ok{border-color:var(--ver2);background:#f0fff8;}
+.qcard.mal{border-color:var(--roj);background:#fdeaea;}
+.q-num{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--grisDk);margin-bottom:4px;}
+.q-txt{font-size:.88rem;line-height:1.65;margin-bottom:12px;font-weight:600;}
+.q-ops{display:flex;flex-direction:column;gap:7px;}
+.q-op{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--gris2);cursor:pointer;transition:all .2s;font-size:.85rem;line-height:1.5;}
+.q-op:hover{border-color:var(--mo3);background:var(--mo-f);}
+.q-op.sel{border-color:var(--mo2);background:var(--mo-f);}
+.q-op.correcto{border-color:var(--ver2);background:#edfbf3;font-weight:700;}
+.q-op.incorrecto{border-color:var(--roj);background:#fdeaea;}
+.q-exp{font-size:.78rem;color:var(--ver);background:#edfbf3;border-radius:7px;padding:8px 11px;margin-top:8px;line-height:1.65;}
+
+/* LIVE PREVIEW */
+.expo-preview{min-height:28px;padding:6px 10px;background:var(--mo-f);border-radius:7px;margin-top:5px;font-size:.85rem;color:var(--mo);border:1.5px solid var(--gris2);}
+
+/* TABLA */
+.tabla-comp{width:100%;border-collapse:collapse;font-size:.82rem;margin:10px 0;}
+.tabla-comp th{background:var(--mo);color:#fff;padding:8px 10px;text-align:left;font-size:.72rem;text-transform:uppercase;}
+.tabla-comp td{padding:8px 10px;border-bottom:1.5px solid var(--gris);vertical-align:top;line-height:1.55;}
+.tabla-comp tr:last-child td{border-bottom:none;}
+.tabla-comp td:first-child{font-weight:700;color:var(--mo);background:#faf8ff;}
+
+/* AVISOS */
+.aviso{border-radius:8px;padding:10px 13px;font-size:.82rem;margin:8px 0;line-height:1.65;}
+.aviso.error{background:#fdeaea;border:1.5px solid var(--roj);color:#5a0000;}
+.aviso.ok{background:#edfbf3;border:1.5px solid var(--ver2);color:#0a3a20;}
+.aviso.warn{background:#fff4ec;border:1.5px solid var(--nar);color:#5a2300;}
+
+/* EMPRESAS */
+.empresa-card{border-radius:11px;padding:14px 16px;margin-bottom:10px;}
+.empresa-card.A{background:#eef5ff;border:2px solid var(--az2);}
+.empresa-card.B{background:#fff4ec;border:2px solid var(--nar);}
+.empresa-nombre{font-family:'Bebas Neue';font-size:1.2rem;letter-spacing:.8px;margin-bottom:4px;}
+.empresa-card.A .empresa-nombre{color:var(--az2);}
+.empresa-card.B .empresa-nombre{color:var(--nar);}
+.empresa-formula{font-size:1.1rem;font-weight:900;margin:6px 0;}
+.empresa-desc{font-size:.82rem;color:var(--grisDk);line-height:1.6;}
+
+/* FORMAS DE LA RECTA */
+.forma-card{background:#fff;border-radius:11px;padding:16px;margin-bottom:10px;box-shadow:var(--som);border-top:4px solid var(--mo);}
+.forma-card.f2{border-top-color:var(--ver);}
+.forma-card.f3{border-top-color:var(--nar);}
+.forma-titulo{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:.8px;margin-bottom:6px;color:var(--mo);}
+.forma-card.f2 .forma-titulo{color:var(--ver);}
+.forma-card.f3 .forma-titulo{color:var(--nar);}
+.forma-formula{font-size:1.15rem;font-weight:900;text-align:center;padding:10px;background:var(--mo-f);border-radius:8px;margin:8px 0;}
+.forma-card.f2 .forma-formula{background:#edfbf3;}
+.forma-card.f3 .forma-formula{background:#fff4ec;}
+.forma-cuándo{font-size:.8rem;color:var(--grisDk);line-height:1.65;margin-top:6px;}
+
+/* ─── SIMULADOR GRÁFICO ─── */
+.sim-wrapper{background:#fff;border-radius:14px;box-shadow:var(--som);overflow:hidden;margin-bottom:14px;}
+.sim-header{background:linear-gradient(135deg,#023E8A,#1565C0);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.sim-header-tit{font-family:'Bebas Neue';font-size:1.2rem;letter-spacing:1px;color:#fff;}
+.sim-header-sub{font-size:.72rem;color:rgba(255,255,255,.7);}
+.sim-body{padding:14px;}
+.sim-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:flex-end;}
+.sim-ctrl-group{flex:1;min-width:160px;}
+.sim-ctrl-group label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--grisDk);display:block;margin-bottom:4px;}
+.sim-input{width:100%;padding:8px 10px;border:2px solid var(--gris2);border-radius:8px;font-family:'Nunito';font-size:.85rem;font-weight:700;color:var(--tie);background:#faf8ff;outline:none;}
+.sim-input:focus{border-color:var(--az2);}
+.sim-color-A{border-left:4px solid var(--az2)!important;}
+.sim-color-B{border-left:4px solid var(--nar)!important;}
+.sim-btn-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.sim-btn{padding:8px 14px;border:none;border-radius:8px;font-family:'Nunito';font-size:.8rem;font-weight:800;cursor:pointer;touch-action:manipulation;transition:all .15s;}
+.sim-btn.graf{background:linear-gradient(135deg,var(--az2),var(--az));color:#fff;}
+.sim-btn.limpiar{background:var(--gris);color:var(--tie);}
+.sim-btn.zoom-in{background:#eef5ff;color:var(--az2);border:1.5px solid var(--az2);}
+.sim-btn.zoom-out{background:#eef5ff;color:var(--az2);border:1.5px solid var(--az2);}
+.sim-btn.punto{background:linear-gradient(135deg,var(--ver2),var(--ver));color:#fff;}
+.sim-canvas-wrap{position:relative;background:#f7f9ff;border-radius:10px;border:1.5px solid var(--gris2);overflow:hidden;}
+canvas#sim-canvas{display:block;width:100%;touch-action:none;}
+.sim-info{margin-top:8px;padding:8px 12px;background:var(--gris);border-radius:8px;font-size:.78rem;color:var(--tie);min-height:28px;line-height:1.6;}
+.sim-leyenda{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+.sim-leg-item{display:flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;}
+.sim-leg-color{width:16px;height:4px;border-radius:2px;}
+.sim-punto-panel{background:var(--mo-f);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:.8rem;}
+.sim-punto-panel strong{color:var(--mo);}
+
+/* CANVAS LIENZO */
+.canvas-wrap{position:relative;margin:10px 0;}
+canvas#dibujo-canvas{width:100%;height:200px;border-radius:9px;border:2px solid var(--gris2);background:#fff;touch-action:none;display:block;}
+.canvas-tools{display:flex;gap:6px;margin-bottom:6px;}
+.c-btn{padding:6px 12px;border-radius:7px;border:1.5px solid var(--gris2);font-family:'Nunito';font-size:.78rem;font-weight:700;cursor:pointer;background:#fff;color:var(--tie);}
+.c-btn.active{background:var(--tie);color:#fff;border-color:var(--tie);}
+
+/* RESULTADOS */
+.res-hdr{position:relative;background:linear-gradient(145deg,#1a0a2e,#0d1b4a);border-radius:14px;padding:28px 22px;color:#fff;text-align:center;overflow:hidden;margin-bottom:14px;}
+.res-nota{font-family:'Bebas Neue';font-size:5rem;color:var(--mo3);line-height:1;letter-spacing:2px;}
+.res-max{font-size:1rem;color:rgba(255,255,255,.55);margin-bottom:8px;}
+.res-wm{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.04;}
+.res-wm-row{font-size:.7rem;font-weight:800;color:#fff;white-space:nowrap;padding:4px 0;text-transform:uppercase;letter-spacing:2px;}
+.det-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1.5px solid var(--gris);font-size:.85rem;}
+.det-row:last-child{border-bottom:none;}
+.det-pts{font-weight:800;font-family:'Bebas Neue';font-size:1.1rem;color:var(--mo);}
+
+/* PANEL COMPARATIVO RESULTADOS */
+.res-cmp-card{background:#fff;border-radius:11px;box-shadow:var(--som);margin-bottom:14px;overflow:hidden;}
+.res-cmp-header{padding:12px 18px;font-family:'Bebas Neue';font-size:1rem;letter-spacing:.8px;}
+.res-cmp-header.mo{background:var(--mo-f);color:var(--mo);}
+.res-cmp-header.az{background:#eef5ff;color:var(--az);}
+.res-cmp-header.ver{background:#edfbf3;color:var(--ver);}
+.res-cmp-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1.5px solid var(--gris);}
+.res-cmp-row:last-child{border-bottom:none;}
+.res-cmp-cell{padding:10px 14px;font-size:.8rem;line-height:1.55;}
+.res-cmp-cell.alu{background:#faf8ff;border-right:1.5px solid var(--gris);}
+.res-cmp-cell.esp{background:#edfbf3;}
+.res-cmp-cell.mal{background:#fdeaea;}
+.res-cmp-lbl{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--grisDk);margin-bottom:3px;}
+.res-cmp-val{font-weight:700;color:var(--tie);}
+.res-cmp-val.ok{color:var(--ver);}
+.res-cmp-val.err{color:var(--roj);}
+.res-canvas-wrap{padding:14px;}
+
+/* PANEL DOCENTE */
+#doc-panel-float{position:fixed;bottom:16px;right:16px;background:#1a0a2e;border:1.5px solid var(--mo3);border-radius:12px;padding:12px 14px;font-size:.78rem;color:#fff;box-shadow:0 4px 20px rgba(91,45,142,.4);z-index:9999;max-width:220px;display:none;}
+.doc-panel-btn{display:block;width:100%;background:var(--mo2);color:#fff;border:none;border-radius:7px;padding:7px;font-family:'Nunito';font-weight:700;font-size:.8rem;margin-bottom:5px;cursor:pointer;text-align:left;}
+.doc-panel-btn.avanzar{background:var(--ver);}
+.doc-panel-btn.simular{background:var(--nar);}
+
+/* PRINT */
+@media print{
+  .no-print,.prog-wrap,#doc-panel-float,.sym-inline,.expo-preview,.canvas-tools,.btn,.sim-controls,.sim-btn-row,.sim-info{display:none!important;}
+  body{background:#fff!important;font-size:12px!important;}
+  .card,.qcard,.res-cmp-card,.sim-wrapper{box-shadow:none!important;border:1px solid #ccc!important;}
+  .sec{display:none!important;}
+  #s-final{display:block!important;}
+  .hero{background:#1a0a2e!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .res-hdr{background:#1a0a2e!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  canvas{max-width:100%!important;}
+}
+@media(max-width:500px){
+  .hero-tit{font-size:1.9rem;}
+  .res-nota{font-size:4rem;}
+  .res-cmp-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESO -->
+<div class="prog-wrap no-print">
+  <div class="prog-label"><span>Progresión 4 · Sesión 1</span><span id="prog-pct">0%</span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+  <div class="prog-steps">
+    <div class="prog-dot active" id="pd0">S0</div>
+    <div class="prog-dot" id="pd1">1</div>
+    <div class="prog-dot" id="pd2">2</div>
+    <div class="prog-dot" id="pd3">3</div>
+    <div class="prog-dot" id="pd4">4</div>
+    <div class="prog-dot" id="pd5">5</div>
+    <div class="prog-dot" id="pd6">6</div>
+    <div class="prog-dot" id="pd7">✓</div>
+  </div>
+</div>
+
+<!-- ══ S0 · INICIO ══ -->
+<div class="sec visible" id="s0">
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag">Progresión 4 · Sesión 1 de 2 · Matemáticas · Bachillerato</div>
+    <div class="hero-tit">Ecuación de la<br>Línea Recta</div>
+    <div class="hero-sub">Las tres formas de la ecuación. Modelado de situaciones reales con un simulador gráfico interactivo.</div>
+    <div class="hero-chips">
+      <span class="hchip">📐 Geometría Analítica</span>
+      <span class="hchip">⏱ 90 minutos</span>
+      <span class="hchip">🎲 Datos únicos por alumno</span>
+      <span class="hchip">📊 Simulador incluido</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sec-num">Identificación</div>
+    <div class="sec-tit">¡Comencemos!</div>
+    <div class="blk am">
+      <h4>📌 Lee antes de empezar</h4>
+      <ul>
+        <li>Esta actividad tiene un <strong>simulador gráfico</strong> — úsalo para graficar y encontrar la intersección.</li>
+        <li>Tus números son <strong>únicos</strong> — no copies (tus compañeros tienen datos diferentes).</li>
+        <li>No se puede pegar texto en los campos de respuesta.</li>
+        <li>Al terminar guarda tu evidencia como PDF.</li>
+      </ul>
+    </div>
+    <div class="campo">
+      <label>Tu nombre completo:</label>
+      <input type="text" id="inp-nombre" placeholder="Escribe tu nombre aquí..." autocomplete="off">
+    </div>
+    <div id="aviso-nombre" class="aviso error" style="display:none;">⚠ Escribe tu nombre para continuar.</div>
+    <button class="btn primario" onclick="iniciarActividad()">Iniciar actividad ▶</button>
+    <div style="text-align:center;margin-top:14px;">
+      <span onclick="abrirDoc()" style="cursor:pointer;font-size:.7rem;color:var(--grisDk);opacity:.4;user-select:none;">Prof. Adrián CruzH</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ S1 · PROBLEMA DETONADOR ══ -->
+<div class="sec" id="s1">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 1 · Problema detonador</div>
+    <div class="sec-tit nar">🚖 Empresas de Transporte CDMX</div>
+    <div class="blk nar">
+      <h4>Situación</h4>
+      <p>Necesitas moverte por la CDMX. Dos empresas te ofrecen sus tarifas. Quieres saber exactamente a partir de cuántos kilómetros te conviene cada una.</p>
+    </div>
+    <div class="empresa-card A">
+      <div class="empresa-nombre">🚕 Empresa A — RápidoCDMX</div>
+      <div class="empresa-formula" id="formula-A-txt"></div>
+      <div class="empresa-desc">Cuota de arranque: <strong id="cuota-A"></strong> · Costo por km: <strong id="costo-A"></strong></div>
+    </div>
+    <div class="empresa-card B">
+      <div class="empresa-nombre">🚗 Empresa B — EcoViaje</div>
+      <div class="empresa-formula" id="formula-B-txt"></div>
+      <div class="empresa-desc">Cuota de arranque: <strong id="cuota-B"></strong> · Costo por km: <strong id="costo-B"></strong></div>
+    </div>
+    <div class="blk mo">
+      <h4>🎯 Pregunta central</h4>
+      <p>¿A partir de cuántos kilómetros conviene más la Empresa A? Construirás la ecuación de cada empresa y lo verificarás con el simulador.</p>
+    </div>
+    <div class="blk az">
+      <h4>Activación de conocimientos previos</h4>
+      <p id="q-activ-txt"></p>
+    </div>
+    <div class="campo">
+      <label>Tu respuesta (mínimo 50 caracteres):</label>
+      <div class="sym-inline" id="sym-s1"></div>
+      <textarea id="inp-activ" data-req="1" data-ml="50" placeholder="Escribe tu respuesta..." rows="4" oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+      <div style="font-size:.72rem;color:var(--grisDk);margin-top:3px;">Caracteres: <span id="cnt-activ">0</span>/50</div>
+    </div>
+    <div id="aviso-activ" class="aviso error" style="display:none;"></div>
+    <div id="intentos-activ" class="aviso warn" style="display:none;"></div>
+    <button class="btn primario btn-avanzar" id="btn-s1" onclick="validarS1()">Continuar →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S2 · LAS 3 FORMAS ══ -->
+<div class="sec" id="s2">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 2 · Referencia</div>
+    <div class="sec-tit">📐 Las 3 Formas de la Ecuación de la Recta</div>
+
+    <div class="forma-card">
+      <div class="forma-titulo">Forma 1 — Pendiente-Ordenada al Origen</div>
+      <div class="forma-formula">\( y = mx + b \)</div>
+      <p style="font-size:.83rem;line-height:1.7;margin-bottom:6px;"><strong>m</strong> = pendiente · <strong>b</strong> = ordenada al origen (cruza el eje Y)</p>
+      <div class="forma-cuándo"><strong>¿Cuándo?</strong> Cuando ya conoces la pendiente y dónde cruza el eje Y. La más directa para graficar.</div>
+      <div class="blk mo" style="margin-top:8px;">
+        <h4>Ejemplo — tu problema:</h4>
+        <p id="ejemplo-f1-A"></p>
+        <p id="ejemplo-f1-B"></p>
+      </div>
+    </div>
+
+    <div class="forma-card f2">
+      <div class="forma-titulo">Forma 2 — Punto-Pendiente</div>
+      <div class="forma-formula">\( y - y_1 = m(x - x_1) \)</div>
+      <p style="font-size:.83rem;line-height:1.7;margin-bottom:6px;"><strong>m</strong> = pendiente · <strong>(x₁, y₁)</strong> = un punto conocido de la recta</p>
+      <div class="forma-cuándo"><strong>¿Cuándo?</strong> Cuando tienes la pendiente y un punto, pero no conoces b directamente.</div>
+      <div class="blk ver" style="margin-top:8px;">
+        <h4>Ejemplo resuelto:</h4>
+        <p>Punto (3, 7) y m = 2 → <em>y − 7 = 2(x − 3)</em> → y − 7 = 2x − 6 → <strong>y = 2x + 1</strong></p>
+      </div>
+    </div>
+
+    <div class="forma-card f3">
+      <div class="forma-titulo">Forma 3 — Dos Puntos</div>
+      <div class="forma-formula">\( m = \dfrac{y_2 - y_1}{x_2 - x_1} \)</div>
+      <p style="font-size:.83rem;line-height:1.7;margin-bottom:6px;">Primero calculas m con los dos puntos, luego aplicas la Forma 2.</p>
+      <div class="forma-cuándo"><strong>¿Cuándo?</strong> Cuando solo tienes dos puntos y nada más.</div>
+      <div class="blk nar" style="margin-top:8px;">
+        <h4>Ejemplo resuelto:</h4>
+        <p>Puntos (1, 5) y (3, 11) → m = (11−5)/(3−1) = 3 → y − 5 = 3(x − 1) → <strong>y = 3x + 2</strong></p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:14px;background:var(--gris);border-radius:11px;box-shadow:none;">
+      <div style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:.8px;color:var(--mo);margin-bottom:8px;">¿Qué datos tengo? → ¿Qué forma usar?</div>
+      <table class="tabla-comp">
+        <tr><th>Tienes…</th><th>Usa…</th></tr>
+        <tr><td>m y b</td><td>Forma 1: y = mx + b</td></tr>
+        <tr><td>m y un punto (x₁, y₁)</td><td>Forma 2: punto-pendiente</td></tr>
+        <tr><td>Dos puntos (x₁,y₁) y (x₂,y₂)</td><td>Forma 3: calcula m → Forma 2</td></tr>
+      </table>
+    </div>
+    <div class="blk mo" style="margin-top:10px;">
+      <h4>🔑 Un punto "pertenece" a la recta si…</h4>
+      <p>…al sustituir su x en la ecuación obtienes exactamente su y. El punto <strong>es solución</strong> de la ecuación.</p>
+    </div>
+    <button class="btn primario" onclick="irA('s3')">Entendido, practicar →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S3 · PRÁCTICA FORMA 1 ══ -->
+<div class="sec" id="s3">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 3 · Práctica guiada</div>
+    <div class="sec-tit ver">🚕 Modelando las empresas con y = mx + b</div>
+    <div class="blk mo">
+      <h4>Recuerda tus datos</h4>
+      <p>Empresa A: cuota base <strong id="recuerda-cuotaA"></strong>, costo por km <strong id="recuerda-costoA"></strong></p>
+      <p>Empresa B: cuota base <strong id="recuerda-cuotaB"></strong>, costo por km <strong id="recuerda-costoB"></strong></p>
+    </div>
+    <p style="font-size:.88rem;line-height:1.7;margin-bottom:12px;">Si <strong>x</strong> = kilómetros recorridos y <strong>y</strong> = costo total, escribe la ecuación de cada empresa en la forma <strong>y = mx + b</strong>.</p>
+    <div style="margin-bottom:16px;">
+      <div style="font-weight:800;color:var(--az2);font-size:.9rem;margin-bottom:5px;">Ecuación Empresa A:</div>
+      <div class="sym-inline" id="sym-s3a"></div>
+      <input type="text" id="inp-ecA" placeholder="Ej: y = 8x + 1500" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-ecA">Vista previa</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-weight:800;color:var(--nar);font-size:.9rem;margin-bottom:5px;">Ecuación Empresa B:</div>
+      <div class="sym-inline" id="sym-s3b"></div>
+      <input type="text" id="inp-ecB" placeholder="Ej: y = 10x + 1200" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-ecB">Vista previa</div>
+    </div>
+    <div class="campo">
+      <label>¿Qué representa m y qué representa b en este problema? (mín. 60 caracteres)</label>
+      <div class="sym-inline" id="sym-s3c"></div>
+      <textarea id="inp-interp" rows="3" placeholder="La pendiente representa... La ordenada al origen representa..." oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+      <div style="font-size:.72rem;color:var(--grisDk);margin-top:3px;">Caracteres: <span id="cnt-interp">0</span>/60</div>
+    </div>
+    <div id="aviso-s3" class="aviso error" style="display:none;"></div>
+    <div id="intentos-s3" class="aviso warn" style="display:none;"></div>
+    <button class="btn primario btn-avanzar" id="btn-s3" onclick="validarS3()">Continuar →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S4 · FORMAS 2 Y 3 ══ -->
+<div class="sec" id="s4">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 4 · Práctica</div>
+    <div class="sec-tit">📌 Formas 2 y 3 — Ejercicios con tus datos</div>
+    <div class="blk ver" style="margin-bottom:14px;">
+      <h4>Ejercicio A — Forma Punto-Pendiente</h4>
+      <p id="ejer-pp-enunciado"></p>
+    </div>
+    <div class="campo">
+      <label>Escribe la forma punto-pendiente:</label>
+      <div class="sym-inline" id="sym-s4a"></div>
+      <input type="text" id="inp-pp1" placeholder="y − y₁ = m(x − x₁)" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-pp1">Vista previa</div>
+    </div>
+    <div class="campo">
+      <label>Simplifica a y = mx + b:</label>
+      <div class="sym-inline" id="sym-s4b"></div>
+      <input type="text" id="inp-pp2" placeholder="y = mx + b" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-pp2">Vista previa</div>
+    </div>
+    <hr style="border:none;border-top:1.5px solid var(--gris);margin:18px 0;">
+    <div class="blk nar" style="margin-bottom:14px;">
+      <h4>Ejercicio B — Dos Puntos</h4>
+      <p id="ejer-2p-enunciado"></p>
+    </div>
+    <div class="campo">
+      <label>Paso 1 — Calcula la pendiente m:</label>
+      <div class="sym-inline" id="sym-s4c"></div>
+      <input type="text" id="inp-2p-m" placeholder="m = (y₂−y₁)/(x₂−x₁) = ..." inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-2pm">Vista previa</div>
+    </div>
+    <div class="campo">
+      <label>Paso 2 — Ecuación final (y = mx + b):</label>
+      <div class="sym-inline" id="sym-s4d"></div>
+      <input type="text" id="inp-2p-ec" placeholder="y = mx + b" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-2pec">Vista previa</div>
+    </div>
+    <div id="aviso-s4" class="aviso error" style="display:none;"></div>
+    <div id="intentos-s4" class="aviso warn" style="display:none;"></div>
+    <button class="btn primario btn-avanzar" id="btn-s4" onclick="validarS4()">Continuar →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S5 · SIMULADOR ══ -->
+<div class="sec" id="s5">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 5 · Simulador</div>
+    <div class="sec-tit az">📊 Simulador Gráfico Interactivo</div>
+    <div class="blk az">
+      <h4>¿Qué vas a hacer aquí?</h4>
+      <p>Graficarás las ecuaciones de las dos empresas en el plano cartesiano y encontrarás visualmente el punto de intersección — el kilómetro donde las dos empresas cobran lo mismo.</p>
+    </div>
+  </div>
+
+  <!-- SIMULADOR -->
+  <div class="sim-wrapper">
+    <div class="sim-header">
+      <div>
+        <div class="sim-header-tit">📈 Plano Cartesiano</div>
+        <div class="sim-header-sub">Grafica las ecuaciones de las dos empresas</div>
+      </div>
+      <div style="font-size:.7rem;color:rgba(255,255,255,.6);">Toca el plano para leer coordenadas</div>
+    </div>
+    <div class="sim-body">
+      <div class="sim-controls">
+        <div class="sim-ctrl-group">
+          <label>🚕 Empresa A — y = mx + b</label>
+          <input type="text" class="sim-input sim-color-A" id="sim-ecA" placeholder="ej: 8x + 1500" inputmode="decimal">
+        </div>
+        <div class="sim-ctrl-group">
+          <label>🚗 Empresa B — y = mx + b</label>
+          <input type="text" class="sim-input sim-color-B" id="sim-ecB" placeholder="ej: 10x + 1200" inputmode="decimal">
+        </div>
+      </div>
+      <div class="sim-btn-row">
+        <button class="sim-btn graf" onclick="simGraficar()">📈 Graficar rectas</button>
+        <button class="sim-btn punto" onclick="simMostrarInterseccion()">⭕ Marcar intersección</button>
+        <button class="sim-btn zoom-in" onclick="simZoom(1.3)">＋ Zoom</button>
+        <button class="sim-btn zoom-out" onclick="simZoom(0.75)">－ Zoom</button>
+        <button class="sim-btn limpiar" onclick="simLimpiar()">✖ Limpiar</button>
+      </div>
+      <div class="sim-canvas-wrap">
+        <canvas id="sim-canvas" height="380"></canvas>
+      </div>
+      <div class="sim-info" id="sim-info">Escribe las ecuaciones arriba y toca "Graficar" para comenzar.</div>
+      <div class="sim-leyenda" id="sim-leyenda" style="display:none;">
+        <div class="sim-leg-item"><div class="sim-leg-color" style="background:#1565C0;"></div><span id="leg-A">Empresa A</span></div>
+        <div class="sim-leg-item"><div class="sim-leg-color" style="background:#E85D04;"></div><span id="leg-B">Empresa B</span></div>
+        <div class="sim-leg-item"><div class="sim-leg-color" style="width:10px;height:10px;border-radius:50%;background:#C1121F;"></div><span>Intersección</span></div>
+      </div>
+      <div class="sim-punto-panel" id="sim-punto-panel" style="display:none;">
+        <strong>⭕ Punto de intersección calculado:</strong> <span id="sim-punto-val"></span><br>
+        <span style="color:var(--grisDk);font-size:.75rem;">Verificación: para x = <span id="sim-xcruce"></span> km, ambas empresas cobran $<span id="sim-ycruce"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="blk mo">
+      <h4>🧮 ¿Qué ves en la gráfica?</h4>
+      <p>El <strong>punto de cruce</strong> es el kilómetro exacto donde ambas empresas cobran lo mismo. A la izquierda de ese punto conviene una; a la derecha, la otra.</p>
+      <p>La intersección calculada para tus datos: <strong id="intersec-calc-s5"></strong></p>
+    </div>
+
+    <div class="campo">
+      <label>¿Cuál es el punto de intersección que encontraste con el simulador?</label>
+      <div class="sym-inline" id="sym-s5"></div>
+      <input type="text" id="inp-intersec" placeholder="( ___ , ___ )" inputmode="decimal" oncopy="return false" onpaste="return false" oncontextmenu="return false">
+      <div class="expo-preview" id="prev-intersec">Vista previa</div>
+    </div>
+
+    <div class="campo">
+      <label>¿A partir de qué distancia conviene la Empresa A? Explica. (mín. 40 caracteres)</label>
+      <div class="sym-inline" id="sym-s5b"></div>
+      <textarea id="inp-conclu" rows="3" placeholder="A partir de ___ km conviene la Empresa A porque..." oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+      <div style="font-size:.72rem;color:var(--grisDk);margin-top:3px;">Caracteres: <span id="cnt-conclu">0</span>/40</div>
+    </div>
+
+    <!-- Lienzo de dibujo -->
+    <div style="margin-top:10px;">
+      <div style="font-weight:800;font-size:.83rem;color:var(--tie);margin-bottom:6px;">✏️ Haz un boceto de las dos rectas y su intersección:</div>
+      <div class="canvas-tools">
+        <button class="c-btn active" id="btn-lapiz" onclick="activarLapiz()">✏️ Lápiz</button>
+        <button class="c-btn" id="btn-borrar" onclick="activarBorrador()">🗑 Borrador</button>
+        <button class="c-btn" onclick="limpiarCanvas()">✖ Limpiar</button>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="dibujo-canvas"></canvas>
+      </div>
+      <div style="font-size:.72rem;color:var(--grisDk);">Dibuja los ejes, las dos líneas y marca el punto de cruce.</div>
+    </div>
+
+    <div id="aviso-s5" class="aviso error" style="display:none;"></div>
+    <div id="intentos-s5" class="aviso warn" style="display:none;"></div>
+    <button class="btn primario btn-avanzar" id="btn-s5" onclick="validarS5()">Continuar →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S6 · QUIZ ══ -->
+<div class="sec" id="s6">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 6 · Evaluación</div>
+    <div class="sec-tit">🎯 Quiz — 10 preguntas</div>
+    <div class="blk mo" style="margin-bottom:14px;">
+      <h4>Instrucciones</h4>
+      <p>Selecciona una opción por pregunta. Puedes cambiarla antes de verificar. Los distractores son errores comunes — lee con cuidado.</p>
+    </div>
+    <div id="quiz-contenedor"></div>
+    <div id="aviso-quiz" class="aviso warn" style="display:none;">⚠ Responde todas las preguntas antes de verificar.</div>
+    <button class="btn naranja" id="btn-verificar-quiz" onclick="verificarQuiz()">Verificar respuestas ✓</button>
+    <button class="btn primario btn-avanzar" id="btn-s6" onclick="irA('s7')" style="display:none;margin-top:8px;">Continuar a reflexión →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S7 · REFLEXIÓN ══ -->
+<div class="sec" id="s7">
+<div class="container">
+  <div class="card">
+    <div class="sec-num">Sección 7 · Cierre</div>
+    <div class="sec-tit ver">💬 Reflexión final</div>
+    <div class="blk ver">
+      <h4>Pregunta de cierre</h4>
+      <p id="q-comp-txt"></p>
+    </div>
+    <div class="campo">
+      <label>Tu reflexión (mínimo 100 caracteres):</label>
+      <div class="sym-inline" id="sym-s7"></div>
+      <textarea id="inp-comp" rows="5" placeholder="Escribe tu reflexión..." oncopy="return false" onpaste="return false" oncontextmenu="return false"></textarea>
+      <div style="font-size:.72rem;color:var(--grisDk);margin-top:3px;">Caracteres: <span id="cnt-comp">0</span>/100</div>
+    </div>
+    <div id="aviso-s7" class="aviso error" style="display:none;"></div>
+    <div id="intentos-s7" class="aviso warn" style="display:none;"></div>
+    <button class="btn verde btn-avanzar" id="btn-s7" onclick="validarS7()">Ver mis resultados →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ S-FINAL · RESULTADOS ══ -->
+<div class="sec" id="s-final">
+<div class="container">
+  <div id="res-contenedor"></div>
+  <div class="card no-print" style="text-align:center;padding:18px;">
+    <p style="font-size:.83rem;color:var(--grisDk);margin-bottom:12px;">Guarda tu evidencia de aprendizaje</p>
+    <button class="btn verde" onclick="guardarPDF()" style="max-width:340px;">📄 Guardar como PDF</button>
+    <p style="font-size:.72rem;color:var(--grisDk);margin-top:8px;">Chrome → Imprimir → Guardar como PDF &nbsp;·&nbsp; iOS: Compartir → Guardar en Archivos</p>
+  </div>
+</div>
+</div>
+
+<!-- PANEL DOCENTE -->
+<div id="doc-panel-float">
+  <div style="font-weight:800;color:var(--mo3);margin-bottom:8px;">🔒 Panel Docente</div>
+  <div id="doc-login-f">
+    <input id="doc-cod-f" type="password" placeholder="código" style="width:100%;padding:5px;border-radius:6px;border:none;font-family:'Nunito';margin-bottom:6px;" onkeydown="if(event.key==='Enter')chkDoc()">
+    <button onclick="chkDoc()" style="width:100%;background:var(--mo2);color:#fff;border:none;border-radius:6px;padding:5px;font-family:'Nunito';font-weight:700;cursor:pointer;">Entrar</button>
+  </div>
+  <div id="doc-acciones" style="display:none;">
+    <button onclick="docAvanzar()" class="doc-panel-btn avanzar">⏭ Avanzar sin validar</button>
+    <button onclick="simularResultados()" class="doc-panel-btn simular">⚡ Simular resultados</button>
+    <button onclick="cerrarDoc()" class="doc-panel-btn">✕ Cerrar</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+/* ─── GLOBALES ─── */
+var nom = '';
+var secActual = 's0';
+var modoDocente = false, modoRecorrer = false;
+var cuotaA, costoA, cuotaB, costoB;
+var ejer_pp_x1, ejer_pp_y1, ejer_pp_m, ejer_pp_b;
+var ejer_2p_x1, ejer_2p_y1, ejer_2p_x2, ejer_2p_y2, ejer_2p_m, ejer_2p_b;
+var x_cruce_real, y_cruce_real;
+var intentosActiv=0, intentosS3=0, intentosS4=0, intentosS5=0, intentosS7=0;
+var QUIZ_SEL=[], estadoQuiz=[], quizVerificado=false, quizCorr={};
+var actQ, compQ;
+var cvCtx=null, cvDibujando=false, cvHerramienta='lapiz', cvInicializado=false;
+
+/* ─── SIMULADOR GRÁFICO ─── */
+var simCv, simCtx;
+var simEscalaX = 1, simEscalaY = 1; // píxeles por unidad
+var simOX = 0, simOY = 0; // origen en píxeles
+var simLineas = []; // {m, b, color, label}
+var simPuntoIntersec = null;
+var simZoomFactor = 1;
+
+function simInit(){
+  simCv = document.getElementById('sim-canvas');
+  if(!simCv) return;
+  simCtx = simCv.getContext('2d');
+  // Ajustar resolución
+  var dpr = window.devicePixelRatio||1;
+  var w = simCv.parentElement.offsetWidth;
+  simCv.width = w * dpr;
+  simCv.height = 380 * dpr;
+  simCv.style.width = w+'px';
+  simCv.style.height = '380px';
+  simCtx.scale(dpr, dpr);
+  simW = w; simH = 380;
+  simOX = Math.round(simW * 0.12);
+  simOY = Math.round(simH * 0.85);
+  simEscalaX = (simW - simOX - 20) / 350;
+  simEscalaY = (simOY - 30) / 5000;
+  simZoomFactor = 1;
+  simDibujarEjes();
+
+  // Listener hover/touch
+  simCv.addEventListener('mousemove', function(e){
+    var r = simCv.getBoundingClientRect();
+    var px = e.clientX - r.left, py = e.clientY - r.top;
+    simMostrarCoordenadas(px, py);
+  });
+  simCv.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    var r = simCv.getBoundingClientRect();
+    var px = e.touches[0].clientX - r.left, py = e.touches[0].clientY - r.top;
+    simMostrarCoordenadas(px, py);
+  }, {passive:false});
+}
+
+var simW=600, simH=380;
+
+function simUaP(ux, uy){ // unidad → pixel
+  return { x: simOX + ux * simEscalaX, y: simOY - uy * simEscalaY };
+}
+function simPaU(px, py){ // pixel → unidad
+  return { x: (px - simOX) / simEscalaX, y: (simOY - py) / simEscalaY };
+}
+
+function simDibujarEjes(){
+  simCtx.clearRect(0, 0, simW, simH);
+  // Fondo
+  simCtx.fillStyle = '#f7f9ff';
+  simCtx.fillRect(0,0,simW,simH);
+
+  // Grid
+  simCtx.strokeStyle = '#e0e8f8';
+  simCtx.lineWidth = 0.8;
+  var pasoX = Math.max(1, Math.round(50/simEscalaX));
+  var pasoY = Math.max(100, Math.round(50/simEscalaY/100)*100);
+
+  // Líneas verticales (km)
+  for(var x=0; x<=400; x+=pasoX){
+    var px = simOX + x*simEscalaX;
+    if(px>simW) break;
+    simCtx.beginPath(); simCtx.moveTo(px,0); simCtx.lineTo(px,simH); simCtx.stroke();
+  }
+  // Líneas horizontales ($)
+  for(var y=0; y<=8000; y+=pasoY){
+    var py = simOY - y*simEscalaY;
+    if(py<0) break;
+    simCtx.beginPath(); simCtx.moveTo(0,py); simCtx.lineTo(simW,py); simCtx.stroke();
+  }
+
+  // Ejes principales
+  simCtx.strokeStyle = '#1a0a2e';
+  simCtx.lineWidth = 2;
+  // Eje X
+  simCtx.beginPath(); simCtx.moveTo(simOX-10, simOY); simCtx.lineTo(simW-10, simOY); simCtx.stroke();
+  // Eje Y
+  simCtx.beginPath(); simCtx.moveTo(simOX, simH); simCtx.lineTo(simOX, 10); simCtx.stroke();
+  // Flechas
+  simCtx.beginPath(); simCtx.moveTo(simW-10,simOY); simCtx.lineTo(simW-18,simOY-5); simCtx.lineTo(simW-18,simOY+5); simCtx.closePath(); simCtx.fillStyle='#1a0a2e'; simCtx.fill();
+  simCtx.beginPath(); simCtx.moveTo(simOX,10); simCtx.lineTo(simOX-5,18); simCtx.lineTo(simOX+5,18); simCtx.closePath(); simCtx.fill();
+
+  // Etiquetas ejes
+  simCtx.font = 'bold 11px Nunito,sans-serif';
+  simCtx.fillStyle = '#1a0a2e';
+  simCtx.fillText('km', simW-24, simOY-8);
+  simCtx.fillText('$', simOX+6, 20);
+
+  // Marcas eje X
+  simCtx.font = '10px Nunito,sans-serif';
+  simCtx.fillStyle = '#888';
+  for(var x=0; x<=400; x+=pasoX){
+    var px = simOX + x*simEscalaX;
+    if(px>simW-10) break;
+    if(x===0) continue;
+    simCtx.beginPath(); simCtx.moveTo(px,simOY); simCtx.lineTo(px,simOY+4); simCtx.strokeStyle='#888'; simCtx.lineWidth=1; simCtx.stroke();
+    simCtx.fillText(x, px-8, simOY+14);
+  }
+  // Marcas eje Y
+  for(var y=pasoY; y<=8000; y+=pasoY){
+    var py = simOY - y*simEscalaY;
+    if(py<10) break;
+    simCtx.beginPath(); simCtx.moveTo(simOX,py); simCtx.lineTo(simOX-4,py); simCtx.stroke();
+    simCtx.fillText('$'+y, 2, py+4);
+  }
+
+  // Redibujar líneas guardadas
+  for(var i=0;i<simLineas.length;i++) simDibujarLinea(simLineas[i]);
+  if(simPuntoIntersec) simDibujarPunto(simPuntoIntersec);
+}
+
+function simDibujarLinea(lin){
+  simCtx.strokeStyle = lin.color;
+  simCtx.lineWidth = 2.5;
+  simCtx.setLineDash([]);
+  simCtx.beginPath();
+  // Calcular x=0 → xMax
+  var xMax = (simW - simOX) / simEscalaX;
+  var p1 = simUaP(0, lin.m*0 + lin.b);
+  var p2 = simUaP(xMax, lin.m*xMax + lin.b);
+  simCtx.moveTo(p1.x, p1.y);
+  simCtx.lineTo(p2.x, p2.y);
+  simCtx.stroke();
+  // Etiqueta
+  var etX = xMax * 0.6;
+  var etY = lin.m * etX + lin.b;
+  var ep = simUaP(etX, etY);
+  simCtx.font = 'bold 11px Nunito,sans-serif';
+  simCtx.fillStyle = lin.color;
+  simCtx.fillText(lin.label, ep.x+5, ep.y-5);
+}
+
+function simDibujarPunto(pt){
+  var p = simUaP(pt.x, pt.y);
+  // Círculo exterior
+  simCtx.beginPath();
+  simCtx.arc(p.x, p.y, 9, 0, 2*Math.PI);
+  simCtx.fillStyle = 'rgba(193,18,31,0.15)';
+  simCtx.fill();
+  // Círculo interior
+  simCtx.beginPath();
+  simCtx.arc(p.x, p.y, 5, 0, 2*Math.PI);
+  simCtx.fillStyle = '#C1121F';
+  simCtx.fill();
+  // Etiqueta
+  simCtx.font = 'bold 12px Nunito,sans-serif';
+  simCtx.fillStyle = '#C1121F';
+  simCtx.fillText('('+Math.round(pt.x)+', '+Math.round(pt.y)+')', p.x+10, p.y-8);
+  // Líneas punteadas al eje
+  simCtx.strokeStyle = '#C1121F';
+  simCtx.lineWidth = 1;
+  simCtx.setLineDash([4,3]);
+  simCtx.beginPath(); simCtx.moveTo(p.x,p.y); simCtx.lineTo(p.x,simOY); simCtx.stroke();
+  simCtx.beginPath(); simCtx.moveTo(p.x,p.y); simCtx.lineTo(simOX,p.y); simCtx.stroke();
+  simCtx.setLineDash([]);
+}
+
+function simMostrarCoordenadas(px,py){
+  var u = simPaU(px,py);
+  if(u.x<0||u.x>500||u.y<0) return;
+  document.getElementById('sim-info').textContent =
+    '📍 Posición: x = '+Math.round(u.x)+' km, y = $'+Math.round(u.y);
+}
+
+function simParsearEc(txt){
+  // Parsear ecuaciones tipo: "8x + 1500", "10x+1200", "y=8x+1500", etc.
+  var s = txt.replace(/\s/g,'').replace(/y=/i,'').replace(/y\s*=/i,'');
+  // m * x + b
+  var m = 0, b = 0;
+  // Buscar coeficiente x
+  var mMatch = s.match(/([+\-]?\d*\.?\d*)[xX]/);
+  if(mMatch){
+    var mc = mMatch[1];
+    if(mc===''||mc==='+') m=1;
+    else if(mc==='-') m=-1;
+    else m = parseFloat(mc.replace(',','.'));
+  }
+  // Buscar término independiente
+  var bMatch = s.replace(/([+\-]?\d*\.?\d*)[xX]/,'');
+  if(bMatch && bMatch!=='') b = parseFloat(bMatch.replace(',','.'));
+  if(isNaN(m)||isNaN(b)) return null;
+  return {m:m, b:b};
+}
+
+function simGraficar(){
+  var txtA = document.getElementById('sim-ecA').value.trim();
+  var txtB = document.getElementById('sim-ecB').value.trim();
+  if(!txtA && !txtB){ document.getElementById('sim-info').textContent='⚠ Escribe al menos una ecuación.'; return; }
+
+  simLineas = [];
+  simPuntoIntersec = null;
+
+  if(txtA){
+    var lA = simParsearEc(txtA);
+    if(!lA){ document.getElementById('sim-info').textContent='⚠ Empresa A: ecuación no reconocida. Intenta: 8x+1500'; return; }
+    simLineas.push({m:lA.m, b:lA.b, color:'#1565C0', label:'A: y='+lA.m+'x+'+lA.b});
+    document.getElementById('leg-A').textContent='Empresa A: y='+lA.m+'x+'+lA.b;
+  }
+  if(txtB){
+    var lB = simParsearEc(txtB);
+    if(!lB){ document.getElementById('sim-info').textContent='⚠ Empresa B: ecuación no reconocida. Intenta: 10x+1200'; return; }
+    simLineas.push({m:lB.m, b:lB.b, color:'#E85D04', label:'B: y='+lB.m+'x+'+lB.b});
+    document.getElementById('leg-B').textContent='Empresa B: y='+lB.m+'x+'+lB.b;
+  }
+
+  // Ajustar escala automáticamente
+  if(simLineas.length>0){
+    var maxB = 0;
+    for(var i=0;i<simLineas.length;i++) maxB = Math.max(maxB, Math.abs(simLineas[i].b));
+    var xRango = 350;
+    var yMax = maxB * 1.8;
+    simEscalaX = (simW - simOX - 20) / xRango;
+    simEscalaY = (simOY - 30) / Math.max(yMax, 1000);
+  }
+
+  simDibujarEjes();
+  document.getElementById('sim-leyenda').style.display='flex';
+  document.getElementById('sim-info').textContent='✅ Rectas graficadas. Toca "Marcar intersección" o toca el plano para leer coordenadas.';
+}
+
+function simMostrarInterseccion(){
+  if(simLineas.length < 2){ document.getElementById('sim-info').textContent='⚠ Necesitas graficar dos rectas primero.'; return; }
+  var lA = simLineas[0], lB = simLineas[1];
+  if(lA.m === lB.m){ document.getElementById('sim-info').textContent='⚠ Las rectas son paralelas — no se cruzan.'; return; }
+  var xc = (lB.b - lA.b) / (lA.m - lB.m);
+  var yc = lA.m * xc + lA.b;
+  simPuntoIntersec = {x: xc, y: yc};
+  simDibujarEjes();
+  document.getElementById('sim-punto-panel').style.display='block';
+  document.getElementById('sim-punto-val').textContent = '('+Math.round(xc)+' km, $'+Math.round(yc)+')';
+  document.getElementById('sim-xcruce').textContent = Math.round(xc);
+  document.getElementById('sim-ycruce').textContent = Math.round(yc);
+  document.getElementById('sim-info').textContent =
+    '⭕ Intersección en x = '+Math.round(xc)+' km, y = $'+Math.round(yc)+'. A partir de aquí conviene la Empresa A (menor pendiente).';
+  // Pre-llenar campo respuesta
+  var campo = document.getElementById('inp-intersec');
+  if(!campo.value) campo.value = '('+Math.round(xc)+', '+Math.round(yc)+')';
+}
+
+function simZoom(factor){
+  simEscalaX *= factor;
+  simEscalaY *= factor;
+  simDibujarEjes();
+}
+
+function simLimpiar(){
+  simLineas=[];
+  simPuntoIntersec=null;
+  document.getElementById('sim-leyenda').style.display='none';
+  document.getElementById('sim-punto-panel').style.display='none';
+  document.getElementById('sim-info').textContent='Simulador limpiado. Escribe las ecuaciones y grafica de nuevo.';
+  simDibujarEjes();
+}
+
+/* ─── LIENZO DE DIBUJO ─── */
+function initCanvas(){
+  if(cvInicializado) return;
+  var cv = document.getElementById('dibujo-canvas');
+  if(!cv) return;
+  var dpr = window.devicePixelRatio||1;
+  cv.width = cv.offsetWidth * dpr;
+  cv.height = 200 * dpr;
+  cv.style.height = '200px';
+  cvCtx = cv.getContext('2d');
+  cvCtx.scale(dpr,dpr);
+  cvCtx.lineWidth=2.5; cvCtx.strokeStyle='#1a0a2e'; cvCtx.lineCap='round';
+  cvInicializado=true;
+
+  function getPos(e){
+    var r=cv.getBoundingClientRect();
+    if(e.touches) return {x:(e.touches[0].clientX-r.left),y:(e.touches[0].clientY-r.top)};
+    return {x:(e.clientX-r.left),y:(e.clientY-r.top)};
+  }
+  cv.addEventListener('mousedown',function(e){cvDibujando=true;var p=getPos(e);cvCtx.beginPath();cvCtx.moveTo(p.x,p.y);});
+  cv.addEventListener('mousemove',function(e){if(!cvDibujando)return;var p=getPos(e);if(cvHerramienta==='lapiz'){cvCtx.lineTo(p.x,p.y);cvCtx.stroke();}else{cvCtx.clearRect(p.x-15,p.y-15,30,30);}});
+  cv.addEventListener('mouseup',function(){cvDibujando=false;});
+  cv.addEventListener('mouseleave',function(){cvDibujando=false;});
+  cv.addEventListener('touchstart',function(e){e.preventDefault();cvDibujando=true;var p=getPos(e);cvCtx.beginPath();cvCtx.moveTo(p.x,p.y);},{passive:false});
+  cv.addEventListener('touchmove',function(e){e.preventDefault();if(!cvDibujando)return;var p=getPos(e);if(cvHerramienta==='lapiz'){cvCtx.lineTo(p.x,p.y);cvCtx.stroke();}else{cvCtx.clearRect(p.x-15,p.y-15,30,30);}},{passive:false});
+  cv.addEventListener('touchend',function(){cvDibujando=false;});
+}
+function activarLapiz(){ cvHerramienta='lapiz'; document.getElementById('btn-lapiz').className='c-btn active'; document.getElementById('btn-borrar').className='c-btn'; if(cvCtx){ cvCtx.lineWidth=2.5; cvCtx.strokeStyle='#1a0a2e';} }
+function activarBorrador(){ cvHerramienta='borrador'; document.getElementById('btn-borrar').className='c-btn active'; document.getElementById('btn-lapiz').className='c-btn'; }
+function limpiarCanvas(){ var cv=document.getElementById('dibujo-canvas'); if(cv&&cvCtx) cvCtx.clearRect(0,0,cv.offsetWidth,cv.offsetHeight); }
+function canvasTieneDibujo(){
+  var cv=document.getElementById('dibujo-canvas');
+  if(!cv||cv.width===0||cv.height===0) return false;
+  try{ var px=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data; for(var i=0;i<px.length;i+=4){ if(px[i+3]>30) return true; } } catch(e){ return false; }
+  return false;
+}
+
+/* ─── SÍMBOLOS ─── */
+var SYMBOL_SETS = ['base','analitica'];
+var SYMBOLS = {
+  base:[{s:'+',c:''},{s:'−',c:''},{s:'×',c:'op'},{s:'÷',c:'op'},{s:'=',c:''},{s:'(',c:'mo'},{s:')',c:'mo'}],
+  analitica:[{s:'±',c:'spec'},{s:'∞',c:'spec'}]
+};
+function symBar(inputId){
+  var btns='';
+  for(var si=0;si<SYMBOL_SETS.length;si++){
+    var set=SYMBOLS[SYMBOL_SETS[si]]; if(!set) continue;
+    for(var bi=0;bi<set.length;bi++){
+      var sym=set[bi];
+      btns+='<button type="button" class="sym-btn '+(sym.c||'')+'" onmousedown="return false" onclick="insertSym(\''+inputId+'\',\''+sym.s+'\')">'+sym.s+'</button>';
+    }
+  }
+  btns+='<button type="button" class="sym-btn clr" onmousedown="return false" onclick="document.getElementById(\''+inputId+'\').value=\'\'">✖</button>';
+  return btns;
+}
+function insertSym(id,s){
+  var el=document.getElementById(id); if(!el) return;
+  var st=el.selectionStart,en=el.selectionEnd;
+  el.value=el.value.slice(0,st)+s+el.value.slice(en);
+  el.selectionStart=el.selectionEnd=st+s.length; el.focus();
+  el.dispatchEvent(new Event('input'));
+}
+
+/* ─── ALEATORIZACIÓN ─── */
+function rInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+/* ─── BANCO PREGUNTAS ─── */
+var QB_RECTA = [
+  [{p:'¿Cuál es la pendiente en \\( y = 3x + 7 \\)?',ops:['3','7','1/3','−3','0'],ok:0,ex:'En y=mx+b la pendiente es el coeficiente de x. Aquí m = 3.'},
+   {p:'¿Cuál es la ordenada al origen en \\( y = -2x + 5 \\)?',ops:['5','−2','2','−5','1/5'],ok:0,ex:'b es el término independiente. Aquí b = 5.'},
+   {p:'En \\( y = mx + b \\), ¿qué representa b?',ops:['Donde la recta cruza el eje Y','La inclinación','El valor de x','La distancia horizontal','La pendiente'],ok:0,ex:'b es la ordenada al origen: el valor de y cuando x = 0.'},
+   {p:'¿Cuál es la pendiente en \\( y = x + 4 \\)?',ops:['1','4','0','−1','1/4'],ok:0,ex:'Sin número antes de x, el coeficiente es 1. m = 1.'},
+   {p:'Si \\( m = 0 \\), ¿cómo es la recta?',ops:['Horizontal','Vertical','Diagonal','Curva','Indefinida'],ok:0,ex:'Pendiente 0 = sin inclinación = recta horizontal.'},
+   {p:'¿Cuál es la pendiente en \\( y = -4x - 1 \\)?',ops:['−4','−1','4','1','0'],ok:0,ex:'La pendiente es el coeficiente de x. Aquí m = −4.'}],
+  [{p:'Una recta pasa por (0, 5) con pendiente 3. ¿Su ecuación?',ops:['y = 3x + 5','y = 5x + 3','y = 3x − 5','y = −3x + 5','y = 5x − 3'],ok:0,ex:'b = 5 (pasa por (0,5)) y m = 3. Entonces y = 3x + 5.'},
+   {p:'¿Cuál es b en \\( y = 6x - 9 \\)?',ops:['−9','6','9','−6','0'],ok:0,ex:'b = −9 (término sin x). Cuidado con el signo.'},
+   {p:'Una empresa cobra $1000 fijos + $12/km. ¿Ecuación?',ops:['y = 12x + 1000','y = 1000x + 12','y = 12x − 1000','y = −12x + 1000','y = 1012x'],ok:0,ex:'El costo fijo es b = $1000 y el costo/km es m = $12.'},
+   {p:'¿El punto (2, 11) pertenece a \\( y = 4x + 3 \\)?',ops:['Sí — 4(2)+3 = 11','No — 4(2)+3 ≠ 11','Sí — solo si x > 0','No — (2,11) nunca es solución','No se puede saber'],ok:0,ex:'x=2: y = 4(2)+3 = 11. ¡Sí! (2,11) es solución.'},
+   {p:'Una recta tiene m = 2. Si x aumenta en 1, ¿cuánto aumenta y?',ops:['2','1','0','0.5','Depende de b'],ok:0,ex:'m = 2: por cada unidad que aumenta x, y aumenta 2.'},
+   {p:'¿El punto (1, 6) pertenece a \\( y = 3x + 4 \\)?',ops:['No — da 7, no 6','Sí — siempre','Sí — 1+6=7','Depende de m','Sí — 3(1)+4=6'],ok:0,ex:'x=1: y = 3(1)+4 = 7 ≠ 6. El punto NO pertenece.'}],
+  [{p:'Punto (2, 5) y m = 3. ¿Forma punto-pendiente?',ops:['y − 5 = 3(x − 2)','y − 2 = 3(x − 5)','y + 5 = 3(x + 2)','y = 3x + 5','y − 5 = 2(x − 3)'],ok:0,ex:'y − y₁ = m(x − x₁). Sustituyendo: y − 5 = 3(x − 2).'},
+   {p:'De \\( y - 4 = 2(x - 1) \\), ¿cuál es la forma y = mx + b?',ops:['y = 2x + 2','y = 2x − 2','y = 2x + 4','y = 4x + 2','y = 2x + 1'],ok:0,ex:'y − 4 = 2x − 2 → y = 2x − 2 + 4 = 2x + 2.'},
+   {p:'¿La pendiente en \\( y - 3 = 5(x - 1) \\)?',ops:['5','3','1','1/5','−5'],ok:0,ex:'m es el coeficiente antes del paréntesis. Aquí m = 5.'},
+   {p:'¿El punto conocido en \\( y - 7 = 4(x - 3) \\)?',ops:['(3, 7)','(7, 3)','(4, 7)','(3, 4)','(−3, −7)'],ok:0,ex:'El punto (x₁, y₁) es (3, 7).'},
+   {p:'Punto (0, 8) y m = −2. ¿Ecuación y = mx + b?',ops:['y = −2x + 8','y = 2x + 8','y = −2x − 8','y = −8x + 2','y = 2x − 8'],ok:0,ex:'Si x₁=0, entonces b = 8. Con m = −2: y = −2x + 8.'},
+   {p:'Punto (−1, 4) y m = 3. ¿Ecuación simplificada?',ops:['y = 3x + 7','y = 3x + 4','y = 3x − 7','y = 3x + 1','y = −3x + 7'],ok:0,ex:'y − 4 = 3(x+1) → y = 3x + 3 + 4 = 3x + 7.'}],
+  [{p:'Puntos (1, 3) y (3, 7). ¿Pendiente?',ops:['2','4','1/2','−2','1/4'],ok:0,ex:'m = (7−3)/(3−1) = 4/2 = 2.'},
+   {p:'Puntos (2, 5) y (4, 9). ¿Pendiente?',ops:['2','4','1/2','7','−2'],ok:0,ex:'m = (9−5)/(4−2) = 4/2 = 2.'},
+   {p:'Puntos (0, 6) y (3, 0). ¿Pendiente?',ops:['−2','2','1/2','−1/2','6'],ok:0,ex:'m = (0−6)/(3−0) = −6/3 = −2.'},
+   {p:'Al calcular m = (y₂−y₁)/(x₂−x₁), ¿cuál es el error más común?',ops:['Invertir Δy/Δx','Sumar en lugar de restar','Multiplicar','Usar valores absolutos','Ninguno'],ok:0,ex:'El error más frecuente es escribir Δx/Δy en lugar de Δy/Δx.'},
+   {p:'Puntos (1, 4) y (1, 9). ¿Qué tipo de recta?',ops:['Vertical — m indefinida','Horizontal — m = 0','Diagonal m = 5','Diagonal m = 1','No forman recta'],ok:0,ex:'x₁ = x₂ → denominador 0 → pendiente indefinida → recta vertical.'},
+   {p:'Puntos (2, 3) y (5, 3). ¿Ecuación?',ops:['y = 3','x = 2','y = 3x','y = 0x + 5','x = 5'],ok:0,ex:'y₁ = y₂ = 3 → pendiente 0 → recta horizontal: y = 3.'}],
+  [{p:'¿Qué representa el cruce de dos rectas en un problema de empresas?',ops:['El punto donde las dos cobran lo mismo','La pendiente de ambas','La ordenada al origen','Un eje de simetría','El área entre las rectas'],ok:0,ex:'La intersección es el punto donde ambas ecuaciones coinciden: mismo km, mismo costo.'},
+   {p:'Empresa A: \\( y = 8x+1500 \\) y B: \\( y = 10x+1200 \\). ¿Cuándo cobran igual?',ops:['x = 150 km','x = 300 km','x = 100 km','x = 200 km','x = 50 km'],ok:0,ex:'8x+1500=10x+1200 → 300=2x → x=150 km.'},
+   {p:'Después del cruce, ¿qué empresa cobra menos?',ops:['La de menor pendiente','La de mayor pendiente','Ambas igual','Depende de b','No se sabe'],ok:0,ex:'Con mayor x, la menor pendiente crece más lento → cobra menos.'},
+   {p:'¿Qué indica b en un modelo costo vs. km?',ops:['El costo cuando x = 0 km','El costo por km','La distancia máxima','La intersección','La pendiente'],ok:0,ex:'b es el costo cuando x=0: el costo inicial (cuota fija).'},
+   {p:'¿Qué pasa si sustituyes un punto y el resultado ≠ y?',ops:['El punto no pertenece a la recta','Sí pertenece','La ecuación está mal','m es incorrecta','La gráfica es incorrecta'],ok:0,ex:'Si y ≠ resultado, el punto no es solución → no pertenece.'},
+   {p:'En 2D, \\( y = 3x + 1 \\) tiene como solución…',ops:['Infinitos puntos (toda una recta)','Un punto','Dos puntos','Un plano','Ningún punto'],ok:0,ex:'En 2D una ecuación lineal tiene infinitas soluciones: toda la recta.'}],
+  [{p:'¿Primer paso para convertir dos-puntos a y=mx+b?',ops:['Calcular la pendiente m','Sustituir en y=mx+b','Despejar x','Calcular b','Graficar'],ok:0,ex:'Siempre primero: m = (y₂-y₁)/(x₂-x₁), luego punto-pendiente.'},
+   {p:'¿Datos mínimos para la forma punto-pendiente?',ops:['La pendiente m y UN punto','m y DOS puntos','Solo m','Solo un punto','b y un punto'],ok:0,ex:'Necesitas: m y cualquier punto (x₁, y₁).'},
+   {p:'De \\( y - 1 = 4(x + 2) \\), ¿cuál es b?',ops:['9','1','−2','4','−8'],ok:0,ex:'y − 1 = 4x + 8 → y = 4x + 9. Entonces b = 9.'},
+   {p:'¿Cuántas formas puede tener la ecuación de una recta?',ops:['Infinitas (equivalentes)','Solo 3','Solo 1','2','Depende de m'],ok:0,ex:'Una recta tiene infinitas representaciones equivalentes.'},
+   {p:'Desarrolla \\( y - 5 = -3(x - 2) \\):',ops:['y = -3x + 11','y = -3x - 11','y = -3x + 1','y = 3x + 11','y = -3x + 7'],ok:0,ex:'y − 5 = −3x + 6 → y = −3x + 11.'},
+   {p:'Dos rectas con misma m y diferente b son…',ops:['Paralelas','Perpendiculares','Idénticas','Se cruzan en origen','Curvas'],ok:0,ex:'Igual pendiente, diferente b = paralelas (no se cruzan nunca).'}],
+  [{p:'Una tortería cobra $40 fijos + $15 por torta. Si x = tortas, ¿ecuación?',ops:['y = 15x + 40','y = 40x + 15','y = 15x − 40','y = 55x','y = 40 + x'],ok:0,ex:'$40 fijo = b; $15/torta = m. Entonces y = 15x + 40.'},
+   {p:'¿Qué interpreta la pendiente en un modelo costo vs. estaciones del metro?',ops:['Costo por estación','Costo total','Costo inicial','Número de estaciones','Punto de partida'],ok:0,ex:'m = cuánto aumenta el costo por cada estación extra.'},
+   {p:'¿Cuál es la intersección de \\( y = 3x + 1 \\) y \\( y = x + 5 \\)?',ops:['(2, 7)','(1, 4)','(3, 8)','(5, 10)','(2, 5)'],ok:0,ex:'3x+1=x+5 → 2x=4 → x=2. y=7. Intersección (2,7).'},
+   {p:'Empresa A: $2000 + $5/km. Empresa B: $1500 + $10/km. ¿Cuándo cobran igual?',ops:['100 km','50 km','200 km','150 km','75 km'],ok:0,ex:'2000+5x=1500+10x → 500=5x → x=100 km.'},
+   {p:'¿Para qué sirve la intersección en el problema de empresas?',ops:['Saber a partir de qué km conviene una','Calcular precio máximo','Ver cuál tiene más sucursales','Calcular total mensual','Encontrar la pendiente'],ok:0,ex:'La intersección = punto de indiferencia. Para x mayores conviene la de menor pendiente.'},
+   {p:'m negativa en modelo costo vs. producción significa…',ops:['A mayor producción, menor costo','El costo siempre sube','No tiene sentido','La ordenada es negativa','Las empresas pierden'],ok:0,ex:'Pendiente negativa = al producir más, el costo baja (economía de escala).'}],
+  [{p:'Al calcular m, alguien escribe (x₂−x₁)/(y₂−y₁). ¿Cuál es el error?',ops:['Invirtió Δx y Δy','Error de signo','Error de suma','Multiplicó en lugar de dividir','Ninguno'],ok:0,ex:'La pendiente es Δy/Δx, no Δx/Δy. Invertir cambia totalmente el valor.'},
+   {p:'Para el punto (4,3) y m=2, alguien escribe y−3=2(x+4). ¿Hay error?',ops:['Sí — debe ser (x−4)','No hay error','El error está en m','El punto está al revés','Falta b'],ok:0,ex:'La forma es y−y₁=m(x−x₁). Si x₁=4 debe ser (x−4), no (x+4).'},
+   {p:'¿Cuál NO es una ecuación de recta?',ops:['y = mx² + b','y = mx + b','y − y₁ = m(x − x₁)','Forma dos puntos','Todas son válidas'],ok:0,ex:'y=mx²+b es una parábola. Las rectas tienen x solo a la primera potencia.'},
+   {p:'m muy grande (ej. m=100) significa que la recta es…',ops:['Muy inclinada','Casi horizontal','Sin eje Y relevante','No existe','Vertical'],ok:0,ex:'Pendiente grande = recta muy empinada: pequeño Δx genera gran Δy.'},
+   {p:'Si verificas un punto en la ecuación y obtienes el y exacto, ¿qué concluyes?',ops:['El punto SÍ pertenece','La ecuación está mal','Hay error en el problema','El punto no pertenece','Falta calcular b'],ok:0,ex:'Si la sustitución da el y correcto, el punto es solución → pertenece a la recta.'},
+   {p:'Al pasar y−2=3(x−1) a y=mx+b, alguien escribe b=2. ¿Correcto?',ops:['No — b = −1','No — b = 5','Sí — b=2','No — b = 3','Sí — b igual'],ok:0,ex:'y=3x−3+2=3x−1. Entonces b=−1, no 2.'}],
+  [{p:'En 2D, ¿qué representa el conjunto solución de una ecuación lineal?',ops:['Toda la recta (infinitos puntos)','Un punto','El eje X','El eje Y','Un área'],ok:0,ex:'En 2D, el conjunto solución de una ecuación lineal es toda la recta.'},
+   {p:'¿Cuántas soluciones tiene 3x=9 en 1D?',ops:['Una sola (x=3)','Infinitas','Ninguna','Dos','Depende de y'],ok:0,ex:'En 1D, ecuación lineal = una sola solución: x=3.'},
+   {p:'Misma m y mismo b en dos ecuaciones indica que…',ops:['Son la misma recta','Son paralelas','Se cruzan en origen','Son perpendiculares','No existe'],ok:0,ex:'Misma m y mismo b = ecuaciones idénticas = misma recta.'},
+   {p:'Graficar y=3 da una recta…',ops:['Horizontal a y=3','Vertical en x=3','Diagonal m=3','Por el origen','Depende de b'],ok:0,ex:'y=3 siempre vale 3 sin importar x: recta horizontal a altura 3.'},
+   {p:'¿Cuántos puntos necesitas para determinar una recta?',ops:['2','1','3','4','Depende de m'],ok:0,ex:'Por dos puntos pasa exactamente una recta.'},
+   {p:'Pendiente positiva: la recta va de izquierda a derecha…',ops:['Hacia arriba','Hacia abajo','Horizontal','Vertical','Zigzag'],ok:0,ex:'Pendiente positiva: cuando x crece, y también crece. La recta sube.'}],
+  [{p:'¿Qué forma usar si solo tienes dos puntos?',ops:['Calcular m (dos puntos) → luego punto-pendiente','y=mx+b directamente','Punto-pendiente con m=0','Graficar en simulador','Ninguna'],ok:0,ex:'Con dos puntos: calculas m → usas punto-pendiente → simplificas.'},
+   {p:'¿Qué forma usar si ya conoces m y b?',ops:['y=mx+b directamente','Punto-pendiente','De dos puntos','Cualquiera','Ninguna'],ok:0,ex:'Si conoces m y b, escribe y=mx+b directamente. Es lo más eficiente.'},
+   {p:'Para verificar si (a,b) pertenece a y=mx+c, ¿qué haces?',ops:['Sustituir x=a y verificar y=b','Sustituir y=b y ver x=a','Calcular m con ese punto','Graficar','Solo observar'],ok:0,ex:'Sustituimos x=a, calculamos y. Si resultado=b, el punto pertenece.'},
+   {p:'Ventaja de la forma punto-pendiente sobre y=mx+b:',ops:['Funciona con CUALQUIER punto, no solo donde cruza el eje Y','Es más corta','No necesita m','Es estándar internacional','No hay diferencia'],ok:0,ex:'Punto-pendiente usa cualquier punto conocido, no solo el que cruza el eje Y.'},
+   {p:'¿Qué relación hay entre la ecuación lineal y su gráfica en 2D?',ops:['Cada punto de la recta es solución de la ecuación','Solo el vértice es solución','Sin relación','Solo puntos enteros','La gráfica muestra cuántas soluciones hay'],ok:0,ex:'Cada punto (x,y) de la recta satisface la ecuación: es su representación visual.'},
+   {p:'¿Cuándo es útil encontrar la intersección de dos rectas?',ops:['Para decidir cuándo conviene una opción sobre otra','Para el área','Para la pendiente máxima','Para rectas paralelas','Para dibujar cuadrados'],ok:0,ex:'La intersección es el punto de equilibrio: donde se igualan dos modelos.'}]
+];
+
+var ACTIVACION = [
+  {q:'¿Si una empresa cobra $1,000 fijos + $10/km, cuánto cobraría por 5 km? ¿Y por 10 km? ¿Ves algún patrón?',kw:['1000','10','patrón','km','kilómetro','fijo','costo'],min:50},
+  {q:'¿Qué crees que significa la "pendiente" de una recta en la vida diaria? Explica sin fórmulas.',kw:['cambio','inclinación','sube','baja','por','cada','razón'],min:50},
+  {q:'Para saber cuándo conviene un taxi sobre otro, ¿qué información necesitarías exactamente?',kw:['precio','km','distancia','comparar','igual','cuota','costo'],min:50},
+  {q:'¿Cómo representarías con una ecuación un servicio que cobra monto fijo + cantidad variable por uso?',kw:['fijo','variable','ecuación','costo','precio','formula'],min:50},
+  {q:'¿Qué diferencia hay entre "$8 por km" y "$1500 fijos"? ¿Cuál es constante y cuál cambia?',kw:['constante','cambia','fijo','variable','km','por'],min:50},
+  {q:'Si graficas el costo de dos empresas (eje X = km, eje Y = precio), ¿qué forma tendrían? ¿Qué significaría el cruce?',kw:['línea','recta','cruzan','intersección','punto','eje','grafica'],min:50}
+];
+var COMPRENSION = [
+  {q:'Explica cuándo usarías la forma punto-pendiente en lugar de y=mx+b. Da un ejemplo con el problema de las empresas.',kw:['pendiente','punto','cuando','datos','ejemplo','conviene'],min:100},
+  {q:'¿Qué significa que un punto "pertenece" a una recta? ¿Cómo verificarías el punto de intersección?',kw:['sustituir','verificar','pertenece','solución','punto','ecuación'],min:100},
+  {q:'Describe el proceso completo para encontrar la ecuación de una recta con solo dos puntos.',kw:['pendiente','calcular','puntos','pasos','fórmula','después'],min:100},
+  {q:'¿Por qué 3x=9 tiene una solución y y=3x+1 tiene infinitas? Explica la diferencia entre 1D y 2D.',kw:['variable','solución','infinitas','recta','punto','2D','1D'],min:100},
+  {q:'¿Por qué es útil la intersección de las ecuaciones de las dos empresas? ¿Qué decisión te permite tomar?',kw:['intersección','conviene','decide','kilómetros','empresa','partir'],min:100},
+  {q:'Describe la diferencia entre las tres formas de la ecuación de la recta y en qué situación usarías cada una.',kw:['pendiente','punto','dos puntos','forma','usar','datos','diferencia'],min:100}
+];
+
+/* ─── INIT ─── */
+function init(){
+  var cuotasA=[1200,1500,1800,2000,1300,1600,1700,1400];
+  var costosA=[7,8,9,6,10,7,8,9];
+  var cuotasB=[800,1000,1100,900,1200,950,1050,850];
+  var costosB=[11,12,13,14,10,13,12,11];
+  var idxA=rInt(0,cuotasA.length-1);
+  cuotaA=cuotasA[idxA]; costoA=costosA[idxA];
+  var idxB;
+  do{ idxB=rInt(0,cuotasB.length-1); } while(cuotasB[idxB]>=cuotaA);
+  cuotaB=cuotasB[idxB]; costoB=costosB[idxB];
+  x_cruce_real=(cuotaA-cuotaB)/(costoB-costoA);
+  y_cruce_real=costoA*x_cruce_real+cuotaA;
+  ejer_pp_x1=rInt(1,5); ejer_pp_y1=rInt(2,10); ejer_pp_m=rInt(2,6);
+  ejer_pp_b=ejer_pp_y1-ejer_pp_m*ejer_pp_x1;
+  ejer_2p_x1=rInt(0,3); ejer_2p_m=rInt(2,5); ejer_2p_b=rInt(1,8);
+  ejer_2p_y1=ejer_2p_m*ejer_2p_x1+ejer_2p_b;
+  ejer_2p_x2=ejer_2p_x1+rInt(2,4);
+  ejer_2p_y2=ejer_2p_m*ejer_2p_x2+ejer_2p_b;
+  QUIZ_SEL=[];
+  for(var i=0;i<QB_RECTA.length;i++) QUIZ_SEL.push(pick(QB_RECTA[i]));
+  estadoQuiz=[];
+  for(var j=0;j<QUIZ_SEL.length;j++) estadoQuiz.push(-1);
+  actQ=pick(ACTIVACION); compQ=pick(COMPRENSION);
+  aplicarAntiPaste(); renderizarDatos();
+}
+
+function renderizarDatos(){
+  document.getElementById('cuota-A').textContent='$'+cuotaA;
+  document.getElementById('costo-A').textContent='$'+costoA+'/km';
+  document.getElementById('cuota-B').textContent='$'+cuotaB;
+  document.getElementById('costo-B').textContent='$'+costoB+'/km';
+  document.getElementById('formula-A-txt').innerHTML='Costo = $'+cuotaA+' + $'+costoA+' × km';
+  document.getElementById('formula-B-txt').innerHTML='Costo = $'+cuotaB+' + $'+costoB+' × km';
+  document.getElementById('ejemplo-f1-A').innerHTML='Empresa A: m='+costoA+' (costo/km), b='+cuotaA+' (cuota) → <strong>y='+costoA+'x+'+cuotaA+'</strong>';
+  document.getElementById('ejemplo-f1-B').innerHTML='Empresa B: m='+costoB+', b='+cuotaB+' → <strong>y='+costoB+'x+'+cuotaB+'</strong>';
+  document.getElementById('recuerda-cuotaA').textContent='$'+cuotaA;
+  document.getElementById('recuerda-costoA').textContent='$'+costoA+'/km';
+  document.getElementById('recuerda-cuotaB').textContent='$'+cuotaB;
+  document.getElementById('recuerda-costoB').textContent='$'+costoB+'/km';
+  var signoB_pp=ejer_pp_b>=0?('+ '+ejer_pp_b):('− '+Math.abs(ejer_pp_b));
+  document.getElementById('ejer-pp-enunciado').innerHTML='Una línea tiene pendiente <strong>m='+ejer_pp_m+'</strong> y pasa por el punto <strong>('+ejer_pp_x1+', '+ejer_pp_y1+')</strong>. Escríbela en forma punto-pendiente y luego simplifica a y=mx+b.';
+  document.getElementById('ejer-2p-enunciado').innerHTML='Una recta pasa por <strong>('+ejer_2p_x1+', '+ejer_2p_y1+')</strong> y <strong>('+ejer_2p_x2+', '+ejer_2p_y2+')</strong>. Encuentra su ecuación.';
+  document.getElementById('q-activ-txt').textContent=actQ.q;
+  document.getElementById('q-comp-txt').textContent=compQ.q;
+  var xc=Math.round(x_cruce_real), yc=Math.round(y_cruce_real);
+  document.getElementById('intersec-calc-s5').textContent='('+xc+' km, $'+yc+')';
+  // Pre-cargar campos simulador
+  document.getElementById('sim-ecA').value=costoA+'x+'+cuotaA;
+  document.getElementById('sim-ecB').value=costoB+'x+'+cuotaB;
+  // Símbolos
+  var pares=[['sym-s1','inp-activ'],['sym-s3a','inp-ecA'],['sym-s3b','inp-ecB'],['sym-s3c','inp-interp'],['sym-s4a','inp-pp1'],['sym-s4b','inp-pp2'],['sym-s4c','inp-2p-m'],['sym-s4d','inp-2p-ec'],['sym-s5','inp-intersec'],['sym-s5b','inp-conclu'],['sym-s7','inp-comp']];
+  for(var ci=0;ci<pares.length;ci++){ var el=document.getElementById(pares[ci][0]); if(el) el.innerHTML=symBar(pares[ci][1]); }
+  setupLivePreview('inp-activ',null,'cnt-activ');
+  setupLivePreview('inp-ecA','prev-ecA',null);
+  setupLivePreview('inp-ecB','prev-ecB',null);
+  setupLivePreview('inp-interp',null,'cnt-interp');
+  setupLivePreview('inp-pp1','prev-pp1',null);
+  setupLivePreview('inp-pp2','prev-pp2',null);
+  setupLivePreview('inp-2p-m','prev-2pm',null);
+  setupLivePreview('inp-2p-ec','prev-2pec',null);
+  setupLivePreview('inp-intersec','prev-intersec',null);
+  setupLivePreview('inp-conclu',null,'cnt-conclu');
+  setupLivePreview('inp-comp',null,'cnt-comp');
+  renderizarQuiz();
+  if(window.MathJax) MathJax.typesetPromise();
+}
+
+function setupLivePreview(inputId,previewId,counterId){
+  var el=document.getElementById(inputId); if(!el) return;
+  el.addEventListener('input',function(){
+    var v=el.value;
+    if(previewId){ var p=document.getElementById(previewId); if(p){ p.textContent=v||'Vista previa'; if(window.MathJax) MathJax.typesetPromise([p]); } }
+    if(counterId){ var c=document.getElementById(counterId); if(c) c.textContent=v.length; }
+  });
+}
+
+function aplicarAntiPaste(){
+  var els=document.querySelectorAll('textarea, input[type=text]');
+  for(var i=0;i<els.length;i++){
+    if(els[i].id==='inp-nombre') continue;
+    (function(el){
+      el.addEventListener('paste',function(e){e.preventDefault();});
+      el.addEventListener('copy',function(e){e.preventDefault();});
+      el.addEventListener('cut',function(e){e.preventDefault();});
+      el.addEventListener('contextmenu',function(e){e.preventDefault();});
+    })(els[i]);
+  }
+}
+
+function renderizarQuiz(){
+  var html='';
+  for(var i=0;i<QUIZ_SEL.length;i++){
+    var q=QUIZ_SEL[i];
+    var sh=genOpts(q.ops,q.ok);
+    var opHtml='';
+    for(var j=0;j<sh.opts.length;j++){
+      opHtml+='<div class="q-op" id="qop-'+i+'-'+j+'" onclick="selOp('+i+','+j+','+sh.corrIdx+')">'
+        +'<span style="font-size:.9rem;">'+String.fromCharCode(65+j)+'.</span>'
+        +'<span>'+sh.opts[j]+'</span></div>';
+    }
+    html+='<div class="qcard" id="qcard-'+i+'">'
+      +'<div class="q-num">Pregunta '+(i+1)+' de 10</div>'
+      +'<div class="q-txt">'+q.p+'</div>'
+      +'<div class="q-ops" id="qops-'+i+'">'+opHtml+'</div>'
+      +'<div class="q-exp" id="qexp-'+i+'" style="display:none;">✅ '+q.ex+'</div>'
+      +'</div>';
+  }
+  document.getElementById('quiz-contenedor').innerHTML=html;
+  if(window.MathJax) MathJax.typesetPromise([document.getElementById('quiz-contenedor')]);
+}
+function genOpts(ops,ok){
+  var correcta=ops[ok];
+  var sh=ops.slice().sort(function(){return Math.random()-.5;});
+  var ni=0; for(var i=0;i<sh.length;i++) if(sh[i]===correcta) ni=i;
+  return {opts:sh,corrIdx:ni};
+}
+function selOp(qi,oi,ci){
+  if(quizVerificado) return;
+  if(!quizCorr[qi]) quizCorr[qi]={};
+  quizCorr[qi].corr=ci; estadoQuiz[qi]=oi;
+  var ops=document.getElementById('qops-'+qi).children;
+  for(var i=0;i<ops.length;i++) ops[i].className='q-op';
+  ops[oi].className='q-op sel';
+}
+function verificarQuiz(){
+  for(var i=0;i<QUIZ_SEL.length;i++){ if(estadoQuiz[i]===-1){ document.getElementById('aviso-quiz').style.display='block'; return; } }
+  document.getElementById('aviso-quiz').style.display='none';
+  quizVerificado=true;
+  for(var i=0;i<QUIZ_SEL.length;i++){
+    var ci=quizCorr[i]?quizCorr[i].corr:0, sel=estadoQuiz[i];
+    var card=document.getElementById('qcard-'+i);
+    var ops=document.getElementById('qops-'+i).children;
+    for(var j=0;j<ops.length;j++) ops[j].className='q-op';
+    ops[ci].className='q-op correcto';
+    if(sel===ci){ card.className='qcard ok'; }
+    else{ ops[sel].className='q-op incorrecto'; card.className='qcard mal'; }
+    document.getElementById('qexp-'+i).style.display='block';
+  }
+  document.getElementById('btn-verificar-quiz').style.display='none';
+  document.getElementById('btn-s6').style.display='block';
+  if(window.MathJax) MathJax.typesetPromise([document.getElementById('quiz-contenedor')]);
+}
+
+function iniciarActividad(){
+  nom=document.getElementById('inp-nombre').value.trim();
+  if(!nom){ document.getElementById('aviso-nombre').style.display='block'; return; }
+  document.getElementById('aviso-nombre').style.display='none';
+  irA('s1');
+}
+function irA(secId){
+  document.getElementById(secActual).classList.remove('visible');
+  document.getElementById(secId).classList.add('visible');
+  secActual=secId; actualizarProgreso(); window.scrollTo(0,0);
+  if(secId==='s5') setTimeout(function(){ initCanvas(); simInit(); },120);
+  if(window.MathJax) setTimeout(function(){MathJax.typesetPromise();},200);
+}
+function actualizarProgreso(){
+  var mapa={'s0':0,'s1':1,'s2':2,'s3':3,'s4':4,'s5':5,'s6':6,'s7':7,'s-final':8};
+  var idx=mapa[secActual]||0;
+  document.getElementById('prog-fill').style.width=Math.round((idx/8)*100)+'%';
+  document.getElementById('prog-pct').textContent=Math.round((idx/8)*100)+'%';
+  var dots=['pd0','pd1','pd2','pd3','pd4','pd5','pd6','pd7'];
+  for(var i=0;i<dots.length;i++){
+    var d=document.getElementById(dots[i]);
+    if(i<idx) d.className='prog-dot done';
+    else if(i===idx) d.className='prog-dot active';
+    else d.className='prog-dot';
+  }
+}
+function tieneLetra(s){ return /[a-zA-Z]/.test(s); }
+
+function validarS1(){
+  var v=document.getElementById('inp-activ').value.trim();
+  if(v.length<actQ.min){ intentosActiv++; document.getElementById('aviso-activ').textContent='⚠ Escribe al menos '+actQ.min+' caracteres. Llevas '+v.length+'.'; document.getElementById('aviso-activ').style.display='block'; if(intentosActiv>=3){ document.getElementById('intentos-activ').textContent='⚠ Puedes continuar (sin puntos en esta parte).'; document.getElementById('intentos-activ').style.display='block'; document.getElementById('btn-s1').onclick=function(){irA('s2');}; } return; }
+  document.getElementById('aviso-activ').style.display='none'; irA('s2');
+}
+function validarS3(){
+  var ecA=document.getElementById('inp-ecA').value.trim();
+  var ecB=document.getElementById('inp-ecB').value.trim();
+  var interp=document.getElementById('inp-interp').value.trim();
+  if(ecA.length<4||!tieneLetra(ecA)){ intentosS3++; document.getElementById('aviso-s3').textContent='⚠ Escribe la ecuación de Empresa A.'; document.getElementById('aviso-s3').style.display='block'; if(intentosS3>=3){ document.getElementById('intentos-s3').textContent='Puedes continuar sin completar.'; document.getElementById('intentos-s3').style.display='block'; document.getElementById('btn-s3').onclick=function(){irA('s4');}; } return; }
+  if(ecB.length<4||!tieneLetra(ecB)){ intentosS3++; document.getElementById('aviso-s3').textContent='⚠ Escribe la ecuación de Empresa B.'; document.getElementById('aviso-s3').style.display='block'; if(intentosS3>=3){ document.getElementById('intentos-s3').textContent='Puedes continuar sin completar.'; document.getElementById('intentos-s3').style.display='block'; document.getElementById('btn-s3').onclick=function(){irA('s4');}; } return; }
+  if(interp.length<60){ intentosS3++; document.getElementById('aviso-s3').textContent='⚠ Explica m y b — mín. 60 caracteres. Llevas '+interp.length+'.'; document.getElementById('aviso-s3').style.display='block'; if(intentosS3>=3){ document.getElementById('intentos-s3').textContent='Puedes continuar.'; document.getElementById('intentos-s3').style.display='block'; document.getElementById('btn-s3').onclick=function(){irA('s4');}; } return; }
+  document.getElementById('aviso-s3').style.display='none'; irA('s4');
+}
+function validarS4(){
+  var pp1=document.getElementById('inp-pp1').value.trim();
+  var pp2=document.getElementById('inp-pp2').value.trim();
+  var m2p=document.getElementById('inp-2p-m').value.trim();
+  var ec2p=document.getElementById('inp-2p-ec').value.trim();
+  if(pp1.length<4||!tieneLetra(pp1)){ intentosS4++; document.getElementById('aviso-s4').textContent='⚠ Escribe la forma punto-pendiente del ejercicio A.'; document.getElementById('aviso-s4').style.display='block'; if(intentosS4>=3){ document.getElementById('intentos-s4').textContent='Puedes continuar.'; document.getElementById('intentos-s4').style.display='block'; document.getElementById('btn-s4').onclick=function(){irA('s5');}; } return; }
+  if(pp2.length<4||!tieneLetra(pp2)){ intentosS4++; document.getElementById('aviso-s4').textContent='⚠ Escribe la forma simplificada y=mx+b.'; document.getElementById('aviso-s4').style.display='block'; if(intentosS4>=3){ document.getElementById('intentos-s4').textContent='Puedes continuar.'; document.getElementById('intentos-s4').style.display='block'; document.getElementById('btn-s4').onclick=function(){irA('s5');}; } return; }
+  if(m2p.length<1){ intentosS4++; document.getElementById('aviso-s4').textContent='⚠ Calcula y escribe la pendiente del ejercicio B.'; document.getElementById('aviso-s4').style.display='block'; if(intentosS4>=3){ document.getElementById('intentos-s4').textContent='Puedes continuar.'; document.getElementById('intentos-s4').style.display='block'; document.getElementById('btn-s4').onclick=function(){irA('s5');}; } return; }
+  if(ec2p.length<4||!tieneLetra(ec2p)){ intentosS4++; document.getElementById('aviso-s4').textContent='⚠ Escribe la ecuación final del ejercicio B.'; document.getElementById('aviso-s4').style.display='block'; if(intentosS4>=3){ document.getElementById('intentos-s4').textContent='Puedes continuar.'; document.getElementById('intentos-s4').style.display='block'; document.getElementById('btn-s4').onclick=function(){irA('s5');}; } return; }
+  document.getElementById('aviso-s4').style.display='none'; irA('s5');
+}
+function validarS5(){
+  var v=document.getElementById('inp-intersec').value.trim();
+  var c=document.getElementById('inp-conclu').value.trim();
+  if(v.length<3){ intentosS5++; document.getElementById('aviso-s5').textContent='⚠ Escribe el punto de intersección encontrado con el simulador.'; document.getElementById('aviso-s5').style.display='block'; if(intentosS5>=3){ document.getElementById('intentos-s5').textContent='Puedes continuar sin completar.'; document.getElementById('intentos-s5').style.display='block'; document.getElementById('btn-s5').onclick=function(){irA('s6');}; } return; }
+  document.getElementById('aviso-s5').style.display='none'; irA('s6');
+}
+function validarS7(){
+  var v=document.getElementById('inp-comp').value.trim();
+  if(v.length<100){ intentosS7++; document.getElementById('aviso-s7').textContent='⚠ Escribe al menos 100 caracteres. Llevas '+v.length+'.'; document.getElementById('aviso-s7').style.display='block'; if(intentosS7>=3){ document.getElementById('intentos-s7').textContent='Puedes finalizar.'; document.getElementById('intentos-s7').style.display='block'; document.getElementById('btn-s7').onclick=function(){finalizar();}; } return; }
+  document.getElementById('aviso-s7').style.display='none'; finalizar();
+}
+
+/* ─── FINALIZAR ─── */
+function finalizar(){
+  // QUIZ
+  var aciertos=0;
+  for(var i=0;i<QUIZ_SEL.length;i++) if(quizCorr[i]&&estadoQuiz[i]===quizCorr[i].corr) aciertos++;
+  var qpts=Math.round(aciertos*0.5*10)/10;
+
+  // EXPRESIONES
+  var ecA=document.getElementById('inp-ecA').value.trim();
+  var ecB=document.getElementById('inp-ecB').value.trim();
+  var pp2=document.getElementById('inp-pp2').value.trim();
+  var ec2p=document.getElementById('inp-2p-ec').value.trim();
+  var exprPts=0;
+  if(ecA.length>=4&&tieneLetra(ecA)) exprPts+=0.75;
+  if(ecB.length>=4&&tieneLetra(ecB)) exprPts+=0.75;
+  if(pp2.length>=4&&tieneLetra(pp2)) exprPts+=0.75;
+  if(ec2p.length>=4&&tieneLetra(ec2p)) exprPts+=0.75;
+  exprPts=Math.round(exprPts*10)/10;
+
+  // REFLEXIÓN
+  var v=document.getElementById('inp-comp').value.trim();
+  var found=0;
+  for(var i=0;i<compQ.kw.length;i++) if(v.toLowerCase().indexOf(compQ.kw[i].toLowerCase())>=0) found++;
+  var refPts=0;
+  if(v.length>=100) refPts+=1;
+  if(v.length>=150) refPts+=0.5;
+  if(found>=2) refPts+=0.5;
+  refPts=Math.round(Math.min(refPts,2)*10)/10;
+
+  // DIBUJO
+  var dibPts=canvasTieneDibujo()?0.2:0;
+
+  var total=Math.min(Math.round((qpts+exprPts+refPts+dibPts)*10)/10,10);
+  var calColor=total>=6?'#52B788':(total>=4?'#F9A53A':'#C1121F');
+
+  // Valores esperados
+  var signoB_pp=ejer_pp_b>=0?('+ '+ejer_pp_b):('− '+Math.abs(ejer_pp_b));
+  var esperado_ecA='y = '+costoA+'x + '+cuotaA;
+  var esperado_ecB='y = '+costoB+'x + '+cuotaB;
+  var esperado_pp1='y − '+ejer_pp_y1+' = '+ejer_pp_m+'(x − '+ejer_pp_x1+')';
+  var esperado_pp2='y = '+ejer_pp_m+'x '+signoB_pp;
+  var esperado_2pm='m = '+ejer_2p_m;
+  var esperado_2pec='y = '+ejer_2p_m+'x + '+ejer_2p_b;
+  var esperado_intersec='('+Math.round(x_cruce_real)+' km, $'+Math.round(y_cruce_real)+')';
+
+  // WM
+  var wm=''; for(var i=0;i<8;i++) wm+='<div class="res-wm-row">'+nom+' &nbsp;·&nbsp; '+nom+'</div>';
+
+  var html='';
+
+  // ENCABEZADO PRINCIPAL
+  html+='<div class="res-hdr">'
+    +'<div class="res-wm">'+wm+'</div>'
+    +'<div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);margin-bottom:6px;">Progresión 4 · Sesión 1 · Ecuación de la Línea Recta</div>'
+    +'<div style="font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:4px;">'+nom+'</div>'
+    +'<div class="res-nota" style="color:'+calColor+'">'+total.toFixed(1)+'</div>'
+    +'<div class="res-max">de 10 puntos</div>'
+    +'</div>';
+
+  // DESGLOSE
+  html+='<div class="res-cmp-card"><div class="res-cmp-header mo">📊 Desglose de calificación</div>';
+  var des=[{c:'Quiz (10 × 0.5 pts)',p:qpts,m:5},{c:'Ecuaciones escritas (4 × 0.75 pts)',p:exprPts,m:3},{c:'Reflexión conceptual',p:refPts,m:2},{c:'Boceto / Lienzo',p:dibPts,m:0.2}];
+  for(var i=0;i<des.length;i++){
+    html+='<div class="det-row"><span>'+des[i].c+'</span><span class="det-pts">'+des[i].p.toFixed(1)+' / '+des[i].m+'</span></div>';
+  }
+  html+='</div>';
+
+  // COMPARATIVO ECUACIONES
+  html+='<div class="res-cmp-card"><div class="res-cmp-header az">📐 Respuestas del alumno vs. Esperadas — Ecuaciones</div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;background:var(--gris);padding:6px 14px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--grisDk);">'
+    +'<span>Alumno escribió</span><span>Respuesta esperada</span></div>';
+
+  var cmpItems=[
+    {lbl:'Ecuación Empresa A',alu:ecA,esp:esperado_ecA},
+    {lbl:'Ecuación Empresa B',alu:ecB,esp:esperado_ecB},
+    {lbl:'Forma punto-pendiente',alu:document.getElementById('inp-pp1').value.trim(),esp:esperado_pp1},
+    {lbl:'Simplificado y=mx+b',alu:pp2,esp:esperado_pp2},
+    {lbl:'Pendiente ejercicio B',alu:document.getElementById('inp-2p-m').value.trim(),esp:esperado_2pm},
+    {lbl:'Ecuación dos puntos',alu:ec2p,esp:esperado_2pec},
+    {lbl:'Intersección encontrada',alu:document.getElementById('inp-intersec').value.trim(),esp:esperado_intersec}
+  ];
+  for(var i=0;i<cmpItems.length;i++){
+    var it=cmpItems[i];
+    html+='<div style="background:var(--gris);padding:3px 14px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--grisDk);border-top:1px solid var(--gris2);">'+it.lbl+'</div>';
+    html+='<div class="res-cmp-row">'
+      +'<div class="res-cmp-cell alu"><div class="res-cmp-lbl">Alumno</div><div class="res-cmp-val">'+(it.alu||'— sin respuesta —')+'</div></div>'
+      +'<div class="res-cmp-cell esp"><div class="res-cmp-lbl">Esperado</div><div class="res-cmp-val ok">'+it.esp+'</div></div>'
+      +'</div>';
+  }
+  html+='</div>';
+
+  // RESPUESTAS ABIERTAS
+  html+='<div class="res-cmp-card"><div class="res-cmp-header ver">💬 Respuestas abiertas del alumno</div>';
+  var abiertas=[
+    {lbl:'Activación de conocimientos (S1)',alu:document.getElementById('inp-activ').value.trim()},
+    {lbl:'Interpretación de m y b (S3)',alu:document.getElementById('inp-interp').value.trim()},
+    {lbl:'Conclusión sobre las empresas (S5)',alu:document.getElementById('inp-conclu').value.trim()},
+    {lbl:'Reflexión final (S7)',alu:document.getElementById('inp-comp').value.trim()}
+  ];
+  for(var i=0;i<abiertas.length;i++){
+    var ab=abiertas[i];
+    html+='<div style="padding:10px 14px;border-bottom:1.5px solid var(--gris);">'
+      +'<div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--grisDk);margin-bottom:4px;">'+ab.lbl+'</div>'
+      +'<div style="font-size:.83rem;line-height:1.65;color:var(--tie);">'+(ab.alu||'<em style="color:var(--grisDk);">Sin respuesta</em>')+'</div>'
+      +'</div>';
+  }
+  html+='</div>';
+
+  // QUIZ DETALLE
+  html+='<div class="res-cmp-card"><div class="res-cmp-header mo">🎯 Detalle del Quiz — '+aciertos+' / 10 correctas</div>';
+  for(var i=0;i<QUIZ_SEL.length;i++){
+    var ci2=quizCorr[i]?quizCorr[i].corr:-1;
+    var okq=estadoQuiz[i]===ci2;
+    html+='<div style="padding:9px 14px;border-bottom:1.5px solid var(--gris);">'
+      +'<div style="font-size:.7rem;font-weight:800;color:var(--grisDk);margin-bottom:3px;">P'+(i+1)+' '+(okq?'✅':'❌')+'</div>'
+      +'<div style="font-size:.8rem;font-weight:600;margin-bottom:4px;">'+QUIZ_SEL[i].p.replace(/\\\(.*?\\\)/g,'[fórmula]')+'</div>'
+      +'<div style="font-size:.75rem;color:var(--grisDk);background:var(--gris);border-radius:6px;padding:5px 8px;">'+QUIZ_SEL[i].ex+'</div>'
+      +'</div>';
+  }
+  html+='</div>';
+
+  // GRÁFICA DEL SIMULADOR
+  html+='<div class="res-cmp-card"><div class="res-cmp-header az">📊 Simulador — Gráfica realizada</div>'
+    +'<div class="res-canvas-wrap" id="res-canvas-wrap"></div></div>';
+
+  // LIENZO
+  html+='<div class="res-cmp-card"><div class="res-cmp-header ver">✏️ Boceto del alumno</div>'
+    +'<div class="res-canvas-wrap" id="res-lienzo-wrap"></div></div>';
+
+  document.getElementById('res-contenedor').innerHTML=html;
+
+  // Copiar canvas simulador a resultados
+  setTimeout(function(){
+    var wrap=document.getElementById('res-canvas-wrap');
+    if(wrap){
+      var simSrc=document.getElementById('sim-canvas');
+      if(simSrc&&simLineas.length>0){
+        var img=document.createElement('img');
+        img.src=simSrc.toDataURL('image/png');
+        img.style.cssText='max-width:100%;border-radius:8px;border:1.5px solid var(--gris2);';
+        wrap.appendChild(img);
+      } else {
+        wrap.innerHTML='<div style="padding:16px;font-size:.82rem;color:var(--grisDk);font-style:italic;">No se graficó en el simulador durante la actividad.</div>';
+      }
+    }
+    // Copiar lienzo
+    var lienzoWrap=document.getElementById('res-lienzo-wrap');
+    if(lienzoWrap){
+      var cv=document.getElementById('dibujo-canvas');
+      if(cv&&canvasTieneDibujo()){
+        var img2=document.createElement('img');
+        img2.src=cv.toDataURL('image/png');
+        img2.style.cssText='max-width:100%;border-radius:8px;border:1.5px solid var(--gris2);';
+        lienzoWrap.appendChild(img2);
+      } else {
+        lienzoWrap.innerHTML='<div style="padding:16px;font-size:.82rem;color:var(--grisDk);font-style:italic;">No se realizó boceto en el lienzo.</div>';
+      }
+    }
+    if(window.MathJax) MathJax.typesetPromise([document.getElementById('res-contenedor')]);
+  },300);
+
+  irA('s-final');
+}
+
+/* ─── PANEL DOCENTE ─── */
+function abrirDoc(){ document.getElementById('doc-panel-float').style.display='block'; }
+function cerrarDoc(){ document.getElementById('doc-panel-float').style.display='none'; document.getElementById('doc-cod-f').value=''; }
+function chkDoc(){ var v=document.getElementById('doc-cod-f').value.trim(); if(v==='890'){ document.getElementById('doc-login-f').style.display='none'; document.getElementById('doc-acciones').style.display='block'; } }
+function docAvanzar(){
+  modoRecorrer=true; cerrarDoc();
+  var map={'s1':'s2','s2':'s3','s3':'s4','s4':'s5','s5':'s6','s6':'s7','s7':'s-final'};
+  var ids=['s1','s2','s3','s4','s5','s6','s7'];
+  for(var i=0;i<ids.length;i++){
+    (function(id){ var b=document.getElementById('btn-'+id); if(b) b.onclick=function(){irA(map[id]||'s-final');}; })(ids[i]);
+  }
+  alert('Modo recorrido activo.');
+}
+function simularResultados(){
+  modoDocente=true; cerrarDoc();
+  nom='Docente — Demo'; document.getElementById('inp-nombre').value=nom;
+  document.getElementById('inp-activ').value='Respuesta de simulación para ver el funcionamiento completo de la actividad interactiva.';
+  document.getElementById('inp-ecA').value='y = '+costoA+'x + '+cuotaA;
+  document.getElementById('inp-ecB').value='y = '+costoB+'x + '+cuotaB;
+  document.getElementById('inp-interp').value='La pendiente representa el costo por kilómetro y la ordenada al origen es la cuota base fija inicial.';
+  document.getElementById('inp-pp1').value='y − '+ejer_pp_y1+' = '+ejer_pp_m+'(x − '+ejer_pp_x1+')';
+  document.getElementById('inp-pp2').value='y = '+ejer_pp_m+'x '+(ejer_pp_b>=0?'+ ':'')+ejer_pp_b;
+  document.getElementById('inp-2p-m').value='m = '+ejer_2p_m;
+  document.getElementById('inp-2p-ec').value='y = '+ejer_2p_m+'x + '+ejer_2p_b;
+  document.getElementById('inp-intersec').value='('+Math.round(x_cruce_real)+', '+Math.round(y_cruce_real)+')';
+  document.getElementById('inp-conclu').value='A partir de '+Math.round(x_cruce_real)+' km conviene la Empresa A porque tiene menor costo por kilómetro aunque inicia con tarifa más alta.';
+  document.getElementById('inp-comp').value='Las tres formas son equivalentes y útiles según los datos disponibles. La forma pendiente-ordenada es la más directa, la punto-pendiente es flexible con cualquier punto, y la de dos puntos parte de información mínima.';
+  quizCorr={}; for(var i=0;i<QUIZ_SEL.length;i++){ estadoQuiz[i]=0; quizCorr[i]={corr:0}; }
+  quizVerificado=true;
+  // Simular gráfica
+  setTimeout(function(){
+    simInit();
+    document.getElementById('sim-ecA').value=costoA+'x+'+cuotaA;
+    document.getElementById('sim-ecB').value=costoB+'x+'+cuotaB;
+    simGraficar(); simMostrarInterseccion();
+    finalizar();
+  },200);
+}
+function guardarPDF(){ window.scrollTo(0,0); setTimeout(function(){window.print();},200); }
+
+window.onload=function(){ init(); };
+</script>
+</body>
+</html>
